@@ -72,7 +72,14 @@ Compila il sorgente `hello.c` lanciando il seguente comando: `gcc -o hello hello
 <p align="center">
 <img src="https://github.com/kinderp/2cornot2c/blob/main/images/processo_di_compilazione.png" align="center">
 </p>
-   
+
+Nella figura di sopra è mostato l'intero processo di compilazione che come puoi vedere è composto da almeno quattro fasi, come puoi vedere i due parametri passati al compilatore con: `gcc -o hello hello.c` sono ripsettivamente il file di input del processo (`hello.c`) ed il file di output (`hello`) del processo.
+Volendo è possibile richiedere al compilatore di fermarsi ad uno specifico step senza produrre l'output finale. Le quattro fasi del processo di compilazione sono rispettivamente:
+
+* Preprocessamento (_Preprocessing_): il preprocessore (`cpp`) esegue tutte le sostituzione di testo richieste secondo le chiamate al preprocessore, il risultato è un file con estensione `.i` nel nostro caso quindi `hello.i`. Per bloccare il processo di compilazione alla fase di preprocessamento puoi eseguire questo comando: `gcc -E hello.c > hello.i`. Il file `hello.i` conterrà tutte le sostituzione effettuate dal preprocessore e come puoi vedere quindi ha molto più contenuto del file di partenza `hello.c`, spiegheremo le chiamate al preprocessore nei prossimi paragrafi.
+* Compilazione (_Compilation_): il compilatore (`cc`) trasforma il contenuto testuale del file `hello.i` in codice c nel corrispettivo codice assembly (`hello.s`) specifico per l'architettura del processore
+* Assemblaggio (_Assembly_): l'assemblatore (`as`) trasforma il codice assembl contenuto in `hello.s` nelle istruzioni macchina dell'architettura della cpu, il risultato è il file oggetto rilocabile `hello.o`
+* Linkaggio (_Linking_): il linker (`ld`) ha il compito di aggreggare in un unico file oggetto (il file eseguibile) eventuali altri file oggetto di librerie esterne o del linguaggio.
 
 ### /lab/0_intro
 
