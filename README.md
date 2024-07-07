@@ -41,6 +41,40 @@ vagrant up
 
 4) Apri una sessione ssh sulla macchina appena avviata
 
+## Laboratori
+
+### /lab/0_intro
+
+Un programma c è di fatto una collezione di:
+
+*) variabili
+*) costanti 
+*) funzioni
+*) chiamate al preprocessore
+
+Di seguito provvederemo a dare una definizione sommaria per ogni componente sopra citato, rimandiamo ai singoli paragrafi per una trattazione completa.
+
+> [!IMPORTANT]
+> Una **variabile** è una locazione di memoria a cui è stato associato un **identificatore** cioè un nome per referenziare nel codice quella cella di memoria
+> Una variabile ha un **tipo**; il tipo associato ad una variabile definisce appunto che tipo di dato essa può contenere (un numero intero, un numero reale, un carattere etc.)
+> in altre parole il tipo della variabile definisce il numero di byte occupati dalla locazione di memoria referenziata dall'identificatore
+> Una variabile può cambiare il valore in essa contenuto durante il ciclo di vita del programma. L'operazione mediante la quale si assegna un valore iniziale ad una variabile è detto **inizializzazione**, l'operazione attraverso cui si associa un nuovo valore ad una variabile già inizializzata è detto **assegnamento**
+
+> [!IMPORTANT]
+> Per la **costante** valgono le stesse considerazioni fatte per le variabili con l'eccezione che per le costanti non è possibile assegnare un nuovo valore una volta che questa è stata inizializzata
+
+> [!IMPORTANT]
+> Una funzione è una collezione di istruzioni che svolgono uno specifico compito; una funzione ha un nome, un valore di ritorno, dei parametri di input ed un corpo che è delimitato da una parenti graffa aperta `{` ed una chiusa `}`
+
+#### 0_hello.c
+
+Come da tradizione, il primo esempio di codice è il classico `Hello World`.
+Il programma di sotto stampa a schermo una semplice frase: `Ciao Mondo` in inglese.
+
+https://github.com/kinderp/2cornot2c/blob/18b60e866c1e0e22c59835fe953cbe3c534e7422/lab/0_intro/0_hello.c#L14-L19
+
+
+
 ```bash
 vagrant ssh
 ```
