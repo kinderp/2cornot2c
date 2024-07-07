@@ -43,6 +43,11 @@ vagrant up
 
 ## Laboratori
 
+All'interno della cartella `/lab` nella macchian Linux troverai il codice su cui lavorare.
+Ogni lab ha un numero ed un nome ad esso associato, ad esempio al primo laboratorio è assegnato il numero `0` ed il nome `intro`; questo significa che per questo lab esisterà una cartella `lab/0_intro` che conterrà tutto il codice del lab.
+All'interno della cartella del laboratorio troverai dei file sorgente con estensione `.c` anche questi con un numero ed un nome; ad esempio il primo sorgente del lab `0_intro` è `0_hello.c`.
+Ogni lab al suo interno contiene una cartella `bin` destinata ad ospitare i file eseguibili ottenuti al termine del processo di compilazione.
+
 ### /lab/0_intro
 
 Un programma c è di fatto una collezione di:
