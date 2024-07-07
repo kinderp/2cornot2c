@@ -57,7 +57,9 @@ Ogni lab al suo interno contiene una cartella `bin` destinata ad ospitare i file
 I programmi sono scriti in un qualche linguaggio di programmazione, il programmatore scrive il codice sorgente sfruttando un particolare linguagggio. Il codice sorgente contiene tutte le istruzioni che il programma dovrà eseguire. Le istruzioni all'interno del codice sorgente scritte in un qualsiasi linguaggio di programmazione devono essere tradotte in una sequenza di bit (in altri termini nel linguaggio macchina) perchè la cpu è in grado di comprendere solo il linguaggio macchina, esclusivamente sequenze di bit e nient'altro. In sintesi si dice che il programma sorgente deve essere trasformato in in file eseguibile (file binario) che contiene le istruzioni (sequenze di bit) per la specifica architettura del nostro processore.
 Questo processo di trasformazione del sorgente in binario è detto processo di compilazione ed è svolto del compilatore. In realtà queto processo è articolato in vari step e non coinvolge solo il compilatore. Vediamo brevemente di studiarne le fasi.
 
-![processo_di_compilazione](https://github.com/kinderp/2cornot2c/blob/main/images/processo_di_compilazione.png)
+<p align="center">
+<img src="https://github.com/kinderp/2cornot2c/blob/main/images/processo_di_compilazione.png" align="center">
+</p>
 
 
 ### /lab/0_intro
