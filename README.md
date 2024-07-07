@@ -56,10 +56,10 @@ Ogni lab al suo interno contiene una cartella `bin` destinata ad ospitare i file
 
 Un programma c è di fatto una collezione di:
 
-*) variabili
-*) costanti 
-*) funzioni
-*) chiamate al preprocessore
+* Variabili
+* Costanti 
+* Funzioni
+* Chiamate al preprocessore
 
 Di seguito provvederemo a dare una definizione sommaria per ogni componente sopra citato, rimandiamo ai singoli paragrafi per una trattazione completa.
 
@@ -69,11 +69,31 @@ Di seguito provvederemo a dare una definizione sommaria per ogni componente sopr
 > in altre parole il tipo della variabile definisce il numero di byte occupati dalla locazione di memoria referenziata dall'identificatore
 > Una variabile può cambiare il valore in essa contenuto durante il ciclo di vita del programma. L'operazione mediante la quale si assegna un valore iniziale ad una variabile è detto **inizializzazione**, l'operazione attraverso cui si associa un nuovo valore ad una variabile già inizializzata è detto **assegnamento**
 
+```c
+int var_intera; // variabile non inizializzata
+var_intera = 5; // assegnamento
+int var_intera_inizializzata = 3; // variabile inizializzata
+var_intera_inizializzata = 9; // assegnamento
+```
+
 > [!IMPORTANT]
 > Per la **costante** valgono le stesse considerazioni fatte per le variabili con l'eccezione che per le costanti non è possibile assegnare un nuovo valore una volta che questa è stata inizializzata
 
+```c
+const double pi = 3.14; // costante pi greco
+```
+
 > [!IMPORTANT]
 > Una funzione è una collezione di istruzioni che svolgono uno specifico compito; una funzione ha un nome, un valore di ritorno, dei parametri di input ed un corpo che è delimitato da una parenti graffa aperta `{` ed una chiusa `}`
+
+```c
+int sottrazione(int minuendo, int sottraendo){
+    return minuendo - sottraendo;
+}
+```
+
+> [!IMPORTANT]
+> Il preprocessore viene richiamato dal compilatore come primo step nel processo di generazione del file eseguibile che poi verrà avviato dall'utente. Il preprocessore ha il compito di effettuare delle semplici sostituzioni di testo; esistono diverse sostituzioni che il preprocessore può effettuare per contro nostro. L'insieme di queste operazioni sono dette chiamate al preprocessore.
 
 #### 0_hello.c
 
