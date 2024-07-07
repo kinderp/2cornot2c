@@ -41,6 +41,10 @@ vagrant up
 
 4) Apri una sessione ssh sulla macchina appena avviata
 
+```bash
+vagrant ssh
+```
+
 ## Laboratori
 
 All'interno della cartella `/lab` nella macchian Linux troverai il codice su cui lavorare.
@@ -78,8 +82,3 @@ Il programma di sotto stampa a schermo una semplice frase: `Ciao Mondo` in ingle
 
 https://github.com/kinderp/2cornot2c/blob/18b60e866c1e0e22c59835fe953cbe3c534e7422/lab/0_intro/0_hello.c#L14-L19
 
-
-
-```bash
-vagrant ssh
-```
