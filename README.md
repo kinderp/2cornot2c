@@ -52,6 +52,13 @@ Ogni lab ha un numero ed un nome ad esso associato, ad esempio al primo laborato
 All'interno della cartella del laboratorio troverai dei file sorgente con estensione `.c` anche questi con un numero ed un nome; ad esempio il primo sorgente del lab `0_intro` è `0_hello.c`.
 Ogni lab al suo interno contiene una cartella `bin` destinata ad ospitare i file eseguibili ottenuti al termine del processo di compilazione.
 
+### Il processo di compilazione
+
+I programmi sono scriti in un qualche linguaggio di programmazione, il programmatore scrive il codice sorgente sfruttando un particolare linguagggio. Il codice sorgente contiene tutte le istruzioni che il programma dovrà eseguire. Le istruzioni all'interno del codice sorgente scritte in un qualsiasi linguaggio di programmazione devono essere tradotte in una sequenza di bit (in altri termini nel linguaggio macchina) perchè la cpu è in grado di comprendere solo il linguaggio macchina, esclusivamente sequenze di bit e nient'altro. In sintesi si dice che il programma sorgente deve essere trasformato in in file eseguibile (file binario) che contiene le istruzioni (sequenze di bit) per la specifica architettura del nostro processore.
+Questo processo di trasformazione del sorgente in binario è detto processo di compilazione ed è svolto del compilatore. In realtà queto processo è articolato in vari step e non coinvolge solo il compilatore. Vediamo brevemente di studiarne le fasi.
+
+
+
 ### /lab/0_intro
 
 Un programma c è di fatto una collezione di:
