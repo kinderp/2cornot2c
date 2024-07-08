@@ -170,7 +170,38 @@ volendo è possibile fornire anche i nomi dei parametri in ingresso ma nulla cam
 > Il compilatore quando incontra una chiamata a funzione deve conoscerne almeno il prototipo per verificare che questa stia venendo usata correttamente (il corretto numero e tipo per i parametri di ingresso e che il valore di ritorno sia assegnato ad una variabile compatibile, dello stesso tipo).
 
 La funzione `main()` fa usa di un'altra funzione: `printf()` che viene usata per stampare su schermo. Questa funzione è fornita (la sua implementazione) dal linguaggio C stesso quindi non viene definita (non si fornisce l'implementazione nel nostro file). Il compilatore ha però bisogno di conoscere almeno il prototipo della funzione `printf()` per verificarne l'uso corretto. Il prototipo della funzione `printf()` è fornito all'interno del file `stdio.h`; risulta necessario copiare il contenuto di questo file nel nostro esempio nelle righe precedenti a quella dove la funzione `printf()` è usata. Non c'è bisogno di copiare ed incollare il file `stdio.h` ma è possibile usare una direttiva del preprocessore `#include <stdio.h>` che sostuisce il contenuto del file `stdio.h` a partire dalla riga di codice dove è inserita.
-Terminata la propria computazione il nostro programma ritora 0 per informare il sistema operativo che ha terminato senza errori.
+Per verificare l'effettiva aggiunta del prototipo di `printf()` da parte del preprocessore puoi lanciare:
+
+```bash
+ gcc -E 0_hello.c |grep 'printf'
+```
+questo l'output sulla mia macchina
+
+```bash
+      1 extern int fprintf (FILE *__restrict __stream,
+      2 extern int printf (const char *__restrict __format, ...);
+      3 extern int sprintf (char *__restrict __s,
+      4 extern int vfprintf (FILE *__restrict __s, const char *__restrict __format,
+      5 extern int vprintf (const char *__restrict __format, __gnuc_va_list __arg);
+      6 extern int vsprintf (char *__restrict __s, const char *__restrict __format,
+      7 extern int snprintf (char *__restrict __s, size_t __maxlen,
+      8      __attribute__ ((__nothrow__)) __attribute__ ((__format__ (__printf__, 3, 4)));
+      9 extern int vsnprintf (char *__restrict __s, size_t __maxlen,
+     10      __attribute__ ((__nothrow__)) __attribute__ ((__format__ (__printf__, 3, 0)));
+     11 extern int vdprintf (int __fd, const char *__restrict __fmt,
+     12      __attribute__ ((__format__ (__printf__, 2, 0)));
+     13 extern int dprintf (int __fd, const char *__restrict __fmt, ...)
+     14      __attribute__ ((__format__ (__printf__, 2, 3)));
+     15  printf("Hello World\n");
+```
+
+Alla riga 2 il prototipo di `printf()`.
+
+Infine, terminata la propria computazione il nostro programma ritora 0 per informare il sistema operativo che ha terminato senza errori.
+
+Riassumendo: 
+* riga 14: inclusione del file d'intestazione `stdio.h` contente il prototipo della funzione `printf()`. Il prototipo serve al compilatore per verificare che il programmatore utilizzi correttamente la funzione, in questo caso la `printf()`
+* riga 16-19: definizione della funzione `main()`
  
 
 
