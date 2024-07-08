@@ -203,5 +203,7 @@ Riassumendo:
 * riga 14: inclusione del file d'intestazione `stdio.h` contente il prototipo della funzione `printf()`. Il prototipo serve al compilatore per verificare che il programmatore utilizzi correttamente la funzione, in questo caso la `printf()`
 * riga 16-19: definizione della funzione `main()`
  
+#### 1_funzioni.c
 
+https://github.com/kinderp/2cornot2c/blob/849c8731e84196bab6b5a17aed9e983d045cb025/lab/0_intro/1_funzioni.c#L1-L14
 
