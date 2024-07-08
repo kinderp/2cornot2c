@@ -112,7 +112,7 @@ const double pi = 3.14; // costante pi greco
 ```
 
 > [!IMPORTANT]
-> Una funzione è una collezione di istruzioni che svolgono uno specifico compito; una funzione ha un nome, un valore di ritorno, dei parametri di input ed un corpo che è delimitato da una parenti graffa aperta `{` ed una chiusa `}`
+> Una funzione è una collezione di istruzioni che svolgono uno specifico compito; una funzione ha un nome (`sottrazione` nel nostro esempio), un valore di ritorno, dei parametri di input (`minuendo` e `sottraendo` nel codice d'esempio) ed un corpo che è delimitato da una parenti graffa aperta `{` ed una chiusa `}`
 
 ```c
 int sottrazione(int minuendo, int sottraendo){
@@ -129,4 +129,43 @@ Come da tradizione, il primo esempio di codice è il classico `Hello World`.
 Il programma di sotto stampa a schermo una semplice frase: `Ciao Mondo` in inglese.
 
 https://github.com/kinderp/2cornot2c/blob/18b60e866c1e0e22c59835fe953cbe3c534e7422/lab/0_intro/0_hello.c#L14-L19
+
+Compila il sorgente con: `gcc -o 0_hello bin/0_hello` e poi esegui il programma con: `bin/0_hello`.
+Riconosciamo subito una funzione: `main()` [16-19]. Questa è una funzione speciale, tutti i programmi C devono averne una in quanto rappresenta il punto di partenza per l'esecuzione di ogni programma. Sei libero di chiamare tutte le altre funzioni a tuo piacimento ma la funzione da cui parte l'esecuzione si deve chiamare `main()`. Come qualsiasi funzione `main()` ha un tipo di ritorno `int` e dei parametri in ingresso opzionali, in questo caso la funzione `main()` non si aspetta nessun parametro in ingresso dal chiamante (il sistema operativo) e per esprimere che questa non accetta alcun valore in ingresso si usa la parola riservata `void`.
+Ti potrebbe capitare di vedere la funzione `main()` in queste versioni:
+
+```c
+main()
+```
+
+```c
+void main()
+```
+
+La prima forma è tollerata da vecchia versioni del C (C90) quindi pre ANSI C ma non è accettata da quelle successive (C99, C11); la seconda potrebbe essere tollerata da alcuni compilatori ma se il tuo codice deve funzionare anche su altre macchine è meglio usare qualcosa che funziona sempre.
+
+> [!IMPORTANT]
+> Dichiarazione di funzione (o prototipo): il tipo di ritorno, i tipi dei parametri in ingresso ed il nome della funzione rappresentano il prototipo della funzione. Quando si fornisce il prototipo di una funzione si usa dire che si effettua la dichiarazione della funzione
+
+> [!IMPORTANT]
+> Definizione di funzione: quando si fornisce l'implementazione della funzione (il corpo) allora si dice che la funzione è definita. La definizione implica anche la dichiarazione
+
+Riprendendo la funzione `sottrazione` usata precedentemente avremo rispettivamente: la definizione in basso
+
+```c
+int sottrazione(int minuendo, int sottraendo){
+    return minuendo - sottraendo;
+}
+```
+
+e la dichiarazione o prototipo di seguito:
+
+```c
+int sottrazione(int, int);
+```
+
+volendo è possibile fornire anche i nomi dei parametri in ingresso ma nulla cambia ai fini della dichiarazione
+
+La funzione `main()` fa usa di un'altra funzione: `printf()` che viene usata per stampare su schermo. 
+
 
