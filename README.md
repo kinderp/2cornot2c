@@ -205,5 +205,30 @@ Riassumendo:
  
 #### 1_funzioni.c
 
+Le funzioni sono un blocco di codice, un insieme di istruzioni che vengono raggruppate e possono essere richiamata in qualsiasi momento all'interno di un programma. Per intenderci, se nel nostro programma calcoliamo più volte la media pesata dei nostri voti è consigliabile racchiudere tutte le istruzioni all'interno di una funzione e richiamarla ogni volta che ne abbiamo bisogno piuttosto che riscrivere più volte lo stesso identico codice in punti diversi. Le funzioni possono ritornare un valore come risultato della loro elaborazione (possono anche non ritornare nulla al chiamante) e possono ricevere in ingresso un certo numero di parameti.
+Una funzione ha un'intestazione ed un corpo, usando sempre la solita funzione sottrazione vista in precedenza avremo:
+
+```c
+int sottrazione(int minuendo, int sottraendo){
+    return minuendo - sottraendo;
+}
+```
+
+la prima riga rappresenta l'intestazione della funzione (escluso la parentesi graffa), tutto il codice compreso da `{` e `}` è il corpo.
+Quando viene fornita sia l'intestazione che il corpo (l'implementazione) si parla di definizione di funzione, se viene fornita solo l'intestazione (anche detta prototipo) si parla di dichiarazione di funzione.
+Il prototipo della funzione `sottrazione` è dunque il seguente:
+
+```c
+int sottrazione(int minuendo, int sottraendo);
+```
+
+Volendo è possibile omettere il nome dei parametri in ingresso lasciando solo il tipo, in questo modo:
+
+```c
+int sottrazione(minuendo, sottraendo);
+```
+
+Per il compilatore non cambia nulla ma può aiutare un altro programmatore a comprendere il significato e l'uso dei parametri in ingresso.
+
 https://github.com/kinderp/2cornot2c/blob/849c8731e84196bab6b5a17aed9e983d045cb025/lab/0_intro/1_funzioni.c#L1-L14
 
