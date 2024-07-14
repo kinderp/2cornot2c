@@ -203,5 +203,35 @@ Riassumendo:
 * riga 14: inclusione del file d'intestazione `stdio.h` contente il prototipo della funzione `printf()`. Il prototipo serve al compilatore per verificare che il programmatore utilizzi correttamente la funzione, in questo caso la `printf()`
 * riga 16-19: definizione della funzione `main()`
  
+#### 1_funzioni.c
 
+Le funzioni sono un blocco di codice, un insieme di istruzioni che vengono raggruppate e possono essere richiamata in qualsiasi momento all'interno di un programma. Per intenderci, se nel nostro programma calcoliamo più volte la media pesata dei nostri voti è consigliabile racchiudere tutte le istruzioni all'interno di una funzione e richiamarla ogni volta che ne abbiamo bisogno piuttosto che riscrivere più volte lo stesso identico codice in punti diversi. Le funzioni possono ritornare un valore come risultato della loro elaborazione (possono anche non ritornare nulla al chiamante) e possono ricevere in ingresso un certo numero di parameti.
+Una funzione ha un'intestazione ed un corpo, usando sempre la solita funzione sottrazione vista in precedenza avremo:
 
+```c
+int sottrazione(int minuendo, int sottraendo){
+    return minuendo - sottraendo;
+}
+```
+
+la prima riga rappresenta l'intestazione della funzione (escluso la parentesi graffa), tutto il codice compreso da `{` e `}` è il corpo.
+Quando viene fornita sia l'intestazione che il corpo (l'implementazione) si parla di definizione di funzione, se viene fornita solo l'intestazione (anche detta prototipo) si parla di dichiarazione di funzione.
+Il prototipo della funzione `sottrazione` è dunque il seguente:
+
+```c
+int sottrazione(int minuendo, int sottraendo);
+```
+
+Volendo è possibile omettere il nome dei parametri in ingresso lasciando solo il tipo, in questo modo:
+
+```c
+int sottrazione(minuendo, sottraendo);
+```
+
+Per il compilatore non cambia nulla ma può aiutare un altro programmatore a comprendere il significato e l'uso dei parametri in ingresso.
+Di sotto è riportato un esempio completo che fa uso della funzione `sottrazione`, come è possibile vedere questa è richiamta all'interno del `main()` alla riga 8 fornendo in ingresso i due parametri previsti durante le definzione. Se avessimo fornio un numero diverso (sia inferiore che superiore) di parametri o di tipo diverso rispetto al tipo intero il compilatore ci avrebbe dato errore (o forse nel secondo caso no...?!?)
+
+https://github.com/kinderp/2cornot2c/blob/849c8731e84196bab6b5a17aed9e983d045cb025/lab/0_intro/1_funzioni.c#L1-L14
+
+Siccome la definzione della funzione `sottrazione` è stata fornita successivamente (riga 12-14) al punto in cui questa è richiamata (riga 8) per permettere al compilatore di controllare il corretto uso da parte del programmatore è stato necessario fornire prima della riga 8 il prototipo della funzione (riga 3). Commentando la riga 3 il compilatore darebbe errore o almeno rileverebbe un warning circa una dichiarazione implicita che non è in grado di verificare.
+Come spiegato ampiamente in precedenza, facciamo uso anche della funzione `printf()` ed in questo caso per fornire il prototipo sfruttiamo la direttiva al preprocessore `#inclde <stdio.h>`
