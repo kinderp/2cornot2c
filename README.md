@@ -271,6 +271,14 @@ E' possibile dichiarare più variabile nella stessa riga, purchè esse siano del
 int question, answer;
 ```
 
+Oltre al tipo ed all'identificatore una variabile è caratterizzata dalla **visibilità** (`scope` in inglese) ed il **tempo di vita** (`lifetime` o `storage duration`)
+
+> [!IMPORTANT]
+> Visibilità: porzioni di codice nel programma in cui la variabile (il suo identificatore) è visibile e quindi è possibile fare riferimento alla variabile.
+
+> [!IMPORTANT]
+> Tempo di vita: porzione di tempo all'interno del ciclo di esecuzione del programma per cui alla variabile è associata una locazione di  memoria
+
 https://github.com/kinderp/2cornot2c/blob/8fcadf5f8a958f9b6194c4dac724d5a21ecef717/lab/0_intro/2_variabili.c#L1-L41
 
 
