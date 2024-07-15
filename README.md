@@ -321,7 +321,7 @@ Riassumendo:
 * se non inizializzate settate ad un valore assolutamente casuale
 * il loro ciclo di vita è limitato all'esecuzione del blocco dove sono dichiarate
 
-L'uso di variabili globali per comunicare con le funzioni è scorretto ed è stato mostrato solo come esempio per introdurre le variabili globali. Meno uso facciamo delle variabili globali è meglio è.
+L'uso di variabili globali per comunicare con le funzioni è scorretto ed è stato mostrato solo come esempio per introdurre le variabili globali. Meno uso facciamo delle variabili globali e meglio è.
 Per comunicare con le funzioni, scambiare valori è sempre preferibile usare i parametri in ingresso ed i valori di ritorno, quindi le variabili locali.
 Di sotto è riportato il codice corretto che elimina l'uso improprio delle variabili globali:
 
