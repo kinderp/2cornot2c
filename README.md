@@ -288,7 +288,64 @@ Hanno visibilità globale appunto, cioè sono visibili a tutte le funzioni nel f
 
 Le variabili globali se non inizializzate vengono poste a zero automaticamente, al contrario le variabili locali se non inizializzate contengono semplicemente un valore sporco ed assolutamente non prevedibile (il valore che era precedentemente contenuto nella locazione di memoria che è stata associata alla variabile).
 
+Il programma di sotto fa uso di variabili globali e locali; semplicemente sono definite tre operazioni: somma, differenza e moltiplicazione. I due operandi su cui le funzioni devono lavorare (`primo` e `secondo`) vengono definite come variabili globali; essendo globali queste variabili sono visibili da tutte le funzioni nel file. 
+
+```c
+int primo, secondo; /* variabili globali */
+```
+
+Il risultato dell'operazione ed il tipo di operazione da svolgere sono definiti come variabili locali (dentro la funzione `main()`)
+
+```c
+int risultato; 	 // variabile locale
+char operazione; // variabile locale
+```
+
+Queste due variabili sono visibili solo all'interno della funzione `main()` dono sono dichiarate e non dalle altre funzioni.
+
+Inoltre, siccome facciamo uso della funzione `printf()` e `scanf()` dobbiamo includere con la direttiva al preprocessore (`#include<stdio.h`) i prototipi contenuti nell header file `stdio.h`.
+
+Le definizioni della funzioni `somma()`, `differenza()` e `moltiplicazione()` sono fornite dopo la loro effettiva chiamata nel `main()` e quindi prima del `main()` è stato necessario fornire i prototipoi di queste funzioni.
+
 https://github.com/kinderp/2cornot2c/blob/8fcadf5f8a958f9b6194c4dac724d5a21ecef717/lab/0_intro/2_variabili.c#L1-L41
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
