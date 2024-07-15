@@ -365,8 +365,42 @@ int primo, secondo;
 char operazione;
 ```
 
+#### Classi di memorizzazione
+
+Conoscere la classificazione in variabili globali e locali è un buon punto di partenza, le cose sono però più complesse.
+Agli identificatori è associato uno **scope** (**visibilità**), alle variabili invece uno **storage duration** (**tempo di vita**) ed il **linkage** (**collegamento**).
+
+Lo scope può essere di quattro tipi:
+
+* **block scope**
+* **file scope**
+* **function scope**
+* **function prototype scope**
+
+Ricordiamo che lo **scope** di un identificatore è la regione di codice in cui l'identificatore è visibile (quindi la variabile accessibile da parte del programmatore).
+
+Lo **storage duration** può essere di quattro tipi:
+
+* **static**
+* **thread**
+* **auto**
+* **allocated**
+
+Ricordiamo che lo **storage duration** rappresenta il tempo di vita della variabile ovvere per quanto tempo rimane allocata in memoria
+
+Il **linkage** può essere di tre tipi:
+
+* **no linkage**
+* **internal**
+* **external**
+
+Il **linkage** definisce se una variabile può essere condivisa dal codice dello stesso file o di file diversi. 
+
+##### Block scope
 
 
+
+##### File scope
 
 
 
