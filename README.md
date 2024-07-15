@@ -326,6 +326,14 @@ Di sotto è riportato il codice corretto che elimina l'uso improprio delle varia
 
 https://github.com/kinderp/2cornot2c/blob/9c77cc456006b9edb0dddea96eaf5860037e7b8c/lab/0_intro/3_variabili.c#L1-L47
 
+come puoi vedere le variabili `primo` e `secondo` sono state dichiarate dentro la funzione `main()` e quindi sono locali, esattamente come `risultato` ed `operazione`. Solo `risultato` è inizializzato a zero, le altre variabili conterrrano all'inizio un valore casuale (le variabili locali non sono inizializzate automaticamente)
+
+```c
+int risultato = 0;
+int primo, secondo;
+char operazione;
+```
+
 
 
 
