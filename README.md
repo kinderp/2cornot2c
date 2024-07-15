@@ -496,6 +496,46 @@ int main(void) {
 
 E' buona norma, soprattutto se il tuo programma ha grosse dimensioni in termini di file, dichiarare **static** le tue variabili globali se queste servono solo all'interno del file corrente. Questo previene il problema di uno spazio di nomi globale pieno di identificatori già utilizzati.
 
+> [!CAUTION]
+> La parola chiave **static** non ha nulla a che vedere con lo **storage duration** di tipo static. Tutte le variabili globali (sia di tipo **external** che **internal** linkage) hanno uno **storage durantion** di tipo _static_ cioè esistono in memoria per tutto il tempo di esecuzione del programma.
+
+### Storage duration
+
+Esistono quattro tipi diversi di **storage duration**: `static` `thread` `auto` `allocated`.
+
+Per il momento affrontiamo solamente i tipi: `static` ed `auto`.
+
+#### Static storage duration
+
+Variabili che esistono in memoria per l'intero tempo di esecuzione del programma: sono le variabili con **file scope** (variabili globali sia di tipo `external` che `internal` **linkage**)
+
+#### Auto storage duration
+
+Variabili che hanno un tempo di vita limitato che non coincide che il tempo di esecuzione del programma: sono le variabili con **block scope** che vengono allocate quando il programma entra nel blocco in quale queste sono definite e poi deallocate quando si esce dal blocco.
+
+> [!IMPORTANT]  
+> E' possibile per una variabile con **block scope** avere uno **storage duration** non **auto** ma **static**. Per farlo basta dichiarare la variabile all'interno del blocco usando la _keyword_ **static** come mostrato sotto:
+
+```c
+int main(void){
+	uno();
+}
+
+int uno(void){
+	static int variabile_statica = 0; /*  variabile statica anche se dichiarata all'interno di un blocco
+                                           *  (dovrebbe essere di tipo auto senza la parola chiave static).
+                                           *  La memoria per la variabile è allocata all'inizio del programma
+                                           *  e deallocata al termine del programma. Se fosse rimasta auto la
+                                           *  memoria sarebbe stata allocata solo all'entrata del flusso nella
+                                           *  funzione e deallocata all'uscita.
+                                           */
+}
+```
+
+
+
+
+
 
 
 
