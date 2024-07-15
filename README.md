@@ -309,7 +309,37 @@ Le definizioni della funzioni `somma()`, `differenza()` e `moltiplicazione()` so
 
 https://github.com/kinderp/2cornot2c/blob/8fcadf5f8a958f9b6194c4dac724d5a21ecef717/lab/0_intro/2_variabili.c#L1-L41
 
-Riassumendo:
+Inoltre nel codice incontriamo il primo costrutto per il controllo del flusso e precisamente `if` `else`.
+Il costrutto `if` serve per realizzare l'istruzione di salto condizionale ed assume questa forma:
+
+`if (espr) istr`
+
+Se la condizione specificata dall'espressione `espr` è vera (cioè diversa da zero) viene eseguito il blocco di istruzioni `istr` alrimenti si prosegue con l'elaborazione
+
+Il costrutto if ammette l'enunciato opzionale `else`. Il costrutto `if-else` assume questa forma:
+
+`if (espr) istr1 else istr2`
+
+I blocchi di istrzioni `istr1` e `istr2` vengono eseguiti a seconda se l'espressione `espr` sia vera o falsa. Se è vera si esegue `espr1` se è falsa `espr2`
+Nel nostro codice abbiamo qualcosa di un po' più complesso, analizziamolo assieme:
+
+```c
+ scanf(" %c", &operazione);
+	if (operazione == 's'){
+	 	risultato = somma();
+	} else if(operazione == 'd') {
+		 risultato = differenza();
+	} else if(operazione == 'm') {
+		 risultato = moltiplicazione();
+	} else {
+		 printf("Operazione non riconosciuta");
+	}
+```
+
+La funzione `scanf()` legge un carattere da tastiera ed inserisce il valore all'interno della variabile `operazione`, il costrutto `if-else` ci serve per eseguire la funzione corrispondente all'operazione richiesta dall'utente attraverso un carattere della tastiera.
+Se operazione contiene il carattere `s` allora si eseguirà la funzione `somma()` (solo quella e nessun'altra) altrimeni se il carattere è `d` si esegue la funzione `differenza()` e così via. Se il carattere contenuto in `operazione` non è tra i tre attesi `s` `d` `m` allora (ultimo `else`) si stampa un messaggio che informa l'utente che l'operazione non è stata riconosciuta.
+
+Tornando alle variabili possiamo riassumere quanto segue:
 
 **Variabili globali**: 
 * visibili in tutto il file da ogni funzione
