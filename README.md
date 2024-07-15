@@ -265,6 +265,13 @@ E' possible associare un valore ad una variabile direttamente nella dichiarazion
 int answer = 12; // dichiarazione con inizializzazione
 ```
 
+E' possibile dichiarare più variabile nella stessa riga, purchè esse siano dello stesso tipo. In questo modo:
+
+```c
+int question, answer;
+```
+
+https://github.com/kinderp/2cornot2c/blob/8fcadf5f8a958f9b6194c4dac724d5a21ecef717/lab/0_intro/2_variabili.c#L1-L41
 
 
 
