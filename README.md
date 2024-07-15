@@ -250,13 +250,20 @@ int answer;
 
 ![dichiarazione_variabile](https://github.com/kinderp/2cornot2c/blob/main/images/dichiarazione_variabile.png)
 
+Una volta dichiarata la variabile è pronta ad ospitare un valore del tipo corrispondente a quello scelto nella dichiarazione; questa operazione è detta **assegnamento**
+
 ```c
-int answer = 12;
+int answer;   // dichiarazione di variabile, tipo intero
+answer = 12;  // assegnamento del valore 12 alla variabile sopra dichiarata
 ```
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/assegnamento_variabile.png)
 
+E' possible associare un valore ad una variabile direttamente nella dichiarazione, questa operazione è detta **inizializzazione**
 
+```c
+int answer = 12; // dichiarazione con inizializzazione
+```
 
 
 
