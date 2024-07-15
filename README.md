@@ -243,6 +243,7 @@ L'identificatore è un nome mnemonico che ci permette, all'interno del codice, d
 Una variabile prima di essere usata deve esssere dichiarata. Come anticipato, l'operazione di dichiarazione consiste nell'allocare spazio di memoria per la variabile ed associargli l'identificatore; lo spazio riservato viene dedotta dal tipo della variabile.
 I diversi tipi privisti del C hanno un numero di byte prefissati dipendenti dall'architettura; per esempio `int` di solito occupa 32 bit, `char` 8 bit etc.
 
+![dichiarazione_variabile](https://github.com/kinderp/2cornot2c/blob/main/images/dichiarazione_variabile.png)
 
 
 
