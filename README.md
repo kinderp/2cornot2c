@@ -398,9 +398,118 @@ Il **linkage** definisce se una variabile può essere condivisa dal codice dello
 
 ##### Block scope
 
+Un blocco è un insieme di instruzioni comprese tra `{` e `}`.
+Esempi di blocchi (alcuni li abbbimao già incontrati) sono:
 
+* il corpo nella definzione di una funzione
 
+  ```c
+  int sottrazione(int minuendo, int sottraendo){
+  
+  }
+  ```
+
+* il corpo nei costrutti di controllo del flusso `if-else`, `for`, `while` etc
+
+  ```c
+  if(operazione == 's'){
+	risultato = somma(primo, secondo);
+  } else {
+
+  }
+  ```
+* un blocco innestato:
+  ```c
+  for(int i=0; i<N; i++){
+	{
+		int i = N; // questa i nascondo l'indice del for
+  	}
+  }
+  ```
+
+  Una variabile all'interno di un blocco ha un **block scope** ed è quindi visibile (**scope**) dal punto in cui è definita fino alla fine del blocco che contiene la sua definizione.
+
+> [!IMPORTANT]
+> I parametri formali di una funzione, anche se dichiarati fuori del corpo della funzione (dal blocco) appartengono al corpo e quindi hanno anch'essi un **block scope**
+
+> [!NOTE]  
+> Storicamente le variabili con **block scope** dovevano essere dichiarate all'inizio del blocco. Dal C99 è possibile dichiarare le variabili all'interno del blocco in qualsiasi posizione al suo interno.
+> Questo è utile soprattutto per le variabili indici di un loop o per documentare meglio il proprio codice dichiarando la variabili più vicino possibile alla riga che effettivamente fa uso della stessa.
+ 
 ##### File scope
+
+Una variabile definita al di fuori di qualsiasi funzione in un file `.c` ha un **file scope** ed è visibile dal punto in cui è definita fino alla fine del file che la contiene.
+Questo è il caso delle variabili globali che abbiamo trattato, esse infatti hanno un **file scope**.
+
+```c
+#include<stdio.h>
+
+int N = 100 /* N è definita fuori da qualsiasi funzione, è visibile al main() ed alla funzione uno() */
+
+int main(){
+
+}
+
+int uno(){
+
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
