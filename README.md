@@ -474,6 +474,7 @@ Il **linkage** definisce se una variabile è visibile in più file diversi o sol
 Esistono tre tipi di **linkage**: `no linkage` `external` ed `internal`.
 
 Le variabili con un **block scope** (quelle locali) sono **no linkage**: cioè non sono visibili nell'intero file in cui sono definite ma la loro visibilità è limitata al blocco che le ospita.
+
 Le variabili con un **file scope**  (quelle globali) sono o **external linkage** o **interanl**: se `external` la variabile può essere vista anche in altri file del programma altrimenti se `internal` la variabile è visibile in tutto il file in cui è stata definita ma non in altri files del programma.
 
 Le variabili globali hanno automaticamente un **external linkage** quindi potenzialmente possono essere visti in altri file sorgente del programma. Per restringere il linkage da **external** ad **internal** si usa la _keyword_ **static** al momento della definizione della variabile, vediamo un esempio
