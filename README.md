@@ -279,6 +279,15 @@ Oltre al tipo ed all'identificatore una variabile è caratterizzata dalla **visi
 > [!IMPORTANT]
 > Tempo di vita: porzione di tempo all'interno del ciclo di esecuzione del programma per cui alla variabile è associata una locazione di  memoria
 
+Sulla base del tempo di vita e della visibilità possiamo classificare le variabile in due grandi categoria: **variabili globali** e **variabili locali**.
+
+Le variabili locali sono definite all'interno delle funzioni e hanno una visibilità limitata: dal punto in cui sono dichiarate fino al termine del corpo della funzione (ti ricordo che il corpo è compreso tra `{` e `}`); il loro tempo di vita è anche limitato: la locazione di memoria ad esse associata è allocata quando la funzione viene invocata ed è liberata quando l'esecuzione dell'intero corpo della funzione termina.
+
+Le variabili globali sono definite fuori dalle funzioni, di solito dopo le direttive `#include` nelle righe iniziali. 
+Hanno visibilità globale appunto, cioè sono visibili a tutte le funzioni nel file in cui sono dichiarate (e potenzialmente anche alle funzioni in altri file ma questo lo vedremo in seguito); il loro tempo di vita coincide con quello globale di esecuzione del programma.
+
+Le variabili globali se non inizializzate vengono poste a zero automaticamente, al contrario le variabili locali se non inizializzate contengono semplicemente un valore sporco ed assolutamente non prevedibile (il valore che era precedentemente contenuto nella locazione di memoria che è stata associata alla variabile).
+
 https://github.com/kinderp/2cornot2c/blob/8fcadf5f8a958f9b6194c4dac724d5a21ecef717/lab/0_intro/2_variabili.c#L1-L41
 
 
