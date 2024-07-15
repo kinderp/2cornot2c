@@ -455,8 +455,8 @@ Questo è il caso delle variabili globali che abbiamo trattato, esse infatti han
 
 ```c
 #include<stdio.h>
-
-int N = 100 /* N è definita fuori da qualsiasi funzione, è visibile al main() ed alla funzione uno() */
+	     
+int N = 100 /* N è globale: ha un file scope, è definita fuori da qualsiasi funzione, è visibile al main() ed alla funzione uno() */
 
 int main(){
 
@@ -466,6 +466,65 @@ int uno(){
 
 }
 ```
+
+### Linkage
+
+Il **linkage** definisce se una variabile è visibile in più file diversi o solo nel file in cui è definita.
+
+Esistono tre tipi di **linkage**: `no linkage` `external` ed `internal`.
+Le variabili con un **block scope** (quelle locali) sono **no linkage**: cioè non sono visibili nell'intero file in cui sono definite ma la loro visibilità è limitata al blocco che le ospita.
+Le variabili con un **file scope**  (quelle globali) sono o **external linkage** o **interanl**: se `external` la variabile può essere vista anche in altri file del programma altrimenti se `internal` la variabile è visibile in tutto il file in cui è stata definita ma non in altri files del programma.
+
+Le variabili globali hanno automaticamente un **external linkage** quindi potenzialmente possono essere visti in altri file sorgente del programma. Per restringere il linkage da **external** ad **internal** si usa la _keyword_ **static** al momento della definizione della variabile, vediamo un esempio
+
+```c
+int globale_esterna = 10; /* variabile globale, file scope, external linkage.
+                           * E' visibile all'interno del file sorgente corrente e potenzialmente
+			   * anche in tutti gli altri sorgenti del programma
+                           */
+
+int static globale_interna = 100; /* variabile globale, file scope, internal linkage in quanto usata keyword static
+                                   * E' visibile solo all'interno del file sorgente corrente
+
+int main(void) {
+
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
