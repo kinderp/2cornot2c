@@ -472,6 +472,7 @@ int uno(){
 Il **linkage** definisce se una variabile è visibile in più file diversi o solo nel file in cui è definita.
 
 Esistono tre tipi di **linkage**: `no linkage` `external` ed `internal`.
+
 Le variabili con un **block scope** (quelle locali) sono **no linkage**: cioè non sono visibili nell'intero file in cui sono definite ma la loro visibilità è limitata al blocco che le ospita.
 Le variabili con un **file scope**  (quelle globali) sono o **external linkage** o **interanl**: se `external` la variabile può essere vista anche in altri file del programma altrimenti se `internal` la variabile è visibile in tutto il file in cui è stata definita ma non in altri files del programma.
 
@@ -485,6 +486,7 @@ int globale_esterna = 10; /* variabile globale, file scope, external linkage.
 
 int static globale_interna = 100; /* variabile globale, file scope, internal linkage in quanto usata keyword static
                                    * E' visibile solo all'interno del file sorgente corrente
+                                   */
 
 int main(void) {
 
