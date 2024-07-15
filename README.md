@@ -254,7 +254,7 @@ int answer;
 int answer = 12;
 ```
 
-![](https://github.com/kinderp/2cornot2c/blob/main/images/dichiarazione_variabile.png)
+![](https://github.com/kinderp/2cornot2c/blob/main/images/assegnamento_variabile.png)
 
 
 
