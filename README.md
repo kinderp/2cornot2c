@@ -310,6 +310,7 @@ Le definizioni della funzioni `somma()`, `differenza()` e `moltiplicazione()` so
 https://github.com/kinderp/2cornot2c/blob/8fcadf5f8a958f9b6194c4dac724d5a21ecef717/lab/0_intro/2_variabili.c#L1-L41
 
 Riassumendo:
+
 **Variabili globali**: 
 * visibili in tutto il file da ogni funzione
 * se non inizializzate ad un valore sono settate a zero automaticamente
