@@ -281,14 +281,14 @@ Oltre al tipo ed all'identificatore una variabile è caratterizzata dalla **visi
 
 Sulla base del tempo di vita e della visibilità possiamo classificare le variabile in due grandi categoria: **variabili globali** e **variabili locali**.
 
-Le variabili locali sono definite all'interno delle funzioni e hanno una visibilità limitata: dal punto in cui sono dichiarate fino al termine del corpo della funzione (ti ricordo che il corpo è compreso tra `{` e `}`); il loro tempo di vita è anche limitato: la locazione di memoria ad esse associata è allocata quando la funzione viene invocata ed è liberata quando l'esecuzione dell'intero corpo della funzione termina.
+**Le variabili locali** sono definite all'interno delle funzioni e hanno una visibilità limitata: dal punto in cui sono dichiarate fino al termine del corpo della funzione (ti ricordo che il corpo è compreso tra `{` e `}`); il loro tempo di vita è anche limitato: la locazione di memoria ad esse associata è allocata quando la funzione viene invocata ed è liberata quando l'esecuzione dell'intero corpo della funzione termina.
 
-Le variabili globali sono definite fuori dalle funzioni, di solito dopo le direttive `#include` nelle righe iniziali. 
+**Le variabili globali** sono definite fuori dalle funzioni, di solito dopo le direttive `#include` nelle righe iniziali. 
 Hanno visibilità globale appunto, cioè sono visibili a tutte le funzioni nel file in cui sono dichiarate (e potenzialmente anche alle funzioni in altri file ma questo lo vedremo in seguito); il loro tempo di vita coincide con quello globale di esecuzione del programma.
 
-Le variabili globali se non inizializzate vengono poste a zero automaticamente, al contrario le variabili locali se non inizializzate contengono semplicemente un valore sporco ed assolutamente non prevedibile (il valore che era precedentemente contenuto nella locazione di memoria che è stata associata alla variabile).
+**Le variabili globali** se non inizializzate vengono poste a zero automaticamente, al contrario **le variabili locali** se non inizializzate contengono semplicemente un valore sporco ed assolutamente non prevedibile (il valore che era precedentemente contenuto nella locazione di memoria che è stata associata alla variabile).
 
-Il programma di sotto fa uso di variabili globali e locali; semplicemente sono definite tre operazioni: somma, differenza e moltiplicazione. I due operandi su cui le funzioni devono lavorare (`primo` e `secondo`) vengono definite come variabili globali; essendo globali queste variabili sono visibili da tutte le funzioni nel file. 
+Il programma di sotto fa uso di variabili globali e locali; semplicemente sono definite tre funzioni: _somma()_, _differenza()_ e _moltiplicazione()_. I due operandi su cui le funzioni devono lavorare (`primo` e `secondo`) vengono definite coeme variabili globali; essendo globali queste variabili sono visibili da tutte le funzioni nel file. 
 
 ```c
 int primo, secondo; /* variabili globali */
@@ -303,11 +303,70 @@ char operazione; // variabile locale
 
 Queste due variabili sono visibili solo all'interno della funzione `main()` dono sono dichiarate e non dalle altre funzioni.
 
-Inoltre, siccome facciamo uso della funzione `printf()` e `scanf()` dobbiamo includere con la direttiva al preprocessore (`#include<stdio.h`) i prototipi contenuti nell header file `stdio.h`.
+Inoltre, siccome facciamo uso della funzione `printf()` e `scanf()` dobbiamo includere con la direttiva al preprocessore (`#include<stdio.h`) i prototipi contenuti nel file header: `stdio.h`.
 
-Le definizioni della funzioni `somma()`, `differenza()` e `moltiplicazione()` sono fornite dopo la loro effettiva chiamata nel `main()` e quindi prima del `main()` è stato necessario fornire i prototipoi di queste funzioni.
+Le definizioni della funzioni `somma()`, `differenza()` e `moltiplicazione()` sono fornite dopo la loro effettiva chiamata nel `main()` e quindi per permettere al compilatore di controllare l'uso corretto di queste funzioni è stato necessario, prima del `main()`, fornire i prototipoi.
 
 https://github.com/kinderp/2cornot2c/blob/8fcadf5f8a958f9b6194c4dac724d5a21ecef717/lab/0_intro/2_variabili.c#L1-L41
+
+Riassumendo:
+**Variabili globali**: 
+* visibili in tutto il file da ogni funzione
+* se non inizializzate ad un valore sono settate a zero automaticamente
+* il loro ciclo di vita coincide con quello del programma, la memoria è allocata prima dell'esecuzione e deallocata al termine dell'esecuzione
+  
+**Variabili locali**:
+* visibili solo nel blocco dove sono state dichiarate
+* se non inizializzate settate ad un valore assolutamente casuale
+* il loro ciclo di vita è limitato all'esecuzione del blocco dove sono dichiarate
+
+L'uso di variabili globali per comunicare con le funzioni è scorretto ed è stato mostrato solo come esempio per introdurre le variabili globali. Meno uso facciamo delle variabili globali è meglio è.
+Per comunicare con le funzioni, scambiare valori è sempre preferibile usare i parametri in ingresso ed i valori di ritorno, quindi le variabili locali.
+Di sotto è riportato il codice corretto che elimina l'uso improprio delle variabili globali:
+
+https://github.com/kinderp/2cornot2c/blob/9c77cc456006b9edb0dddea96eaf5860037e7b8c/lab/0_intro/3_variabili.c#L1-L47
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
