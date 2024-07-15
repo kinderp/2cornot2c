@@ -509,6 +509,17 @@ Per il momento affrontiamo solamente i tipi: `static` ed `auto`.
 
 Variabili che esistono in memoria per l'intero tempo di esecuzione del programma: sono le variabili con **file scope** (variabili globali sia di tipo `external` che `internal` **linkage**)
 
+```c
+int file_scope_extenal_linkage; /* variabile globale con file scope ed external linkage */
+static int file_scope_internal_linkage; /* variabile globale con file scope ma internal linkage:
+                                         * è usata la keyword static che limita la visibilità al solo file corrente
+                                         */
+
+int main(void){
+
+}
+```
+
 #### Auto storage duration
 
 Variabili che hanno un tempo di vita limitato che non coincide che il tempo di esecuzione del programma: sono le variabili con **block scope** che vengono allocate quando il programma entra nel blocco in quale queste sono definite e poi deallocate quando si esce dal blocco.
