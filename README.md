@@ -663,6 +663,12 @@ a=1, b=4
 a=1, b=5
 ```
 
+Infine, i parametri formali di una funzione non posso essere dichiarati static, non puoi fare questo:
+
+```c
+int no_possible_static_parameter(static int a); /* ERRORE */
+```
+
 
 
 
