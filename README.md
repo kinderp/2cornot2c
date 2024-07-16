@@ -569,10 +569,12 @@ Le variabili di classe `auto` non sono inizializzata automaticamente, questo è 
 
 ```c
 int main(void){
-	int a; /* variabile di classe auto: il suo storage duration è limitato all'esecuzione del blocco
+	int a; /* variabile di classe auto: il suo storage duration è limitato all'esecuzione del  blocco
                 * cioè viene allocata quando il flusso di esecuzione entra nel blocco e deallocata quando
-                * si esce dal blocco. Lo scope è limitato al blocco: cioè il suo identificatore è visibile
-                * solo all'interno del blocco e in aultimo non ha linkage in quanto ovviamente non è visi-
+                * si esce dal blocco;  quindi quando si esce dal blocco il valore in essa contenuto viene
+                * perso,quando si rientrerà nel blocco la volta successiva verrà allocato nuovo spazio in
+                * memoria completamente diverso rispetto a quello precedente.
+                * Lo scope è limitato al blocco: cioè il suo identificatore è visibile solo all'interno del blocco e in aultimo non ha linkage in quanto ovviamente non è visi-
                 * bile alle funzioni nel file corrente e nei restanti file del programma.
                 * Inoltre la variabile non è inizializzata ad alcuno valore, non possiamo prevedere quale
                 * sia il valore iniziale che troveremo al suo interno.
@@ -596,6 +598,8 @@ int main(void){
 }
 ```
 
+Ricordati quindi che all'uscita del blocco il valore contenuto nella variabile viene perso perchè viene deallocata e non puoi accederci perchè fuori dal blocco l'identificatore non è visibile.
+
 ### Variabili register (regiter class)
 
 Le variabili `register` sono della variabili di tipo `auto` (block scope, no linkage, automatic storage duration) solamente che dichiarandole in questo modo il programmatore richiede al compilatore di memorizzarle nella memoria più veloce a disposizione che appunto dovrebbero essere i registri della cpu e non la ram.
@@ -612,15 +616,42 @@ int main(void){
 int uno(register int a);
 ```
 
+### Varabili statiche locali (static variables with block scope)
+
+Una variabile con block scope ha visibilità limitata all'interno del blocco in cui è dichiarata ed ovviamente nessun linkage (non è visibile alle altre funzione nel file corrente e negli altri file). Lo storage duration è limitato al tempo di esecuzione del blocco in cui è dichiarata; la variabile è allocata in memoria appena si entra nel blocco e deallocata all'uscita. Queste variabili sono le variaili locali. Rendere statica una variabile locale significa modificare il suo storage duration che coinciderà con il tempo di esecuzione del programma e non più con il tempo di esecuzione del blocco; in altre parole la variabile sarà allocata quando il programma verrà eseguito e deallocata alla sua terminazione. Ovviamente lo scope resta di tipo block quindi anche se la variabile non viene deallocata all'uscita del blocco il suo identificatore non è più visibile e quindi non è possibile accedere alla locazione di memoria. Quando il flusso di esecuzione rientrerà nel blocco il valore precedetemente conservato sarà disponibile attraverso l'identificatore. Per dichiarare statica una variabile locale si usa la _keyword_ **static**, vediamo un esempio:
 
 
+```c
+#include<stdio.h>
 
+void example_static_var(void);
 
+int main(void){
+        example_static_var();
+        example_static_var();
+        example_static_var();
+        example_static_var();
+        example_static_var();
 
+}
 
+void example_static_var(void){
+        int a = 0;
+        static int b;
+        a = a + 1;
+        b = b + 1;
+        printf("a=%d, b=%d\n", a, b);
+}
+```
 
-
-
+```bash
+vagrant@ubuntu2204:~$ ./static_variable
+a=1, b=1
+a=1, b=2
+a=1, b=3
+a=1, b=4
+a=1, b=5
+```
 
 
 
