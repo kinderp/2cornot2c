@@ -573,6 +573,7 @@ int main(void){
                 * si esce dal blocco. Lo scope è limitato al blocco: cioè il suo identificatore è visibile
                 * solo all'interno del blocco e in aultimo non ha linkage in quanto ovviamente non è visi-
                 * bile alle funzioni nel file corrente e nei restanti file del programma.
+                * /
 }
 ```
 
@@ -588,6 +589,7 @@ int main(void){
                      * l'offuscamento (uscita di scope) della variabile esterna con lo stesso nome.
                      * Per informare chi legge il codice di fare attenzione a questo evento si può
                      * esplicitare la classe di memorizzazione auto nella dichiarazione 
+                     */
 }
 ```
 
