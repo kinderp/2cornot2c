@@ -556,7 +556,7 @@ Scope, linkage e storage duration sono combinati assieme per definire le **class
 |static no linkagge     |Static            |Block  | No linkage| Dentro un blocco con _keyword_ **static**|
 
 
-### Variabili automatiche (Class automatic)
+### Variabili automatiche (automatic class)
 
 Una variabile appartenente alla **classe di memorizzazione automatica** (`auto`) ha:
 
@@ -595,6 +595,57 @@ int main(void){
                      */
 }
 ```
+
+### Variabili register (regiter class)
+
+Le variabili `register` sono della variabili di tipo `auto` (block scope, no linkage, automatic storage duration) solamente che dichiarandole in questo modo il programmatore richiede al compilatore di memorizzarle nella memoria più veloce a disposizione che appunto dovrebbero essere i registri della cpu e non la ram.
+Questa è una richiesta che può anche non essere esaudita del compilatore se i registri sono occupati o la dimensione del dato è troppo grando rispetto alla capacità dei registri della cpu. Si dichiarano `register` le variabili che devono essere accedute spesso e con grande velocità: ad esempio gli indici dei cicli. L'uso di variabili `register` ha perso la sua importanza in quanto i moderni compilatori sono in grado di effettuare queste considerazioni per l'ottimizzazione del codice da soli anche se usare variabili `register` potrebbe aiutare a capire quali variabili ricihedono velocità di accesso.
+Da ricordare è che una volta che una variabili è dichiarata `register` non è possbile recuperare l'indirizzo della variabile. Si possono dichiarare di classe `register` anche i parametri formali delle funzioni.
+
+```c
+int main(void){
+	register int a; /* variabile register, non è possibile fare &a ERRORE */
+}
+```
+
+```c
+int uno(register int a);
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
