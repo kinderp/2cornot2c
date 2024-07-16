@@ -544,6 +544,129 @@ int uno(void){
 ```
 
 
+### Classi di memorizzazione
+
+Scope, linkage e storage duration sono combinati assieme per definire le **classi di memorizzazione**
+| Class                 | Storage Duration | Scope | Linkage   | Come dichiarare |
+|----------------------:|------------------|-------|-----------|-----------------|
+|automatic              |Automatic         |Block  | No linkage| Dentro un blocco|        
+|register               |Automatic         |Block  | No linkage| Dentro un blocco con _keyword_ **register**|
+|static external linkage|Static            |File   | External  | Fuori dalle funzioni|
+|static internal linkage|Static            |File   | Internal  | Fuori dalle funzione con _keyword_ **static**|
+|static no linkagge     |Static            |Block  | No linkage| Dentro un blocco con _keyword_ **static**|
+
+
+### Variabili automatiche (Class automatic)
+
+Una variabile appartenente alla **classe di memorizzazione automatica** (`auto`) ha:
+
+* automatic storage duration
+* block scope
+* no linkage
+
+Qualsiasi variabile dichiarata all'interno di un blocco (`{` e `}`) è di tipo `auto`, in pratica è la classe di memorizzazione per tutte le variabili locali.
+
+```c
+int main(void){
+	int a; /* variabile di classe auto: il suo storage duration è limitato all'esecuzione del blocco
+                * cioè viene allocata quando il flusso di esecuzione entra nel blocco e deallocata quando
+                * si esce dal blocco. Lo scope è limitato al blocco: cioè il suo identificatore è visibile
+                * solo all'interno del blocco e in aultimo non ha linkage in quanto ovviamente non è visi-
+                * bile alle funzioni nel file corrente e nei restanti file del programma.
+}
+```
+
+E' possibile dichiarare la variabile usando esplicitamente la parola chiave `auto` anche se `auto` per le variabili dichiarate dentro un blocco è il default.
+Di solito questo ha senso quando all'interno del blocco si sta offuscando una variabile esterna e si vuole esplicitare questo evento avvertendo chi legge il 
+codice di questo o per specificare che non si vuole che si cambi la classe di memorizzazione per quella variabile. Sotto un esempio:
+
+```c
+int a; /* variabile esterna visibile da tutte le funzioni, compreso il main() */
+
+int main(void){
+	auto int a; /* la dichiarazine di una variabile automatica di nome a nel main() determina
+                     * l'offuscamento (uscita di scope) della variabile esterna con lo stesso nome.
+                     * Per informare chi legge il codice di fare attenzione a questo evento si può
+                     * esplicitare la classe di memorizzazione auto nella dichiarazione 
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
