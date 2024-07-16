@@ -565,6 +565,7 @@ Una variabile appartenente alla **classe di memorizzazione automatica** (`auto`)
 * no linkage
 
 Qualsiasi variabile dichiarata all'interno di un blocco (`{` e `}`) è di tipo `auto`, in pratica è la classe di memorizzazione per tutte le variabili locali.
+Le variabili di classe `auto` non sono inizializzata automaticamente, questo è il motivo per cui le variabili locali devono essere inizializzate esplicitamente altrimenti ospitano un valore assolutamente casuale, sporco.
 
 ```c
 int main(void){
@@ -573,6 +574,8 @@ int main(void){
                 * si esce dal blocco. Lo scope è limitato al blocco: cioè il suo identificatore è visibile
                 * solo all'interno del blocco e in aultimo non ha linkage in quanto ovviamente non è visi-
                 * bile alle funzioni nel file corrente e nei restanti file del programma.
+                * Inoltre la variabile non è inizializzata ad alcuno valore, non possiamo prevedere quale
+                * sia il valore iniziale che troveremo al suo interno.
                 * /
 }
 ```
