@@ -790,9 +790,19 @@ https://github.com/kinderp/2cornot2c/blob/6109b19f2dd8fd46b2dcd6acb650645ec6bd0e
 
 https://github.com/kinderp/2cornot2c/blob/6109b19f2dd8fd46b2dcd6acb650645ec6bd0e50/lab/0_intro/4_variabili.c#L1-L52
 
+### Variabili globali con Internal Linkage (Static variables with Internal Linkage)
 
+Queste variabili sono globali ed hanno file scope, static storage duration ma internal linkage: questo vuol dire che la loro visibilità è limitata al file che le contiene. La loro DEFINIZIONE è: come tutte le variabili globali effettuata fuori da tutte le funzioni di solito all'inizio del file con l'aggiunta della parola chiave **static**.ù
 
+```c
+int global_external; /* DEFINIZIONE di variabile globale esterna, visibile nel file ed in tutti gli altri file del programma */
+static int global_internal; /* DEFINIZIONE di variabile globale interna, non è visibile agli altri file del programma */
 
+int main(void){
+	extern int global_external;  /* DICHIARAZIONE opzionale di variabile globale esterna */
+	extern int global_internal;  /* DICHIARAZIONE opzionale di variabile globale interna */
+}
+```
 
 
 
