@@ -754,6 +754,22 @@ i file d'instestazione definiti dal programmatore vengono inclusi usando i doppi
 Il nostro compito è allora spostare tutti i prototipi e le variabili globali di `3_variabili.c` in un file d'instazione (`4_variabili.h`) ed includere il file header nel corrispondente file sorgente (`4_variabili.c`).
 Ovviamente fare qualche piccola modifica e miglioramente al programma precedente, nello specifico:
 
+* Nel file `4_variabili.h` oltre che dichiarare i prototipi della funzioni, definiamo una nuova variabile esterna (costante) `NUM_ITERATIONS` che rappresenta il numero di volte che il programma richiederà all'utente di eseguire un'operazione prima di terminare autonomamente.
+  ```c
+
+  ```
+* Per iterare più volte il processo di calcolo (richiesta di inserimento operandi ed operazione) usiamo un nouvo costrutto di controllo del flusso: il `for`. Anche questo verrà trattato in dettaglio in un altro paragrafo ma brevemente possiamo anticipare che il costrutto `for` serve per realizzare un clico (o loop), permette di eseguire un insieme di istruzioni per un certo numero di volte. Ha questa forma: `for ( espr1 ; espr2 ; espr3 ) istr``. Prima di iniziare il ciclo viene valutata **una volta sola** `espr1` che viene tipicamente usata per inizalizzare le variabili che controllano il ciclo (dette indici del ciclo). Poi viene valutata l'espressione `espr2` che, se vera, determina l'esecuzione del corpo del ciclo costituito dal blocco di istruzioni `istr`, in caso contrario (`espr2` è falsa) il ciclo termina. Prima di valutare nuovamente (passo successivo) `espr2`, viene valutata l'espressione `espr3` che tipicamente viene usata per incrementare o decrementare la variabile (indice) che controlla il ciclo (in `espr2`).
+Ecco un sempio di un ciclo che stampa i numeri da 0 a 9:
+
+```c
+#include <stdio.h>
+int main(void){
+   for (int i=0; i<10; i++){
+	printf("%d\n", i);
+   }
+}
+```
+  
 https://github.com/kinderp/2cornot2c/blob/6109b19f2dd8fd46b2dcd6acb650645ec6bd0e50/lab/0_intro/4_variabili.h#L1-L6
 
 https://github.com/kinderp/2cornot2c/blob/6109b19f2dd8fd46b2dcd6acb650645ec6bd0e50/lab/0_intro/4_variabili.c#L1-L52
