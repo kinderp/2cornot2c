@@ -668,6 +668,56 @@ Infine, i parametri formali di una funzione non posso essere dichiarati static, 
 ```c
 int no_possible_static_parameter(static int a); /* ERRORE */
 ```
+### Differenza tra definzione e dichiarazione di variabile
+
+Fino a questo punto abbiamo usato i termini dichiarazione e definizione in modo intercambiabile come se fossero la stessa cosa. In realtà esiste una differenza ed è arrivato il momento di affrontarla.
+La definizione di una variabile coincide con l'istruzione per cui avviene l'allocazione di spazio in memoria per la variabile. La dichiarazione invece consiste nel dichiarare al compilatore che si farà uso di una variabile già allocata nel file corrente o in un altro file.
+Per le variabili locali (`auto`) la definizione coincide con la dichiarazione, per le variabili globali ha senso conoscere questa leggera differenza.
+Una variabile globale ha file scope ed external linkage, per questo viene anche detta variabile esterna (visibile anche all'esterno del file, negli altri file del programma).
+Ricordiamo che una variabile esterna (globale) è DEFINITA fuori dalle funzioni all'inizio del file, in questo modo:
+
+```c
+#include<stdio.h>
+
+int extern_global_var; /* variabile globale,  è esterna ( external linkage, visibile agli altri  file )
+                        * inizializzata a zero dal compilatore perchè statica (static storage duration) 
+			* questa è una DEFINIONE, questa istruzione determina l' allocazione di spazio   
+			* in memoria per la variabile. La variabile può essere vista anche dagli altri
+			* file del programma.
+			*/
+
+extern int global_var_somewhere_in_other_file; /* questa è una DICHIARAZIONE di variabile esterna che è
+                                                * stata DEFINITA in qualche altro file, per renderla vi-
+						* sibile anche in questo file è OBBLIGATORIA  la dichia-
+						* zione attraverso la keyword extern
+						*/
+
+int main(void){
+	extern int extern_global_var;  /* questa è una DICHIARAZIONE opzionale (NON OBBLIGATORIA), basta usare la keyword extern
+					* serve esclusivamente per documentare che in questa funzione  verrà usata una variabile
+					* globale e non locale (automatica) e di stare attenti a come questa viene valorizzata e
+					* manipolata in quanto ha  visibilità in tutto il file e potenzialmente  in tutti i file
+					*/
+}
+```
+
+E' possibile dopo aver DEFINITO la variabile esterna a scopo di documentazione DICHIARARLA all'interno delle funzioni che la useranno attraverso le _keyword_ `extern` come fatto sopra nel `main()`.
+Infine per rendere visibile in un file una variabile esterna (globale) che è stata DEFINITA in un altro file è OBBLIGATORIA la DICHIARAZIONE con _keyword_ `extern` nel secondo file come è stato fatto sopra per la variabile `global_var_somewhere_in_other_file`
+
+
+### Variabili globali con External Linkage (Static variables with External Linkage)
+
+Le variabili globali sono dichiarate all'esterno delle funzioni, di solito all'inizio del file sorgente dopo le direttive al preprocessore (`#include`). Come anticipato queste variabili hanno: file scope (sono visibili a tutte le funzioni del file che contiene la loro dichiarazione) static storage duration (tempo di vita in memoria coincidente con l'esecuzione del programma) ed external linkage (sono potenzialmente visibili anche in tutti i file sorgente del programma). Quindi le variabili globali sono variabili statiche con external linkage.
+
+
+
+
+
+
+
+
+
+
 
 
 
