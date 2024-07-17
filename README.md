@@ -782,6 +782,9 @@ Ecco un sempio di un ciclo che stampa i numeri da 0 a 9:
 	for (int i=0; i<10; i++)
      		printf("%d", i);
 	```
+*  Aggiungiamo l'operazione di divisione che mancava nella versione precedente
+
+Il codice del fle header `4_variabili.h` e sorgente `4_variabili.c` è mostrato di sotto, la cosa da far notare è la variabile esterna `NUM_ITERATIONS` che è DICHIARATA nel `.h`, questo verrà include nel `.c` dal prepocessore quindi sarà poi effettivamente parte del file `.i` ma per esplicitare che si sta usando una variabile DEFINITA in un altro file, nel `.c` si effettua una DICHIARAZIONE della variabile usando la _keyword_ `extern`.
 
 https://github.com/kinderp/2cornot2c/blob/6109b19f2dd8fd46b2dcd6acb650645ec6bd0e50/lab/0_intro/4_variabili.h#L1-L6
 
