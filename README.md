@@ -707,6 +707,21 @@ Infine per rendere visibile in un file una variabile esterna (globale) che è st
 > [!CAUTION]
 > Ti faccio notare che se togliessimo la _keyword_ `extern` nella DICHIARAZIONE della variabile `global_var_somewhere_in_other_file` questa si traformerebbe in una DEFINIZIONE di nuova variabile e causerebbe un errore in quanto (in qualche altro file) già esiste una variabile globale esterna con queste nome ed ovviamente non possono esistere due variabili (due locazione di memoria diverse) con lo stesso nome nel medesimo spazio di nomi.
 
+```c
+#include<stdio.h>
+
+int extern_global_var;  /* DEFINZIONE di variabile esterna (globale)
+
+int global_var_somewhere_in_other_file; /* togliendo la keyword extern questa non è più una DICHIARAZIONE di variabile esterna definita in un altro file
+					 * ma una DEFINIZIONE di nuova variabile esterna, una variabile esterna con lo stessso nome già esiste ed il com-
+					 * pilatore tornerà errore.
+					 */
+
+int main(void){
+	extern int extern_global_var;  /* DICHIARAZIONE opzione della variabile esterna DEFINITA sopra */
+}
+```
+
 ### Variabili globali con External Linkage (Static variables with External Linkage)
 
 Le variabili globali sono DEFINITE all'esterno delle funzioni, di solito all'inizio del file sorgente dopo le direttive al preprocessore (`#include`). Come anticipato queste variabili hanno: file scope (sono visibili a tutte le funzioni del file che contiene la loro definizione) static storage duration (tempo di vita in memoria coincidente con l'esecuzione del programma) ed external linkage (sono potenzialmente visibili anche in tutti i file sorgente del programma). Quindi le variabili globali sono variabili statiche con external linkage. Nella definizione non si usa la _keyword_ `extern`, invece questa può essere usata (opzionale) nella dichiarazione della variabile all'interno delle funzioni che la useranno, l'uso di `extern` è invece obbligatorio quando si vuole usare una variabile globale definita in un altro file del programma, in questo caso è necessario dichiarare (nel file che vuole usare la variabile definita in altro file) esplicitamente la variabile usando la _keyword_ `extern`. In soldoni `extern` non viene usata nella DEFINIZIONE (quando si crea per la prima volta la variabile globale e viene allocata la memoria) bensì è usata nelle DICHIARAZIONI per informare il compilatore che la variabile è definita da qualche altra parte e nel file si vuole solo fare uso della varabile esterna già allocata.
@@ -720,7 +735,7 @@ int esterna = 10; /* DEFINIZIONE CON INIZIALIZZAZIONE ESPLICITA, OK */
 
 ```c
 // file due.c
-extern int esterna = 2; // ERRORE
+extern int esterna = 2; // DICHIARAZIONE ERRORE
 ```
 
 https://github.com/kinderp/2cornot2c/blob/6109b19f2dd8fd46b2dcd6acb650645ec6bd0e50/lab/0_intro/4_variabili.h#L1-L6
