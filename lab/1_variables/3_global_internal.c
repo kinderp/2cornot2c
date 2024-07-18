@@ -3,7 +3,11 @@
 void one(void);
 void two(void);
 
-static int global_internal;
+static int global_internal; /* variabile globale ma con internal linkage
+			     * cioè è visibile solo a tutte le funzioni
+			     * del file corrente e non in altri file se
+			     * ci fossero.
+			     */
 
 int main(void){
 	printf("global_internal=%d\n", global_internal);
