@@ -1,12 +1,15 @@
 #include<stdio.h>  // printf()
 
-int accumulate(int);
+int accumulate(int); /* prototipo di funzione definita in
+		      * 4_global_external_internal_b.c
+		      */
 
-int count;
+int count;  // variabile globale external linkage
+	    // visibile in 4_global_external_internal_b.c
 
 int main(void){
-	int number;
-	int total = 0;
+	int number;    // variabile locale non inizializzata
+	int total = 0; // variabile locale inizializzata
 	while(1){
 		printf("Get me an integer > 0 (0 to quit)\n");
 		scanf("%d", &number);
