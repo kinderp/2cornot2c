@@ -967,7 +967,20 @@ Per evitare errori sarebbe stato giusto definire la **macro** in questo modo:
 > [!CAUTION]
 > L'uso di macro con parametri senza l'uso di parentesi tonde porta ad errori difficili da identificare
 
+#### La direttiva #include
 
+La direttiva `#include` sostituisce il contenuto di un intero file nella riga di codice dove è inserita.
+Esiste in due forme: con parentesi angolari o con doppi apici:
+
+```c
+#include <stdio.h>
+```
+
+```c
+#include "file.h"
+```
+
+La prima forma (parentesi angoli `<` `>`) è usata per includere il contenuto di file d'intestazione del linguaggio, la seconda forma invece permette di includere i file header definiti dal programmatore.
 
 
 
