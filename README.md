@@ -984,7 +984,7 @@ Esiste in due forme: con parentesi angolari o con doppi apici:
 
 La prima forma (parentesi angoli `<` `>`) è usata per includere il contenuto di file d'intestazione del linguaggio, la seconda forma invece permette di includere i file header definiti dal programmatore.
 
-#### La direttiva #if e #ifdef
+#### Le direttive #if #ifdef #ifndef 
 
 Con queste direttive si possono escludere porzioni di codice in base al verificarsi o meno di certe condizioni
 La direttiva `#if` valuta **un'espressione intera costante** il cui **valore deve essere noto all'atto della compilazione**.
