@@ -868,6 +868,110 @@ https://github.com/kinderp/2cornot2c/blob/23edeb0541fb524a4389e3728b72eec3df1da4
 
 https://github.com/kinderp/2cornot2c/blob/23edeb0541fb524a4389e3728b72eec3df1da49e/lab/0_intro/5_variabili.c#L1-L15
 
+### Il preprocessore
+
+Il preprocessore elabora il contenuto di un file sorgente **prima della compilazione** ed opera delle sostituzioni di testo: la sostituzione di parti del codice sorgente originale con altro testo.
+Il preprocessamento è il primo step del processo che porta alla generazione del file eseguibile. Il preprocessore può svolgere differenti sostituzioni, tutte le chiamate al preprocessore sono dette **direttive al preprocessore**, le più famose sono:
+
+* `#define`
+* `#include`
+* `#if` `#ifdef`
+
+> [!IMPORTANT]
+> Tutte le righe nel codice che iniziano con il carattere `#` sono direttive al preprocessore
+
+Queste direttiva permettono di:
+
+* includere il cotenuto di altri file all'interno del sorgente
+* ridefinire il significato degli identificatori
+* disabilitare condizionalmente parti di codice in fase di compilazione eliminando il testo prima che il compilatore lo elabori
+
+> [!TIP]
+> E' il preprocessore che elimina tutti i commneti presenti nel codice sorgente in modo che sia compilatore solo il codice vero e proprio
+
+
+#### La direttiva #define 
+
+La direttiva `#define` viene usata per creare le **macro**. Le **macro** sono utilizzate per effettuare sostituzioni tipografiche nel codice sorgente prima della compilazione. 
+Ha questa forma:
+
+```c
+#define nome nuovo-nome
+```
+
+A seguito della riga sopra, tutte le successiva occorrenze dell'identificatore `nome` presenti nel codice saranno sostituite con `nuovo-nome` (non viene considerato lo spazio tra `nome` e `nuovo-nome`).
+Il testo da sostituire può estendersi su più di una riga se l'ultimo carattere della linea è `\` che fa ignorare il carattere di nuova riga `\n` al preprocessore.
+
+Ecco alcuni esempi di uso di `#define`:
+
+```c
+#define NUM_ITERATIONS 10
+
+for(int i=0; i < NUM_ITERATIONS; i++)
+	printf("%d\n", i);
+```
+
+```c
+#define DIM_BUFFER 100
+
+int array[DIM_BUFFER];
+```
+
+Le **macro** possono ricevere parametri in ingresso, vengono realizzate per realizzare piccole pseudo-funzioni:
+
+```c
+#define QUADRATO(x) x*x
+
+int main(void){
+	int lunghezza_lato = 10;
+	int area_quadrato = QUADRATO(lunghezza_lato);
+}
+```
+
+La **macro** `QUADRATO` determina la sostituzione del testo `QUADRATO(lunghezza_lato)` col testo `lunghezza_lato*lunghezza_lato` prima della compilazione, quindi il codice visto dal compilatore è:
+
+```c
+int main(void){
+	int lunghezza_lato = 10;
+	int area_quadrato = lunghezza_lato*lunghezza_lato;
+}
+```
+
+Si usa dire che la **macro** è stata espansa.
+Le **macro** sono molto più veloci delle funzioni ma usandole è più facile inserire nel codice errori difficilmente identificabili. Inoltre i moderni compilatore sono in grado di effetturare ottimizzazioni sul codice è capire autonomamente quando evitare una chiamata a funzione espondedo il codice in essa contenuta. In generale quindi l'uso eccessivo di **macro** o l'utilizzo di **macro complesse** non porta a miglioramenti delle prestazioni ma può comportare l'insorgere di bug difficili da risolvere. Vediamo un esempio:
+
+```c
+#define QUADRATO(x) x*x
+
+int main(void){
+	int area_quadrato = QUADRATO(1+2);
+}
+```
+
+Il codice di sopra viene in espanso in questo modo:
+
+```c
+#define QUADRATO(x) x*x
+
+int main(void){
+	int area_quadrato = 1+2*1+2;
+}
+```
+
+Per evitare errori sarebbe stato giusto definire la **macro** in questo modo:
+
+```c
+#define QUADRATO(x) ((x)*(x))
+```
+
+> [!CAUTION]
+> L'uso di macro con parametri senza l'uso di parentesi tonde porta ad errori difficili da identificare
+
+
+
+
+
+
 
 
 
