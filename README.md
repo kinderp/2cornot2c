@@ -1032,13 +1032,13 @@ E' possibile ottenere il comportamento opposto con `#ifndef`, come segue:
 
 In fase di debugging può essere utile eliminare temporaneamente porzioni di codice senza cancellarle, oppure al contrario far eseguire certi pezzi di codice (`printf()` di variabili per valutarne il valore) solo in fase di debug/testing. A questi scopi possiamo usare le direttive mostrate sopra, vediamo come:
 
-```
+```c
 #if 0
 	/* pezzzo di codice da non considerare */
 #endif
 ```
 
-Una volta eliminati i problemi si può rispristinare il codice cambiando rimuovedo le righe contenenti `#if` `#endif` oppure cambiando lo 0 con 1:
+Una volta eliminati i problemi si può rispristinare il codice cambiando rimuovedo le righe contenenti `#if` `#endif` oppure cambiando il valore zero con il valore uno come mostrato sotto:
 
 ```c
 #if 1
