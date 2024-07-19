@@ -1036,6 +1036,7 @@ In fase di debugging può essere utile eliminare temporaneamente porzioni di cod
 #if 0
 	/* pezzzo di codice da non considerare */
 #endif
+```
 
 Una volta eliminati i problemi si può rispristinare il codice cambiando rimuovedo le righe contenenti `#if` `#endif` oppure cambiando lo 0 con 1:
 
