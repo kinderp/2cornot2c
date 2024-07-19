@@ -1121,7 +1121,7 @@ Esiste anche la possibilità di usare `#else` in questo modo:
 #endif
 ```
 
-Esiste anche la possibilità di usare `#if` `#elif` `else` per condizioni più complesse ma non mostriamo un esempio.
+Esiste anche la possibilità di usare `#if` `#elif` `#else` per condizioni più complesse ma non mostriamo un esempio.
 
 
 
