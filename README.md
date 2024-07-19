@@ -843,6 +843,25 @@ Nel file `5_varibili_main.c` facciamo uso delle funzioni matematiche quindi prim
 #include "5_variabili.h" // header definito dal programmatore
 ```
 
+In aggiunta, sostituaimo il costrutto `if-else` con lo `switch`. Lo `switch` è assolutamente equivalente ad un `if-esle` e serve a scegliere tra diversi blocchi di istruzioni in base al valore di una espressione intera. La sintassi è la seguente:
+
+```c
+switch ( espressione-intera ) {
+	case espressione-costante :
+	  [ istr ]
+	  [ ... ]
+	  [ break ; ]
+	case espressine-costante :
+	  [ istr ]
+	  [ ... ]
+	  [ break ; ]
+	[ default: ]
+	  [ istr ]
+	  [ ... ]
+	  [ break ; ]
+} 
+```
+
 https://github.com/kinderp/2cornot2c/blob/23edeb0541fb524a4389e3728b72eec3df1da49e/lab/0_intro/5_variabili_main.c#L1-L34
 
 https://github.com/kinderp/2cornot2c/blob/23edeb0541fb524a4389e3728b72eec3df1da49e/lab/0_intro/5_variabili.h#L1-L6
