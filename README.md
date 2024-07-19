@@ -984,6 +984,49 @@ Esiste in due forme: con parentesi angolari o con doppi apici:
 
 La prima forma (parentesi angoli `<` `>`) è usata per includere il contenuto di file d'intestazione del linguaggio, la seconda forma invece permette di includere i file header definiti dal programmatore.
 
+#### La direttiva #if e #ifdef
+
+Con queste direttive si possono escludere porzioni di codice in base al verificarsi o meno di certe condizioni
+La direttiva `#if` valuta **un'espressione intera costante** il cui **valore deve essere noto all'atto della compilazione**.
+
+```c
+#if espressione-intera-costante
+	/*
+	 * questo  codice  viene  compilato  solo se
+	 * l'espressione risulta (vera) diversa da 0
+	 *
+	 * #endif  termina  la  sezione condizionale
+	 */
+#endif
+```
+
+Tutte le righe comprese tra `#if` e `#endif` vengono incluse nel file header solo se l'espressione è diversa da 0 altrimenti vengono rimosse.
+
+La direttiva `#ifdef` è molto simile, non valuta un'espressione costante ma la definizione o meno di una macro;  vedi codice sottostoante:
+
+```c
+#ifdef macro
+	/*
+	 * questo  codice  viene  considerato
+	 * solo se macro è già stata definita
+	 */
+#endif
+```
+
+`#ifdef `include il codice tra se stessa e la direttiva `#endif` solo se la macro è definita.
+E' possibile ottenere il comportamento opposto con `#ifndef`, come segue:
+
+```c
+#ifndef macro
+	/*
+	 * questo  codice  viene  considerato
+	 * solo se macro non è stata definita
+	 */
+```
+
+> [!IMPORTANT]
+> La definizione del simbolo macro deve essere effettuata con la direttiva `#define`
+
 
 
 
