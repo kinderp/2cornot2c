@@ -1067,7 +1067,7 @@ Si può ottenere lo stesso risultato con la direttiva `#ifdef` in questo modo:
 #endif
 ```
 
-Una soluzione più elegante consiste nel definire una costante `DEBUG` con la direttiva `#define` ed usare `#ifdef` o `#ifndef` per escludere il codice in questo modo:
+Questa seconda soluzione, più elegante, può essere utilizzata anche per includere dei pezzi di codice in fase di testing/debugging (per esempio uan serie di stampe su schermo dei valori della variabili). Per farlo basta definire una macro `DEBUG` con la direttiva `#define` ed usare `#ifdef` o `#ifndef` per includere il codice di test in questo modo:
 
 ```c
 #define DEBUG
@@ -1102,23 +1102,28 @@ Ovviamente con `#ifndef` otteniamo il comportamento opposto, vediamo un esempio 
 
 #ifdef DEGUB
 	printf("Staging code, debugging is enabled");
-#endif 
+#endif
+
 #ifndef DEBUG
 	printf("Production code, no debugging enabled");
 #endif
 ```
 
-Esiste anche la possibilità di usare `else` in questo modo:
+Esiste anche la possibilità di usare `#else` in questo modo:
 
 ```c
 #define DEBUG /* We are in staging */
 
 #ifdef DEGUB
 	printf("Staging code, debugging is enabled");
-#else DEBUG
+#else
 	printf("Production code, no debugging enabled");
-#endif DEBUG
+#endif
 ```
+
+Esiste anche la possibilità di usare `#if` `#elif` `else` per condizioni più complesse ma non mostriamo un esempio.
+
+
 
 
 
