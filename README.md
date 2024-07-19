@@ -1028,6 +1028,96 @@ E' possibile ottenere il comportamento opposto con `#ifndef`, come segue:
 > La definizione del simbolo macro deve essere effettuata con la direttiva `#define`
 
 
+### Eliminazione temporanea di codice
+
+In fase di debugging può essere utile eliminare temporaneamente porzioni di codice senza cancellarle, oppure al contrario far eseguire certi pezzi di codice (`printf()` di variabili per valutarne il valore) solo in fase di debug/testing. A questi scopi possiamo usare le direttive mostrate sopra, vediamo come:
+
+```
+#if 0
+	/* pezzzo di codice da non considerare */
+#endif
+
+Una volta eliminati i problemi si può rispristinare il codice cambiando rimuovedo le righe contenenti `#if` `#endif` oppure cambiando lo 0 con 1:
+
+```c
+#if 1
+	/* codice ripristinato */
+#endif
+```
+
+oppure più elgantemente usando `#define` e `#if` assieme:
+
+```c
+#define SWITCH 0
+
+#if SWITCH
+	/*
+	 * Se l'interruttore è chiuso (SWITCH 0) il codice non è considerato
+	 * Se l'interruttore è aperto (SWITCH 1) il codice è considerato
+	 */
+#endif
+```
+
+Si può ottenere lo stesso risultato con la direttiva `#ifdef` in questo modo:
+
+```c
+#ifdef UNDEF
+	/* pezzo di codice non è incluso perchè UNDEF non è definita */
+#endif
+```
+
+Una soluzione più elegante consiste nel definire una costante `DEBUG` con la direttiva `#define` ed usare `#ifdef` o `#ifndef` per escludere il codice in questo modo:
+
+```c
+#define DEBUG
+
+#ifdef DEBUG
+	/*
+	 * questo codice viene considerato perchè  DEBUG
+	 * è definito, per escludere questo codice  devi
+	 * usare la direttiva #undef o eliminare la dire-
+	 * ttiva '#define DEGUB'
+	 * /
+#endif
+```
+
+Per non considerare il codice basta rimuovere la prima riga `#define DEBUG` ma, per rendere esplicito che DEBUG è usato per una compilazione condizionale del codice attraverso il preprocessore e che questo è stato disattivato, è meglio usare la direttiva `#undef` in questo modo:
+
+```c
+#undef DEBUG
+
+#ifdef DEBUG
+	/*
+	 * questo codice non viene considerato
+	 * perchè   DEBUG   non   è   definito
+	 * /
+#endif
+```
+
+Ovviamente con `#ifndef` otteniamo il comportamento opposto, vediamo un esempio che usa `#ifdef` e `#ifndef` per includere e/o escludere porzioni di codice a seconda se è attivato il DEBUG o meno:
+
+```c
+#undef DEBUG /* We are in production */
+
+#ifdef DEGUB
+	printf("Staging code, debugging is enabled");
+#endif 
+#ifndef DEBUG
+	printf("Production code, no debugging enabled");
+#endif
+```
+
+Esiste anche la possibilità di usare `else` in questo modo:
+
+```c
+#define DEBUG /* We are in staging */
+
+#ifdef DEGUB
+	printf("Staging code, debugging is enabled");
+#else DEBUG
+	printf("Production code, no debugging enabled");
+#endif DEBUG
+```
 
 
 
