@@ -969,6 +969,8 @@ Per evitare errori sarebbe stato giusto definire la **macro** in questo modo:
 
 #### La direttiva #include
 
+Abbiamo accennata a questa direttiva nei paragrafi introduttivi spiegando che serviva per includere il file header `stdio.h` che conteneva il prototipo della funzione `printf()`.
+
 La direttiva `#include` sostituisce il contenuto di un intero file nella riga di codice dove è inserita.
 Esiste in due forme: con parentesi angolari o con doppi apici:
 
