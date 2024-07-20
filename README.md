@@ -1201,12 +1201,7 @@ I file d'intestazione contengono dichiarazioni sia di funzioni (prototipi) ma an
 Se non è grosso problema, all'interno di un file `.c`, avere due o più dichiarazioni (prototipi) della stessa funzione; il compilatore invece darà errore se trova due dichiarazioni della stessa struttura dati o della stessa costante o variabile. Dobbiamo quindi trovare un modo di evitare inclusioni multiple dello stesso file d'intestazione in un file sorgente.
 Per capire meglio facciamo un esempio
 
-`constant.h`
-
-```c
-
-```
-
+![](https://github.com/kinderp/2cornot2c/blob/main/images/inclusione_multipla.png)
 
 
 
