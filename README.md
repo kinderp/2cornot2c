@@ -1197,11 +1197,91 @@ Production code, no debugging enabled
 
 ### Protezione del contenuto dei file d'intestazione
 
-I file d'intestazione contengono dichiarazioni sia di funzioni (prototipi) ma anche di dati (strutture o costanti); questi file possono essere inclusi in più file correndo il rischio di avere una situazione in cui lo stesso file d'intestazione è incluso due volte nello stesso sorgente, il preprocessore copierà due volte il contenuto del file d'intestazione.
-Se non è grosso problema, all'interno di un file `.c`, avere due o più dichiarazioni (prototipi) della stessa funzione; il compilatore invece darà errore se trova due dichiarazioni della stessa struttura dati o della stessa costante o variabile. Dobbiamo quindi trovare un modo di evitare inclusioni multiple dello stesso file d'intestazione in un file sorgente.
-Per capire meglio facciamo un esempio
+I file d'intestazione contengono dichiarazioni sia di funzioni (prototipi) ma anche di dati (strutture, definizione di tipo, variabili e costanti); questi file possono essere inclusi in più file correndo il rischio di avere una situazione in cui lo stesso file d'intestazione è incluso due volte nello stesso sorgente; in queste situzioni il preprocessore copierà due volte il contenuto del file d'intestazione.
+Se non è grosso problema, all'interno di un file `.c`, avere due o più dichiarazioni (prototipi) della stessa funzione; il compilatore invece darà errore se trova due dichiarazioni di tipo identiche. Dobbiamo quindi trovare un modo di evitare inclusioni multiple dello stesso file d'intestazione in un file sorgente.
+Per capire meglio facciamo un esempio: supponiamo di avere tre file header: `file1.h` `file2.h` `file3.h` ed un file sorgente `prog.c`. La situazione, mostrata nella figura di sotto, è la seguente: sia `file1.h` che `file2.h` includono `file3.h` mentre `prog.c` include `file1.h` e `file2.h`. In `prog.c` `file3.h` verrà incluso due volte: la prima volta a seguito dell'inclusione di `file1.h` e la seconda per l'inclusione di `file2.h` 
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/inclusione_multipla.png)
+
+```c
+/* file1.h */
+
+#include "file3.h"
+```
+
+```c
+/* file2.h */
+
+#include "file3.h"
+```
+
+```c
+/* file3.h */
+
+#define TRUE 1
+#define FALSE 0
+typedef int Bool;
+```
+
+```c
+/* prog.c */
+
+#include "file1.h"
+#include "file2.h"
+
+int main(void){
+        return 0;
+}
+```
+
+Mostrando l'output prodotto dal preprocessore vediamo che effettivamente `file3.h` è stato incluso due volte in `prog.c`
+
+```bash
+vagrant@ubuntu2204:~$ gcc -E prog.c
+# 0 "prog.c"
+# 0 "<built-in>"
+# 0 "<command-line>"
+# 1 "/usr/include/stdc-predef.h" 1 3 4
+# 0 "<command-line>" 2
+# 1 "prog.c"
+# 1 "file1.h" 1
+# 1 "file3.h" 1
+
+
+typedef int Bool;
+# 2 "file1.h" 2
+# 2 "prog.c" 2
+# 1 "file2.h" 1
+# 1 "file3.h" 1
+
+
+typedef int Bool;
+# 2 "file2.h" 2
+# 3 "prog.c" 2
+
+int main(void){
+ return 0;
+}
+```
+
+Per risolvere il problema basta fare uso della direttiva `#ifndef` in questo modo all'interno di `file3.h`:
+
+```c
+#ifndef __FILE3_H__
+#define __FILE3_H__
+
+#define TRUE 1
+#define FALSE 0
+typedef int Bool;
+
+#endif
+```
+
+Al momento dell'inclusione se il simbolo `__FILE3_H__` non è stato ancora definito questo verrà definito e verrà anche incluso il contenuto del file d'intestazione altrimenti se `file3.h` è stato già incluso una prima volta il simbolo `__FILE3_H__` sarà già definito ed il contenuto del file d'intestazione fino ad `#endif` verrà ignorato evitando così una seconda inutile inclusione.
+
+
+
+
 
 
 
