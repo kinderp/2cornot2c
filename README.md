@@ -1121,7 +1121,28 @@ Esiste anche la possibilità di usare `#else` in questo modo:
 #endif
 ```
 
-Esiste anche la possibilità di usare `#if` `#elif` `#else` per condizioni più complesse ma non mostriamo un esempio.
+Esiste anche la possibilità di usare `#if` `#elif` `#else` per condizioni più complesse:
+
+```c
+#include<stdio.h>
+int main(void){
+#ifdef IA32
+        #define CPU_FILE "ia32.h"
+#elif MAC_OS
+        #define CPU_FILE "arm.h"
+#else
+        #define CPU_FILE "amd64.h"
+#endif
+printf("CPU_FILE = %s\n", CPU_FILE);
+return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:~$ gcc -DMAC_OS -o test test.c
+vagrant@ubuntu2204:~$ ./test
+CPU_FILE = arm.h
+ ```
 
 La cosa interessante di questo approccio è il fatto che è possibile definire simboli passando direttamente un opzione al compilatore, se ho ad esempio il file `conditional_compilation.c` con questo contenuto:
 
@@ -1174,7 +1195,17 @@ vagrant@ubuntu2204:~$ ./conditional_compilation
 Production code, no debugging enabled
 ```
 
+### Protezione del contenuto dei file d'intestazione
 
+I file d'intestazione contengono dichiarazioni sia di funzioni (prototipi) ma anche di dati (strutture o costanti); questi file possono essere inclusi in più file correndo il rischio di avere una situazione in cui lo stesso file d'intestazione è incluso due volte nello stesso sorgente, il preprocessore copierà due volte il contenuto del file d'intestazione.
+Se non è grosso problema, all'interno di un file `.c`, avere due o più dichiarazioni (prototipi) della stessa funzione; il compilatore invece darà errore se trova due dichiarazioni della stessa struttura dati o della stessa costante o variabile. Dobbiamo quindi trovare un modo di evitare inclusioni multiple dello stesso file d'intestazione in un file sorgente.
+Per capire meglio facciamo un esempio
+
+`constant.h`
+
+```c
+
+```
 
 
 
