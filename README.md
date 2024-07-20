@@ -1277,7 +1277,33 @@ typedef int Bool;
 #endif
 ```
 
-Al momento dell'inclusione se il simbolo `__FILE3_H__` non è stato ancora definito questo verrà definito e verrà anche incluso il contenuto del file d'intestazione altrimenti se `file3.h` è stato già incluso una prima volta il simbolo `__FILE3_H__` sarà già definito ed il contenuto del file d'intestazione fino ad `#endif` verrà ignorato evitando così una seconda inutile inclusione.
+Al momento dell'inclusione se il simbolo `__FILE3_H__` non è stato ancora definito questo verrà definito e verrà anche incluso il contenuto del file d'intestazione altrimenti se `file3.h` è stato già incluso una prima volta il simbolo `__FILE3_H__` sarà già definito ed il contenuto del file d'intestazione fino ad `#endif` verrà ignorato evitando così una seconda inutile inclusione. Verifichiamo di aver risolto rilanciando lo step di preprocessamento:
+
+```bash
+vagrant@ubuntu2204:~$ gcc -E prog.c
+# 0 "prog.c"
+# 0 "<built-in>"
+# 0 "<command-line>"
+# 1 "/usr/include/stdc-predef.h" 1 3 4
+# 0 "<command-line>" 2
+# 1 "prog.c"
+# 1 "file1.h" 1
+# 1 "file3.h" 1
+
+
+
+
+
+typedef int Bool;
+# 2 "file1.h" 2
+# 2 "prog.c" 2
+# 1 "file2.h" 1
+# 3 "prog.c" 2
+
+int main(void){
+ return 0;
+}
+```
 
 
 
