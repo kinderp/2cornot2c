@@ -1100,7 +1100,7 @@ Ovviamente con `#ifndef` otteniamo il comportamento opposto, vediamo un esempio 
 ```c
 #undef DEBUG /* We are in production */
 
-#ifdef DEGUB
+#ifdef DEBUG
 	printf("Staging code, debugging is enabled");
 #endif
 
@@ -1114,7 +1114,7 @@ Esiste anche la possibilità di usare `#else` in questo modo:
 ```c
 #define DEBUG /* We are in staging */
 
-#ifdef DEGUB
+#ifdef DEBUG
 	printf("Staging code, debugging is enabled");
 #else
 	printf("Production code, no debugging enabled");
@@ -1123,6 +1123,56 @@ Esiste anche la possibilità di usare `#else` in questo modo:
 
 Esiste anche la possibilità di usare `#if` `#elif` `#else` per condizioni più complesse ma non mostriamo un esempio.
 
+La cosa interessante di questo approccio è il fatto che è possibile definire simboli passando direttamente un opzione al compilatore, se ho ad esempio il file `conditional_compilation.c` con questo contenuto:
+
+```bash
+#include<stdio.h>
+
+int main(void){
+	#ifdef DEBUG
+		printf("Staging code, debugging is enabled");
+	#else
+		printf("Production code, no debugging enabled");
+	#endif
+	return 0;
+}
+```
+
+Posso definire il simbolo `DEBUG` da riga di comando a tempo di compilazione passando a `gcc` l'opzione `-D` in questo modo:
+
+```bash
+gcc -DDEBUG -o conditional_compilation conditional_compilation.c
+```
+Anche se nel file non è presente nessuna riga `#define DEBUG` il simbolo è stato definito a tempo di compilazione quindi siamo in stagig è l'output del programma sarà:
+
+```bash
+vagrant@ubuntu2204:~$ ./conditional_compilation
+Staging code, debugging is enabled
+```
+
+Ovviamente è possibile all'interno del codice annulla la dichiarazione del simbolo con `#undef DEBUG` in questo modo:
+
+```c
+#include<stdio.h>
+#undef DEBUG
+
+int main(void){
+	#ifdef DEBUG
+		printf("Staging code, debugging is enabled");
+	#else
+		printf("Production code, no debugging enabled");
+	#endif
+	return 0;
+}
+```
+
+anche definendo il simbolo da `gcc` questo verrà annullato dalla direttiva `#undef` e l'output del programma sarà:
+
+```bash
+vagrant@ubuntu2204:~$ gcc -o conditional_compilation -DDEBUG conditional_compilation.c
+vagrant@ubuntu2204:~$ ./conditional_compilation
+Production code, no debugging enabled
+```
 
 
 
