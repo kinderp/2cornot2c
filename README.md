@@ -853,7 +853,47 @@ extern const unsigned long int a[10];
 	 |			  +-----dichiaratore
 	 + qualificatore di tipo
 ```
-  
+### Classi di memorizzazione per le funzioni
+
+La definizione (e dichiarazione) di funzione, come per le variabili, può contenere una classe di memorizzazione. Per le funzioni abbiamo solo due classi di memorizzazione: `extern` e `static`. La _keyword_ `extern` all'inizio della dichiarazione o definizione di funzioni specifica che la questa ha **external linkage**: può essere chiamata da funzioni in altri file del programma. La parola chiave `static` invece indica **internal linkage** e quindi limita l'uso della funzione all'interno del file in cui è definita. **Se non viene specificata una classe di memorizzazione per la funzione questa assume la classe `extern`**.
+
+```c
+extern int f(int i);
+static int g(int i);
+int h(int i); /* default extern */
+```
+
+### Classi memorizzazione riassunto
+
+```c
+int a;
+extern int b;
+static int c;
+
+void f(int d, register int e){
+	auto int g;
+	int h;
+	static int i;
+	extern int j;
+	register int k;
+}
+```
+
+| Name  | Storage Duration | Scope     | Linkage  |
+| :---: |     :---:        | :---:     | :---:    |
+| a     | static           | file      | external |
+| b     | static           | file      |**Nota**  |
+| c     | static           | file      | internal |
+| d     | automatic        | block     | none     |
+| e     | automatic        | block     | none     |
+| g     | automatic        | block     | none     |
+| h     | automatic        | block     | none     |
+| i     | static           | block     | none     |
+| j     | static           | block     |**Nota**  |
+| k     | automatic        | block     | none     |
+
+**Nota**: La definizione di  `b` e di `j` non sono mostrate quindi non è possibile determinare il **linkage** di queste variabili. Nella maggior parte dei casi le variabili saranno definite in un altro file ed avranno quindi **external linkage**
+
 ### Suddivisione in moduli di un programma
 
 La capacità di separare l'implementazione delle funzioni dai loro prototipi attraverso l'uso dei file header e la possibilità di poter condividere variabili tra file diversi del programma ci permettono ora di fare un uleriore passo nel miglioamento della nostra calcolatrice. Vogliamo riorganizzare il codice in modo da ottenere dei moduli separati, ora vedremo cosa significa e quali sono i vantaggi nel fare ciò. Pensare di realizzare programmi di grandi dimensioni usando un unico grande file sorgente è una cattiva idea per tante ragioni, le principali sono:
