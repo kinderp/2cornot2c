@@ -803,7 +803,57 @@ int main(void){
 	extern int global_internal;  /* DICHIARAZIONE opzionale di variabile globale interna */
 }
 ```
+### Sintassi dichiarazione variabili
 
+Una dichiarazine di variabili ha questa forma:
+
+```
+specificatori-dichiarazione dichiaratori
+```
+
+Gli specificatori di dichiarazione descrivono le proprietà della variabile o della funzione oggetto della dichiarazione.
+Gli specificatori di dichiarazione sono raggruppabili in tre categorie:
+
+* classi di memorizzazione (storage classes): sono quattro `auto`, `static`, `extern` e `register`. Al massimo una di queste può presentarsi in una dichiarazione e se presente deve essere la prima _keyword_ nella dichiarazione
+* qualificarori di tipo (type qualifiers): sono tre `const`, `volatile` e `restrict`. Una dichiarazione puà contenere zero, uno o più di un qualificatori di tipo
+* specificatori di tipo (type specifiers): `void` `char` `short` `int` `long` `float` `double` `signed` `unsigned`. Queste _keyword_ possono essere combinate assieme (`unsigned long int``) l'ordine con cui compaiono non ha importanza
+
+Vediamo alcuni esempi:
+
+```c
+   +--------------classe di memorizzazione
+   |
+static float x, y, *p;
+	 |  |   |   |
+	 |  +---+---+---dichiaratori
+	 |
+	 +---specificatore di tipo
+```
+
+```c
+  +---qualificatore di tipo
+  |
+  |	     +----dichiaratore
+  |	     |
+const char month[] = "July";
+	|		|
+	|		+----inizializzatore
+	|
+	+----specificatore di tipo
+
+```
+
+```c
+  +--classe di memorizzazione
+  |
+  |		+-------+---+-------specificatori di tipo
+  |		|	|   |
+extern const unsigned long int a[10];
+	 |			  |
+	 |			  +-----dichiaratore
+	 + qualificatore di tipo
+```
+  
 ### Suddivisione in moduli di un programma
 
 La capacità di separare l'implementazione delle funzioni dai loro prototipi attraverso l'uso dei file header e la possibilità di poter condividere variabili tra file diversi del programma ci permettono ora di fare un uleriore passo nel miglioamento della nostra calcolatrice. Vogliamo riorganizzare il codice in modo da ottenere dei moduli separati, ora vedremo cosa significa e quali sono i vantaggi nel fare ciò. Pensare di realizzare programmi di grandi dimensioni usando un unico grande file sorgente è una cattiva idea per tante ragioni, le principali sono:
