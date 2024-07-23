@@ -1544,8 +1544,20 @@ Per i `signed` avremo un range:
 #include<stdio.h>
 
 int main(void){
-	
+	int i = 2147483647;
+	unsigned int j = 4294967295;
+
+	printf("Signed: %d %d %d\n", i, i+1, i+2);
+	printf("Unsigned: %u %u %u\n", j, j+1, j+2); /* we need to use %u for unsigned int */
+
+	return 0;
 }
+```
+
+```bash
+vagrant@ubuntu2204:~$ ./int_overflow
+Signed: 2147483647 -2147483648 -2147483647
+Unsigned: 4294967295 0 1
 ```
 
 
