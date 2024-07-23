@@ -1433,11 +1433,11 @@ Il tipo `int` è `signed` questo vuol dire che possiamo esprimere sia numeri pos
 
 Con 16 bit possono esprimere 65536 diverse combinazioni di bit (65536 diversi valori):
 
-$ 2^16 = 65536 $
+$2^{16} = 65536$
 
 Questi 65536 valori devono essere assegnati metà ai i numeri negativi e metà ai positivi  
 
-$ 65536/2 = 32768 $
+$65536/2 = 32768$
 
 Per i numeri positivi le diverse 32768 combinazioni devono essere assegnate a partire dallo zero, quindi i numeri positivi andranno da 0 fino a 32767. Per i numeri negativi (non avendo lo zero) i valori andranno da -1 a -32768.
 
@@ -1456,6 +1456,39 @@ int q, w = 200 /* q non è inizializzata, w è inizializzata. scarso stile di  p
 ```
 
 #### Stampare `int`
+
+Usa `%d` (decimal int) per stampare una variabile di tipo `int` **in base 10**.
+
+```c
+#include<stdio.h>
+
+int main(void){
+	int ten = 10;
+	int twp = 2;
+
+	printf("%d - %d = %d\n", ten, 2, ten - two);
+}
+```
+
+Usa `%o` per stampare una variabile di tipo `int` **in base 8**.
+Usa `%x` per stampare una variabile di tipo `int` **in base 16**
+
+Se vuoi stampare il prefisso per la base aggiungi il `#`: `%#o`, `%#x`
+```c
+include<stdio.h>
+
+int main(void){
+	int x = 100;
+
+	printf("decimale = %d, ottale = %o, esadecimale = %x\n", x, x, x);
+	printf("decimale = %d, ottale = %#o, esadecimale = %#x\n", x, x, x);
+}
+```
+
+#### Altri tipi interi
+
+Il linguaggio offre le _keyword_ `short` `long` `unsigned` per modificare il tipo `int` di default.
+
 
 
 
