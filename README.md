@@ -1492,17 +1492,28 @@ Il linguaggio offre le _keyword_ `short` `long` `unsigned` per modificare il tip
 
 | Tipo                                            | Descrizione   |
 | ----------------------------------------------  | ------------- |
-| `short int` o `short`                           | Potrebbe usare meno memoria di `int`, salvando spazio quando si rappresentano interi piccoli. Come `int` è `signed` di default |
-| `long int`  o `long`                            | Potrebbe usare più memoria di `int`, utile per rappresentare interi molti grandi. Come `int` è `signed` di default |
-| `long long int` o `long long`                   | Potrebbe usare più  memoria di `long`. **Deve essere almeno di 64 bit**. Come `int` è `signed` di default |
+| `int`						  | **Deve essere almeno di 16 bit**. E' `signed` |
+| `short int` o `short`                           | **non può essere più grande di `int`**, potrebbe usare meno memoria di `int` salvando spazio quando si rappresentano interi piccoli. Come `int` è `signed` di default |
+| `long int`  o `long`                            | **non può essere più piccolo di `int`**, potrebbe usare più memoria di `int`, utile per rappresentare interi molti grandi. Come `int` è `signed` di default |
+| `long long int` o `long long`                   | **Deve essere almeno di 64 bit**. Potrebbe usare più  memoria di `long`. Come `int` è `signed` di default |
 | `unsigned int` o `unsigned`                     | Usato per valori solo positivi. Il tipo shifta a destra il range di rappresentazione, esempio con 16 bit avendo 65736 possibili rappresentazioni ed escludendo i valori negativi il range passa da [-32768, 32767] a [0, 65735] |
 | `unsigend long int` o `unsigned long`           | Previsto da C90 |
 | `unsigend long int` o `unsigned long`           | Previsto da C90 |
 | `unsigend long long int` o `unsigned long long` | Previsto da C99 |
 
+Lo standard quindi non specifica la dimensione precisa dei diversi interi, l'idea è che il tipo si adatterà alla dimensione della word dell'architettura di riferimento. Lo standard richiede solamente che:
 
+* `int` deve essere almeno 16 bit
+* `short` non può essere più grande di `int`
+* `long` non può essere più piccolo di `int`
+* `long long` deve essere almeno 64 bit
 
-
+| 16 bit        | 32 bit        | 64 bit        |
+| ------------- | ------------- | ------------- |
+| `short` 16    | `short` 16    | `short` 16    |
+| `int`   16    | `int`   32    | `int` 16 o 32 (dipende dalla word dell'architettura)|
+| `long`  32    | `long`  32    | `long` 32     |
+| `long long`   | `long long`   | `long long` 64|
 
 
 
