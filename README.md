@@ -1515,7 +1515,33 @@ Lo standard quindi non specifica la dimensione precisa dei diversi interi, l'ide
 | `long`  32    | `long`  32    | `long` 32     |
 | `long long`   | `long long`   | `long long` 64|
 
+Quando allora usare i diversi tipi di interi? Dipenda dalla situazione.
 
+* `unsigned` è usato per contare perchè non rappresenta i numeri negativi e `unsigned` shiftando a destra il range rappresentabile può raggiungere valori maggiori di un `signed`
+* `long` è usato per rappresentare valori che `int` non riesce a rappresentare. Tieni conto che nei sistemi in cui `long` è maggiore di `int` usare `long` rallenta i calcoli, quindi usalo solo ne necessario. Altre considerazioni possono essere fatte sulla portabilità: se hai bisogno di interi a 32 e stai scrivendo codice su una macchina dove `int` e `long` sono a 32 bit dovresti scegliere `long` in modo tale che se il programma viene portato su macchine a 16 bit dove `int` è 16 il tuo intero sarà sempre a 32 bit perchè `long` su sistema a 16 bit è lungo 32 bit
+* `long long` è usato solo quando gli interi devono essere lunghi 64 bit
+* `short` è usato per risparmiare spazio, nel senso se i tuoi interi possono essere lunghi solo 16 bit usare `int` potrebbe renderli lunghi 32 bit (in macchine a 32 bit e superiori).
+
+#### Overflow `int`
+
+Cosa accade quando si cerca di rappresentare un numero intero più grande del massimo valore rappresentabile: quando si esce fuori dal range massimo. Vediamo in questo esempio.
+Consideriamo un sistema a 32 bit quindi `int` 32.
+
+$2^{32} = 4.294.967.296$
+
+$4.294.967.296/2 = 2.147.483.648$
+
+Per gli `unsigned` avremo un range [0, 4294967295]
+Per i `signed` avremo un range [-2147483648:-1 , 0: 2147483647]
+			       |<--negativi--->|<--postivi--->|
+	  
+```c
+#include<stdio.h>
+
+int main(void){
+	
+}
+```
 
 
 
