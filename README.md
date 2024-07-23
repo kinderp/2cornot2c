@@ -1464,7 +1464,7 @@ Usa `%d` (decimal int) per stampare una variabile di tipo `int` **in base 10**.
 
 int main(void){
 	int ten = 10;
-	int twp = 2;
+	int two = 2;
 
 	printf("%d - %d = %d\n", ten, 2, ten - two);
 }
@@ -1490,8 +1490,15 @@ int main(void){
 Il linguaggio offre le _keyword_ `short` `long` `unsigned` per modificare il tipo `int` di default.
 
 
-
-
+| Tipo                                            | Descrizione   |
+| ----------------------------------------------  | ------------- |
+| `short int` o `short`                           | Potrebbe usare meno memoria di `int`, salvando spazio quando si rappresentano interi piccoli. Come `int` è `signed` di default |
+| `long int`  o `long`                            | Potrebbe usare più memoria di `int`, utile per rappresentare interi molti grandi. Come `int` è `signed` di default |
+| `long long int` o `long long`                   | Potrebbe usare più  memoria di `long`. **Deve essere almeno di 64 bit**. Come `int` è `signed` di default |
+| `unsigned int` o `unsigned`                     | Usato per valori solo positivi. Il tipo shifta a destra il range di rappresentazione, esempio con 16 bit avendo 65736 possibili rappresentazioni ed escludendo i valori negativi il range passa da [-32768, 32767] a [0, 65735] |
+| `unsigend long int` o `unsigned long`           | Previsto da C90 |
+| `unsigend long int` o `unsigned long`           | Previsto da C90 |
+| `unsigend long long int` o `unsigned long long` | Previsto da C99 |
 
 
 
