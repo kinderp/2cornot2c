@@ -1397,6 +1397,20 @@ int main(void){
 
 ### Tipi di dato
 
+```c
+int main(void){
+	const float gold_value = 70.57;
+	float your_weight;
+	float your_value;
+
+	printf("Please, insert your weight in kg\n");
+	scanf("%f", &your_weight);
+
+	your_value = yout_weight*gold_value*1000;
+	printf("Your weight in gold is: %2.f\n");
+}
+```
+
 Il linguaggio C riconosce differenti tipi di dato predefiniti. Fino ad ora abbiamo visto solo il tipo `int`, di seguito riportiamo tutto le _keyword_ riconosciute dal C per gli specificatori di tipo:
 
 | Keyowrd       | 
@@ -1411,20 +1425,40 @@ Il linguaggio C riconosce differenti tipi di dato predefiniti. Fino ad ora abbia
 | `double`	|
 | `void`	|
 
+`int` permette di rappresentare in memoria i tipi interi (senza parte decimale), le successive quattro _keyword_ in tabella: `long` `short` `unsigned` e `signed` son usate per ottenere variazioni del tipo base (es: `unsigned short int` o `long long int`). `char` è usato per rappresentare i singoli caratteri, simboli d'interpuzione etc; `char` può essere utilizzato anche per esprimere `int` di piccole dimensioni. `float` `double` e `long double` sono usati per i numeri reali, numeri con parte decimale.
+
+### `int`
+
+Il tipo `int` è `signed` questo vuol dire che possiamo esprimere sia numeri positivi (segno +) sia numeri negativa (segno -). La dimensione in bit usata per rappresentare un `int` (e quindi anche il valore intero massimo esprimibile) dipende dall'architettura. Tipicamente un `int` utilizza una word nell'architettura target: quindi nei sistemi con word a 16 bit (IBM compatibile) `int` occuperà 16 bit. Quale sarà il valore massimo e minimo rappresentabili con un `int` a 16 bit? Semplice:
+
+Con 16 bit possono esprimere 65536 diverse combinazioni di bit (65536 diversi valori):
+
+$ 2^16 = 65536 $
+
+Questi 65536 valori devono essere assegnati metà ai i numeri negativi e metà ai positivi  
+
+$ 65536/2 = 32768 $
+
+Per i numeri positivi le diverse 32768 combinazioni devono essere assegnate a partire dallo zero, quindi i numeri positivi andranno da 0 fino a 32767. Per i numeri negativi (non avendo lo zero) i valori andranno da -1 a -32768.
+
+Le stesse considerazioni valgono per macchina con word a 32 o 64 bit. In questi sistemi `int` sarà rispettivamente a 32 e 64 bit.
+Quindi, **lo spazio occupato in memoria da un `int` dipende dalla dimensione della word della macchina** che può essere 16,32 o 64 bit a seconda del tipo di architettura. **Lo standard ISO C specifica solo la dimensione minima di `int`: 16 bit** con range [-32767, +32767]
 
 ```c
-int main(void){
-	const float gold_value = 70.57;
-	float your_weight;
-	float your_value;
+int a; /* dichirazione di intero, non inizializzato */
+int b, c, d; /* dichiarazione di interi nella stessa riga */
 
-	printf("Please, insert your weight in kg\n");
-	scanf("%f", &your_weight);
+a = 10; /* assegnamento */
 
-	your_value = yout_weight*gold_value*1000;
-	printf("Your weight in gold is: %2.f\n");
-}
+int x = 100; /* dichiarazione di intero con inizializzazione */
+int y = 101, z = 102; /* dichiarazione di interi nella stessa riga con inizializzazione */
+int q, w = 200 /* q non è inizializzata, w è inizializzata. scarso stile di  programmazione */
 ```
+
+#### Stampare `int`
+
+
+
 
 
 
