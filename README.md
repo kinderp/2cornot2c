@@ -1395,6 +1395,36 @@ int main(void){
 }
 ```
 
+### Tipi di dato
+
+Il linguaggio C riconosce differenti tipi di dato predefiniti. Fino ad ora abbiamo visto solo il tipo `int`, di seguito riportiamo tutto le _keyword_ riconosciute dal C per gli specificatori di tipo:
+
+| Keyowrd       | 
+| ------------- |
+| `int`         |
+| `long`        |
+| `short`       |
+| `unsigned`    |
+| `signed`	|
+| `char`        |
+| `float`       |
+| `double`	|
+| `void`	|
+
+
+```c
+int main(void){
+	const float gold_value = 70.57;
+	float your_weight;
+	float your_value;
+
+	printf("Please, insert your weight in kg\n");
+	scanf("%f", &your_weight);
+
+	your_value = yout_weight*gold_value*1000;
+	printf("Your weight in gold is: %2.f\n");
+}
+```
 
 
 
