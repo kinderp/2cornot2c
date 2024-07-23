@@ -1531,9 +1531,14 @@ $2^{32} = 4.294.967.296$
 
 $4.294.967.296/2 = 2.147.483.648$
 
-Per gli `unsigned` avremo un range [0, 4294967295]
-Per i `signed` avremo un range [-2147483648:-1 , 0: 2147483647]
-			       |<--negativi--->|<--postivi--->|
+```
+Per gli `unsigned` avremo un range:
+[0, 4294967295]
+
+Per i `signed` avremo un range:
+[-2147483648:-1 , 0: 2147483647]
+|<--negativi--->|<--postivi--->|
+```
 	  
 ```c
 #include<stdio.h>
