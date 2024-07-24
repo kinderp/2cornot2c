@@ -1606,7 +1606,7 @@ mente alle basi relative sia al sistema numerico posizionale binari che esadecim
  *
  * 1110 0101
  * \  / \  /
- *   D    5
+ *   E    5
  *
  * Gli interi su questa architettura sono a 32  bit ( 4 byte )
  * Per gli altri byte estendiamo il bit di segno (MSB) del pri
@@ -1628,7 +1628,7 @@ int main(void){
          * di tipo signed ed unsigned
          */
         printf("signed positive: %#x\n", positive);    /* mi aspetto 0x00-00-00-1B */
-        printf("signed negative: %#x\n", negative);    /* mi aspetto 0xff-ff-ff-D5 */
+        printf("signed negative: %#x\n", negative);    /* mi aspetto 0xff-ff-ff-E5 */
         printf("       unsigned: %#x\n", u_positive);
 
         return 0;
