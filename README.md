@@ -803,6 +803,96 @@ int main(void){
 	extern int global_internal;  /* DICHIARAZIONE opzionale di variabile globale interna */
 }
 ```
+### Sintassi dichiarazione variabili
+
+Una dichiarazine di variabili ha questa forma:
+
+```
+specificatori-dichiarazione dichiaratori
+```
+
+Gli specificatori di dichiarazione descrivono le proprietà della variabile o della funzione oggetto della dichiarazione.
+Gli specificatori di dichiarazione sono raggruppabili in tre categorie:
+
+* classi di memorizzazione (storage classes): sono quattro `auto`, `static`, `extern` e `register`. Al massimo una di queste può presentarsi in una dichiarazione e se presente deve essere la prima _keyword_ nella dichiarazione
+* qualificarori di tipo (type qualifiers): sono tre `const`, `volatile` e `restrict`. Una dichiarazione puà contenere zero, uno o più di un qualificatori di tipo
+* specificatori di tipo (type specifiers): `void` `char` `short` `int` `long` `float` `double` `signed` `unsigned`. Queste _keyword_ possono essere combinate assieme (`unsigned long int``) l'ordine con cui compaiono non ha importanza
+
+Vediamo alcuni esempi:
+
+```c
+   +--------------classe di memorizzazione
+   |
+static float x, y, *p;
+	 |  |   |   |
+	 |  +---+---+---dichiaratori
+	 |
+	 +---specificatore di tipo
+```
+
+```c
+  +---qualificatore di tipo
+  |
+  |	     +----dichiaratore
+  |	     |
+const char month[] = "July";
+	|		|
+	|		+----inizializzatore
+	|
+	+----specificatore di tipo
+
+```
+
+```c
+  +--classe di memorizzazione
+  |
+  |		+-------+---+-------specificatori di tipo
+  |		|	|   |
+extern const unsigned long int a[10];
+	 |			  |
+	 |			  +-----dichiaratore
+	 + qualificatore di tipo
+```
+### Classi di memorizzazione per le funzioni
+
+La definizione (e dichiarazione) di funzione, come per le variabili, può contenere una classe di memorizzazione. Per le funzioni abbiamo solo due classi di memorizzazione: `extern` e `static`. La _keyword_ `extern` all'inizio della dichiarazione o definizione di funzioni specifica che la questa ha **external linkage**: può essere chiamata da funzioni in altri file del programma. La parola chiave `static` invece indica **internal linkage** e quindi limita l'uso della funzione all'interno del file in cui è definita. **Se non viene specificata una classe di memorizzazione per la funzione questa assume la classe `extern`**.
+
+```c
+extern int f(int i);
+static int g(int i);
+int h(int i); /* default extern */
+```
+
+### Classi memorizzazione riassunto
+
+```c
+int a;
+extern int b;
+static int c;
+
+void f(int d, register int e){
+	auto int g;
+	int h;
+	static int i;
+	extern int j;
+	register int k;
+}
+```
+
+| Name  | Storage Duration | Scope     | Linkage  |
+| :---: |     :---:        | :---:     | :---:    |
+| a     | static           | file      | external |
+| b     | static           | file      |**Nota**  |
+| c     | static           | file      | internal |
+| d     | automatic        | block     | none     |
+| e     | automatic        | block     | none     |
+| g     | automatic        | block     | none     |
+| h     | automatic        | block     | none     |
+| i     | static           | block     | none     |
+| j     | static           | block     |**Nota**  |
+| k     | automatic        | block     | none     |
+
+**Nota**: La definizione di  `b` e di `j` non sono mostrate quindi non è possibile determinare il **linkage** di queste variabili. Nella maggior parte dei casi le variabili saranno definite in un altro file ed avranno quindi **external linkage**
 
 ### Suddivisione in moduli di un programma
 
@@ -1305,12 +1395,170 @@ int main(void){
 }
 ```
 
+### Tipi di dato
+
+```c
+int main(void){
+	const float gold_value = 70.57;
+	float your_weight;
+	float your_value;
+
+	printf("Please, insert your weight in kg\n");
+	scanf("%f", &your_weight);
+
+	your_value = yout_weight*gold_value*1000;
+	printf("Your weight in gold is: %2.f\n");
+}
+```
+
+Il linguaggio C riconosce differenti tipi di dato predefiniti. Fino ad ora abbiamo visto solo il tipo `int`, di seguito riportiamo tutto le _keyword_ riconosciute dal C per gli specificatori di tipo:
+
+| Keyowrd       | 
+| ------------- |
+| `int`         |
+| `long`        |
+| `short`       |
+| `unsigned`    |
+| `signed`	|
+| `char`        |
+| `float`       |
+| `double`	|
+| `void`	|
+
+`int` permette di rappresentare in memoria i tipi interi (senza parte decimale), le successive quattro _keyword_ in tabella: `long` `short` `unsigned` e `signed` son usate per ottenere variazioni del tipo base (es: `unsigned short int` o `long long int`). `char` è usato per rappresentare i singoli caratteri, simboli d'interpuzione etc; `char` può essere utilizzato anche per esprimere `int` di piccole dimensioni. `float` `double` e `long double` sono usati per i numeri reali, numeri con parte decimale.
+
+### `int`
+
+Il tipo `int` è `signed` questo vuol dire che possiamo esprimere sia numeri positivi (segno +) sia numeri negativa (segno -). La dimensione in bit usata per rappresentare un `int` (e quindi anche il valore intero massimo esprimibile) dipende dall'architettura. Tipicamente un `int` utilizza una word nell'architettura target: quindi nei sistemi con word a 16 bit (IBM compatibile) `int` occuperà 16 bit. Quale sarà il valore massimo e minimo rappresentabili con un `int` a 16 bit? Semplice:
+
+Con 16 bit possono esprimere 65536 diverse combinazioni di bit (65536 diversi valori):
+
+$2^{16} = 65536$
+
+Questi 65536 valori devono essere assegnati metà ai i numeri negativi e metà ai positivi  
+
+$65536/2 = 32768$
+
+Per i numeri positivi le diverse 32768 combinazioni devono essere assegnate a partire dallo zero, quindi i numeri positivi andranno da 0 fino a 32767. Per i numeri negativi (non avendo lo zero) i valori andranno da -1 a -32768.
+
+Le stesse considerazioni valgono per macchina con word a 32 o 64 bit. In questi sistemi `int` sarà rispettivamente a 32 e 64 bit.
+Quindi, **lo spazio occupato in memoria da un `int` dipende dalla dimensione della word della macchina** che può essere 16,32 o 64 bit a seconda del tipo di architettura. **Lo standard ISO C specifica solo la dimensione minima di `int`: 16 bit** con range [-32767, +32767]
+
+```c
+int a; /* dichirazione di intero, non inizializzato */
+int b, c, d; /* dichiarazione di interi nella stessa riga */
+
+a = 10; /* assegnamento */
+
+int x = 100; /* dichiarazione di intero con inizializzazione */
+int y = 101, z = 102; /* dichiarazione di interi nella stessa riga con inizializzazione */
+int q, w = 200 /* q non è inizializzata, w è inizializzata. scarso stile di  programmazione */
+```
+
+#### Stampare `int`
+
+Usa `%d` (decimal int) per stampare una variabile di tipo `int` **in base 10**.
+
+```c
+#include<stdio.h>
+
+int main(void){
+	int ten = 10;
+	int two = 2;
+
+	printf("%d - %d = %d\n", ten, 2, ten - two);
+}
+```
+
+Usa `%o` per stampare una variabile di tipo `int` **in base 8**.
+Usa `%x` per stampare una variabile di tipo `int` **in base 16**
+
+Se vuoi stampare il prefisso per la base aggiungi il `#`: `%#o`, `%#x`
+```c
+include<stdio.h>
+
+int main(void){
+	int x = 100;
+
+	printf("decimale = %d, ottale = %o, esadecimale = %x\n", x, x, x);
+	printf("decimale = %d, ottale = %#o, esadecimale = %#x\n", x, x, x);
+}
+```
+
+#### Altri tipi interi
+
+Il linguaggio offre le _keyword_ `short` `long` `unsigned` per modificare il tipo `int` di default.
 
 
+| Tipo                                            | Descrizione   |
+| ----------------------------------------------  | ------------- |
+| `int`						  | **Deve essere almeno di 16 bit**. E' `signed` |
+| `short int` o `short`                           | **non può essere più grande di `int`**, potrebbe usare meno memoria di `int` salvando spazio quando si rappresentano interi piccoli. Come `int` è `signed` di default |
+| `long int`  o `long`                            | **non può essere più piccolo di `int`**, potrebbe usare più memoria di `int`, utile per rappresentare interi molti grandi. Come `int` è `signed` di default |
+| `long long int` o `long long`                   | **Deve essere almeno di 64 bit**. Potrebbe usare più  memoria di `long`. Come `int` è `signed` di default |
+| `unsigned int` o `unsigned`                     | Usato per valori solo positivi. Il tipo shifta a destra il range di rappresentazione, esempio con 16 bit avendo 65736 possibili rappresentazioni ed escludendo i valori negativi il range passa da [-32768, 32767] a [0, 65735] |
+| `unsigend long int` o `unsigned long`           | Previsto da C90 |
+| `unsigend long int` o `unsigned long`           | Previsto da C90 |
+| `unsigend long long int` o `unsigned long long` | Previsto da C99 |
 
+Lo standard quindi non specifica la dimensione precisa dei diversi interi, l'idea è che il tipo si adatterà alla dimensione della word dell'architettura di riferimento. Lo standard richiede solamente che:
 
+* `int` deve essere almeno 16 bit
+* `short` non può essere più grande di `int`
+* `long` non può essere più piccolo di `int`
+* `long long` deve essere almeno 64 bit
 
+| 16 bit        | 32 bit        | 64 bit        |
+| ------------- | ------------- | ------------- |
+| `short` 16    | `short` 16    | `short` 16    |
+| `int`   16    | `int`   32    | `int` 16 o 32 (dipende dalla word dell'architettura)|
+| `long`  32    | `long`  32    | `long` 32     |
+| `long long`   | `long long`   | `long long` 64|
 
+Quando allora usare i diversi tipi di interi? Dipenda dalla situazione.
+
+* `unsigned` è usato per contare perchè non rappresenta i numeri negativi e `unsigned` shiftando a destra il range rappresentabile può raggiungere valori maggiori di un `signed`
+* `long` è usato per rappresentare valori che `int` non riesce a rappresentare. Tieni conto che nei sistemi in cui `long` è maggiore di `int` usare `long` rallenta i calcoli, quindi usalo solo ne necessario. Altre considerazioni possono essere fatte sulla portabilità: se hai bisogno di interi a 32 e stai scrivendo codice su una macchina dove `int` e `long` sono a 32 bit dovresti scegliere `long` in modo tale che se il programma viene portato su macchine a 16 bit dove `int` è 16 il tuo intero sarà sempre a 32 bit perchè `long` su sistema a 16 bit è lungo 32 bit
+* `long long` è usato solo quando gli interi devono essere lunghi 64 bit
+* `short` è usato per risparmiare spazio, nel senso se i tuoi interi possono essere lunghi solo 16 bit usare `int` potrebbe renderli lunghi 32 bit (in macchine a 32 bit e superiori).
+
+#### Overflow `int`
+
+Cosa accade quando si cerca di rappresentare un numero intero più grande del massimo valore rappresentabile: quando si esce fuori dal range massimo. Vediamo in questo esempio.
+Consideriamo un sistema a 32 bit quindi `int` 32.
+
+$2^{32} = 4.294.967.296$
+
+$4.294.967.296/2 = 2.147.483.648$
+
+```
+Per gli `unsigned` avremo un range:
+[0, 4294967295]
+
+Per i `signed` avremo un range:
+[-2147483648:-1 , 0: 2147483647]
+|<--negativi--->|<--postivi--->|
+```
+	  
+```c
+#include<stdio.h>
+
+int main(void){
+	int i = 2147483647;
+	unsigned int j = 4294967295;
+
+	printf("Signed: %d %d %d\n", i, i+1, i+2);
+	printf("Unsigned: %u %u %u\n", j, j+1, j+2); /* we need to use %u for unsigned int */
+
+	return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:~$ ./int_overflow
+Signed: 2147483647 -2147483648 -2147483647
+Unsigned: 4294967295 0 1
+```
 
 
 
