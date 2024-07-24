@@ -1560,12 +1560,91 @@ Signed: 2147483647 -2147483648 -2147483647
 Unsigned: 4294967295 0 1
 ```
 
+# Rappresentazione binaria `int`
 
+La rappresentazione dei numeri interi con segno (`signed`, di default per la _keyword_ `int`) è in **complemento a due**, per gli interi senza senzo (`unsigned int`) si usa una normale rappresentazione binaria del valore intero.
+Nel codice di sotto proviamo a predire la sequenza binaria di un valore decimale scelto arbitrariamente. Per comprendere il codice è necessaria una conoscenza del processo di conversione da decimale a binario oltre che ovvia
+mente alle basi relative sia al sistema numerico posizionale binari che esadecimale. Trovi la teoria trattata a lezione [qui](https://github.com/kinderp/2cornot2c/tree/main/lab/lessons/UDA_1) 
 
+```c
+#include<stdio.h>
 
+/*
+ * Calcoliamo la rappresentazione binaria del valore 27:
+ *
+ *  valore       resto
+ *      27 | 2 | 1
+ *      13 | 2 | 1
+ *       6 | 2 | 0
+ *       3 | 2 | 1
+ *       1 | 2 | 1
+ *       0 |
+ *
+ *    7   6   5   4   3   2   1   0
+ *  +---+---+---+---+---+---+---+---+
+ *  | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 1 |
+ *  +---+---+---+---+---+---+---+---+
+ *               16 + 8 +   + 2 + 1 = 27
+ *
+ *  Calcoliamo la rappresentazione esadecimale del valore 27:
+ *  0001 1011
+ *  \  / \  /
+ *    1    B
+ *
+ * Gli interi signed sono rappresentati in questo modo, quindi
+ * il valore 27 unsigned stampandolo in esacimale con printf()
+ * deve restituire 0x1B
+ *
+ * Per gli interi con segno si usa la rappresentazione in comp
+ * lemento a due, per trovare la sequenza di bit del valore ne
+ * tivo dobbbiamo calcolare il complemento a 2 del valore posi
+ * tivo ( nega tutti i bit ed aggiungi uno)
+ *
+ * signed: 00011011
+ * negato: 11100100
+ * +1    : 11100101
+ *
+ * 1110 0101
+ * \  / \  /
+ *   D    5
+ *
+ * Gli interi su questa architettura sono a 32  bit ( 4 byte )
+ * Per gli altri byte estendiamo il bit di segno (MSB) del pri
+ * mo byte
+ *
+ * 00000000 00000000 00000000 00011011
+ * 11111111 11111111 11111111 11100101
+ *
+ */
 
+int main(void){
+        int positive = 27;
+        int negative = -27;
+        unsigned u_positive = 27;
 
+        /*
+         * stamperemo gli interi in esadecimale (base 16) per
+         * verificare la diversa rappresentazione degli interi
+         * di tipo signed ed unsigned
+         */
+        printf("signed positive: %#x\n", positive);    /* mi aspetto 0x00-00-00-1B */
+        printf("signed negative: %#x\n", negative);    /* mi aspetto 0xff-ff-ff-D5 */
+        printf("       unsigned: %#x\n", u_positive);
 
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/3_datatype$ bin/print_int
+signed positive: 0x1b
+signed negative: 0xffffffe5
+       unsigned: 0x1b
+```
+
+### Cast
+
+#### Cast tra `signed` e `unsigned`
 
 
 
