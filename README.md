@@ -1562,9 +1562,9 @@ Unsigned: 4294967295 0 1
 
 # Rappresentazione binaria `int`
 
-La rappresentazione dei numeri interi con segno (`signed`, di default per la _keyword_ `int`) è in complemento a due, per gli interi senza senzo (`unsigned int`) si usa una normale rappresentazione binaria del valore intero.
+La rappresentazione dei numeri interi con segno (`signed`, di default per la _keyword_ `int`) è in **complemento a due**, per gli interi senza senzo (`unsigned int`) si usa una normale rappresentazione binaria del valore intero.
 Nel codice di sotto proviamo a predire la sequenza binaria di un valore decimale scelto arbitrariamente. Per comprendere il codice è necessaria una conoscenza del processo di conversione da decimale a binario oltre che ovvia
-mente le basi relative sia al sistema numerico posizionale binari che esadecimale. Trovi la teoria trattata a lezione ![qui](https://github.com/kinderp/2cornot2c/tree/main/lab/lessons/UDA_1) 
+mente alle basi relative sia al sistema numerico posizionale binari che esadecimale. Trovi la teoria trattata a lezione [qui](https://github.com/kinderp/2cornot2c/tree/main/lab/lessons/UDA_1) 
 
 ```c
 #include<stdio.h>
