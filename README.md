@@ -1644,6 +1644,48 @@ signed negative: 0xffffffe5
 
 ### Cast
 
+Il cast è una conversione esplicita di tipo e prevede un proprio operatore. Esistono altri tipi di **conversioni di tipo**: conversione automatica e conversione per assegnamento.
+
+> [!IMPORTANT]
+> Conversione automatica
+> Le conversioni automatiche prevedono che nelle espressioni che coinvolgoo costanti o variabili di tipo diverso il tipo del risultato è pari a quello dell'operando più capiente in termini di bit
+
+Nel codice di sotto il valore che viene stampato è 1, la divisione è tra due interi quindi il risultato anche se è un numero reale (con parte decimale) sarà di tipo intero e la parte decimale verrà troncata.
+
+```c
+int x = 8, y=5;
+printf("%i\n", x/y);
+```
+
+Nel secondo caso (codice sottostante) invece la divisione coinvolge un intero (`int`) ed un numero reale (`double`) ed il risultato sarà dunque un `double`, Il tipo del risulato è uguale a quello dell'operando con maggiore capacità in termini di bit.
+
+```c
+int x = 8;
+double y = 5;
+printf("%lf\n", x/y);
+```
+
+> [!IMPORTANT]
+> Conversione per assegnamento
+> il valore assegnato viene convertito nel tipo dell'espressione a sinistra dell'operatore di assegnamento (detto **lvalue**)
+
+```c
+int n1, n2;
+double a = 1.6, b= -1.6
+n1 = a;
+n2 = b;
+```
+
+Nell'esempio di sopra vengono assegnati dei valori `double` a degli `int`, il risultato è che a seguito del troncamento della parte decimale ad `n1` viene assegnato il valore 1 ed a `n2` -1
+Nel caso di sotto invece, si ha un assegnamento da un tipo più capiente (`int`) ad uno meno (`char`). Il valore che viene assegnato ad `n` è 3. 
+
+```c
+unsigned char n;
+int a = 259;
+n = a;
+```
+
+
 #### Cast tra `signed` e `unsigned`
 
 ```c
