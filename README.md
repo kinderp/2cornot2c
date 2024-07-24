@@ -1635,7 +1635,16 @@ int main(void){
 }
 ```
 
+```bash
+vagrant@ubuntu2204:/lab/3_datatype$ bin/print_int
+signed positive: 0x1b
+signed negative: 0xffffffe5
+       unsigned: 0x1b
+```
 
+### Cast
+
+#### Cast tra `signed` e `unsigned`
 
 
 
