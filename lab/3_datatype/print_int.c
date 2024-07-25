@@ -22,18 +22,18 @@
  *  \  / \  /
  *    1    B
  *
- * Gli interi signed sono rappresentati in questo modo, quindi 
- * il valore 27 unsigned stampandolo in esacimale con printf()
- * deve restituire 0x1B
+ * Gli interi unsigned sono rappresentati in questo modo. Stam 
+ * pando il valore 27 (unsigned int) in esacimale con printf()
+ * dobbiamo ottenere la sequenza: 0x1B
  *
  * Per gli interi con segno si usa la rappresentazione in comp
  * lemento a due, per trovare la sequenza di bit del valore ne
- * tivo dobbbiamo calcolare il complemento a 2 del valore posi
- * tivo ( nega tutti i bit ed aggiungi uno)
+ * gativo dobbbiamo calcolare il complemento a 2 del valore po
+ * sitivo ( nega tutti i bit ed aggiungi uno)
  *
- * signed: 00011011
- * negato: 11100100
- * +1    : 11100101
+ * unsigned: 00011011
+ * negato  : 11100100
+ * negato+1: 11100101
  *
  * 1110 0101
  * \  / \  /
