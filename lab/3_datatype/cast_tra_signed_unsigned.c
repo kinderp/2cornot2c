@@ -4,11 +4,11 @@
  * che abbiamo calcolato nell'esercizio precedente e che è: 0xE5
  * 
  * shoirt int v = -27
- * è un numero con segno (complento a due) ma short (16 bit) la
+ * è un numero con segno (complemento a 2) ma short (16 bit) la
  * rappresentazione in esadecimale (complemento a 2) è: 0xff-ff
  * ff-E5 
  * 
- * Cosa accade se facciamo un cast da unsigned a signed? Per se
+ * Cosa accade se facciamo un cast da signed a unsigned? Per se
  * mplicita stiamo consideriamo short int per avere solo 16 bit.
  *
  *  0XFF-FF-FF-E5 in binario è:
