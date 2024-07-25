@@ -1647,7 +1647,7 @@ signed negative: 0xffffffe5
 Il cast è una conversione esplicita di tipo e prevede un proprio operatore. Esistono altri tipi di **conversioni di tipo**: conversione automatica e conversione per assegnamento.
 
 > [!IMPORTANT]
-> Conversione automatica
+> **Conversione automatica**
 > Le conversioni automatiche prevedono che nelle espressioni che coinvolgoo costanti o variabili di tipo diverso il tipo del risultato è pari a quello dell'operando più capiente in termini di bit
 
 Nel codice di sotto il valore che viene stampato è 1, la divisione è tra due interi quindi il risultato anche se è un numero reale (con parte decimale) sarà di tipo intero e la parte decimale verrà troncata.
@@ -1666,7 +1666,7 @@ printf("%lf\n", x/y);
 ```
 
 > [!IMPORTANT]
-> Conversione per assegnamento
+> **Conversione per assegnamento**
 > il valore assegnato viene convertito nel tipo dell'espressione a sinistra dell'operatore di assegnamento (detto **lvalue**)
 
 ```c
@@ -1677,13 +1677,62 @@ n2 = b;
 ```
 
 Nell'esempio di sopra vengono assegnati dei valori `double` a degli `int`, il risultato è che a seguito del troncamento della parte decimale ad `n1` viene assegnato il valore 1 ed a `n2` -1
-Nel caso di sotto invece, si ha un assegnamento da un tipo più capiente (`int`) ad uno meno (`char`). Il valore che viene assegnato ad `n` è 3. 
+Nel caso di sotto invece, si ha un assegnamento da un tipo più capiente (`int`) ad uno meno (`char`). Il valore che viene assegnato ad `n` è 3. La rappresentazinoe binaria di 259 è:
+
+```
+259 | 2 | 1
+129 | 2 | 1
+ 64 | 2 | 0
+ 32 | 2 | 0
+ 16 | 2 | 0
+  8 | 2 | 0
+  4 | 2 | 0
+  2 | 2 | 0
+  1 | 2 | 1
+  0
+
+int è a 32 bit quindi:
+00000000 00000000 0000001 00000011
+```
+
+assegnando questa configurazione di bit ad un char che occupata solo 8 bit i primi 3 ottetti andranno persi e la configurazione binaria copiata nella variabile `n` sarà
+
+```
+00000011
+```
+
+che corrisponde al valore 3 in deciimale
 
 ```c
 unsigned char n;
 int a = 259;
 n = a;
 ```
+
+> [!IMPORTANT]
+> **Conversione esplicita: CAST**
+> Le conversioni esplicite vengono effettuate usando l'operatore di cast. L'operatore di cast è costituito dalla parentesi tonde `(` `)` e questa è la sua sintassi
+
+```(nome_del_tipo) espr_da_castare```
+
+In questo modo si forza la conversione del valore restituito dall'espressione (`espr_da_castare`) nel tipo specificato da `nome_tipo`, esempio:
+
+```c
+int x = 8, y = 5;
+printf("%lf\n", x / (double) y);
+```
+
+Il codice di sopra stampa 1.6 in quanto prima di effettuare la divisione il valore di `y` viene convertito in `double` e quindi viene svolta una divisione tra `int` e `double`, per le regole della conversione automatica il valore della divisione sarà quello del tipo più capiente: `double`.
+Se invece il cast venisse fatto  in questo modo:
+
+```c
+printf("%lf\n", (double)(x/y));
+```
+
+il valore stampato sarebbe 1.0 perchè prima vine effettuata la divisione tra `int` ed il risultato è un `int` pari ad 1 e poi questo intero viene trasformato in `double`.
+
+> [!NOTE]
+> Quando si effettua il cast di una variabile i bit memorizzati non vengono alterati in alcun modo
 
 
 #### Cast tra `signed` e `unsigned`
