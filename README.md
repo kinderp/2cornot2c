@@ -1598,7 +1598,17 @@ Il file d'intestazione `<limits.h>` contiene informazioni circa gli intervalli (
 
 ### Mapping signed - unsigned
 
+| Codifica         | Second Header |  Caso generale (W bit)       | W = 4
+| -------------    | ------------- | -------------                | -------------
+| Senza segno      | $[0, UMax]$   | $[0, 2^W -1]$                | $[0, 16]$ 
+| Complemento a 2  | $[TMin, TMax]$| $[-2^{W-1}:-1, 0:2^{W-1}-1]$ | $[-8:-1, 0:7]$
+
+Come anticipato le sequenze di bit sono le stesse, le due codifiche si sovrappongono (a parità di bit per la rappresentazione) nel range dei numeri positivi da $0$ a $TMax$ poi oltre questo valore le stesse sequenzw rappresentano rispettivamente valori positivi per la signed e negativi per la unsigned (fondamentalmente le sequenze di bit con MSB=1 saranno quelle per cui la codifica è differente). Data una sequenza di bit e conosciuto il valore in una codifica è possibile passare al valore nell'altra codifica aggiungendo o togliendo $TMax$.
+
+
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/mappa_signed_unsigned.png)
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/conversione_signed_unsigned.png)
 
 ### Tipi di dato
 
