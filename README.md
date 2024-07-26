@@ -1596,6 +1596,10 @@ In quanto con $W$ bit ho $2^W$ sequenze possibili da distribuire metà ai numeri
 
 Il file d'intestazione `<limits.h>` contiene informazioni circa gli intervalli (costanti per estremo superiore ed inferiore: `INT_MAX`, `INT_MIN`, `U_INT_MAX`) per i diversi tipi di interi relativi all'architettura di default del compilatore.
 
+### Mapping signed - unsigned
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/mappa_signed_unsigned.png)
+
 ### Tipi di dato
 
 ```c
