@@ -1394,7 +1394,46 @@ int main(void){
  return 0;
 }
 ```
+## Rappresentazione delle informazioni
 
+Il computer rappresenta le informazioni attraverso sequenze di bit. Qualsiasi tipo di dato sia esso un documento, un video, audio etc viene memorizzato come una lunga fila di bit . 
+Il bit è l'unità atomica, l'elemento minimo, per rappresentare informazioni. Il bit può essumere solamente due valori `0` (falso/basso) `1` (vero/falso). Dati $N$ bit è possible costruire $2^N$ diverse combinazioni di queste sequenze. Per intenderci facciamo un esempio con N = 4
+
+```
++---+---+---+---+
+| 0 | 0 | 0 | 0 |
++---+---+---+---+
+| 0 | 0 | 0 | 1 |
++---+---+---+---+
+| 0 | 0 | 1 | 0 |
++---+---+---+---+
+| 0 | 0 | 1 | 1 |
++---+---+---+---+
+| 0 | 1 | 0 | 0 |
++---+---+---+---+
+| 0 | 1 | 0 | 1 |
++---+---+---+---+
+| 0 | 1 | 1 | 0 |
++---+---+---+---+
+| 0 | 1 | 1 | 1 |
++---+---+---+---+
+| 1 | 0 | 0 | 0 |
++---+---+---+---+
+| 1 | 0 | 0 | 1 |
++---+---+---+---+
+| 1 | 0 | 1 | 0 |
++---+---+---+---+
+| 1 | 0 | 1 | 1 |
++---+---+---+---+
+| 1 | 1 | 0 | 0 |
++---+---+---+---+
+| 1 | 1 | 0 | 1 |
++---+---+---+---+
+| 1 | 1 | 1 | 0 |
++---+---+---+---+
+| 1 | 1 | 1 | 1 |
++---+---+---+---+
+```
 ### Tipi di dato
 
 ```c
