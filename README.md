@@ -1397,6 +1397,8 @@ int main(void){
 ```
 ## Rappresentazione delle informazioni
 
+**Le informazioni di seguito riportate sono solo un aiuto per fissare i concetti e vedere un'applicazione pratica in un linguaggio di programmazione dei contenuti teorici presentati a lezione e non sostituiscono in alcun modo lo studio del materiale teorico**
+
 Il computer rappresenta le informazioni attraverso sequenze di bit. Qualsiasi tipo di dato sia esso un documento, un video, audio etc viene memorizzato come una lunga fila di bit . 
 Il bit è l'unità atomica, l'elemento minimo, per rappresentare informazioni. Il bit può essumere solamente due valori `0` (falso/basso) `1` (vero/falso). Dati $N$ bit è possible costruire $2^N$ diverse combinazioni di queste sequenze. Per intenderci facciamo un esempio con $N = 4$ abbiamo $2^4=16$ diverse sequenze di bit (sotto riportate).
 
@@ -1510,14 +1512,39 @@ Per esempio: la seguente sequenza di bit $0x01234567$ scritta in esadecimale (og
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/big_little_endian.png)
 
-### Rappresentazione numeri decimali
+### Codifica numeri decimali
 
-Esistono tre diverse rappresentazioni per i numeri:
+Esistono tre diversi modi per codificare i numeri:
 
 * **Binaria tradizionale** per i **numeri interi senza segno**
 * **Complemento a due** per i **numeri interi con segno**
 * **Floating point**  per i **numeri interi con parte decimale**
 
+#### Codifica interi senza segno
+
+Per i numeri interi senza segno si usa la tradizionale codifica binaria tradizionale.
+Dati $W$ bit per rappresentare un numero intero senza segno (positivo), possiamo esprimere $2^W$ numeri in un range $[0, 2^W-1]$
+$0$ è  l'estremo negativo $U_{min}$ , $2^W-1$ è l'estremo positivo: $U_{max}$
+
+Il valore decimale corrispondente alla sequenza di bit ad esso associata è ricavabile attraverso la seguente formula:
+
+$$
+\sum_{i=0}^{W-1} x_i*2^i
+$$
+
+dove $x_i$ è il simbolo in posizione $i$ all'interno della sequenza
+
+La proprietà di questa codifica ($W$ bit per la codifica) è che ciascun valore rappresentato nel range: $[0, 2^W-1]$ ha un'unica codica ad esso associato, non abbiamo due sequenze associate ad uno stesso valore.
+
+#### Condifica interi con segno (complemento a due)
+
+La codifica in complmento a due è la più utilizzata per i numeri interi con segno (positivi e negativi). Il motivo principale è che ci permette per svolgere le operazione aritmetiche gli stessi circuiti usati per i numeri senza segno ed inoltre anche in questo caso ogni valore ha associato una sola rappresentazione (come nel caso dei numer senza segno).
+Per rappresentare il segno usiamo il bit più a sinistra (MSB) il più significativo. Se MSB è alto (1) il numero sarà negativo, se MSB è basso (0) il numero è positivo. 
+Data una sequenza di $W$ bit codificata in complemento a due, il valore associato alla sequenza è ricavabile dalla formula
+
+$$
+-x_{W-1}*2^{W-1} + \sum_{i=0}^{W-2} x_i*2^i
+$$
 
 ### Tipi di dato
 
