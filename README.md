@@ -1613,6 +1613,13 @@ Per esempio:
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/esempio_troncamento.png)
 
+### Addizione senza segno
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/unsigned_addition.png)
+
+### Addizione con segno
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/two_complement_addition.png)
 
 ### Tipi di dato
 
