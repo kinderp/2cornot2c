@@ -1568,6 +1568,23 @@ Per ottnere il valore nella rappresentazione senza segno dovremmo sommare a 2 il
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/conversione_signed_unsigned.png)
 
+### Estensione rappresentazione binaria di un numero intero
+
+Può capitare di dover convertire una rappresentazione binaria (una sequenza binaria) di un numero intero in un'altra con capacità (numero di bit per rappresentare i diversi valori) maggiore.
+Consideriamo il caso di una rappresentazione di un numero intero di $W$ bit da convertire (estendere) nella rappresentazione di $W+k$ bit, senza alterare il valore dell'intero rappresentato. 
+
+Per i numeri senza segno (positivi) basterà effettuare una **zero extension**: cioè porre a zero i $k$ bit (che sono sempre i MSB rispetto ai $W$ bit di partenza).  
+Per i numeri con segno (complemneto a 2) basterà effetturare una **sign extension**: cioè copiare nei nuovi $k$ bit il valore contenuto nel MSB dei $W$ bit di partenza.
+La figura di sotto ti aiuterà a capire meglio
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/estensione_segno_unsigned.png)
+
+### Trancamento rappresentazione binaria di un numero
+
+Data una rappresentazione di un numero intero (con o senza segno) di $W+k$ per convertirla in una rappresentazione di $W$ bit che rappresenti lo stesso intero dovremmo eliminare i $k$ bit più significativi in questo modo:
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/troncamento_signed_unsigned.png)
+
 ### Tipi di dato
 
 ```c
