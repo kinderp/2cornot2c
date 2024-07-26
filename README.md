@@ -1598,15 +1598,46 @@ Il file d'intestazione `<limits.h>` contiene informazioni circa gli intervalli (
 
 ### Mapping signed - unsigned
 
-| Codifica         | Second Header |  Caso generale (W bit)       | W = 4
-| -------------    | ------------- | -------------                | -------------
-| Senza segno      | $[0, UMax]$   | $[0, 2^W -1]$                | $[0, 16]$ 
-| Complemento a 2  | $[TMin, TMax]$| $[-2^{W-1}:-1, 0:2^{W-1}-1]$ | $[-8:-1, 0:7]$
+$UMax$ : Estremo superiore intervallo codifica senza segno
+$TMax$ : Estremo superiore intervallo codifica   con segno
+$TMin$ : Estremo inferiore intervallo codifica   con segno
 
-Come anticipato le sequenze di bit sono le stesse, le due codifiche si sovrappongono (a parità di bit per la rappresentazione) nel range dei numeri positivi da $0$ a $TMax$ poi oltre questo valore le stesse sequenzw rappresentano rispettivamente valori positivi per la signed e negativi per la unsigned (fondamentalmente le sequenze di bit con MSB=1 saranno quelle per cui la codifica è differente). Data una sequenza di bit e conosciuto il valore in una codifica è possibile passare al valore nell'altra codifica aggiungendo o togliendo $TMax$.
+U = Unsigned
+T = Two's complement
 
+| Codifica         | Intervallo valori |  Caso generale (W bit)       | W = 4
+| -------------    | -------------     | -------------                | -------------
+| Senza segno      | $[0, UMax]$       | $[0, 2^W -1]$                | $[0, 16]$ 
+| Complemento a 2  | $[TMin, TMax]$    | $[-2^{W-1}:-1, 0:2^{W-1}-1]$ | $[-8:-1, 0:7]$
+
+Come anticipato le sequenze di bit sono le stesse, le due codifiche si sovrappongono (una sequenza di bit ha lo stesso valore associato in entrambe le codifiche) solo nel range dei numeri positivi da $0$ a $UMax$, poi oltre questo valore, le stesse sequenze rappresentano rispettivamente valori positivi per la unsigned e negativi per la signed (fondamentalmente le sequenze di bit con MSB=1 saranno quelle per cui la codifica è differente). 
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/mappa_signed_unsigned.png)
+
+Data una sequenza di bit e conosciuto il valore in una codifica è possibile passare al valore nell'altra codifica aggiungendo o togliendo a quest'ultimo una valore pari a: $TMax+1=2^W$. 
+Per esempio con $W=4$ $TMax+1=2^W=16$ data la sequenza $1110$ nella codifica senza segno:
+
+```math
+1110 = 1*2^3 + 1*2^2 + 1*2^1 + 0*2^0 = 8 + 4 + 2 = 14
+```
+
+Per ottenere il valore della stessa sequenza nella codifica in complemento (con segno) basta sommare a 14 il valore 16 ($TMax+1$ o anche $2^W$)
+
+```math
+1110 = 14 - 16 = -2
+```
+
+Allo stesso modo se calcolassimo il valore della sequenza nella codifica in complemento:
+
+```math
+1110 = -1*2^3 + 1*2^2 + 1*2^1 + 0*2^0 = -8 + 4 + 2 = -2
+```
+
+Per ottnere il valore nella rappresentazione senza segno dovremmo sommare a 2 il valore 16 ($TMax+1$ o anche $2^W$)
+
+```math
+1110 = -2 + 14
+```
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/conversione_signed_unsigned.png)
 
