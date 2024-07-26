@@ -1506,7 +1506,7 @@ Abbiamo due possibilità per sistemare i byte nelle celle:
 * **big endian**: MSB nell'indirizzo più basso
 * **little endian**: LSB nell'indirizzo più basso
 
-$ 0x12345678$
+Per esempio: la seguente sequenza di bit $0x12345678$ scritta in esadecimale (ogni due cifre abbiamo un byte) verrà memorizzata in memoria a partire dall'indirizzo $0x100$
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/big_little_endian.png)
 
