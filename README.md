@@ -1489,6 +1489,27 @@ diventa in esacimale:
 
 $1 7 3 A 4 C$
 
+### Big & Little endian
+
+La memoria è una sequenza di byte (8 bit), dette celle. Ad ogni cella è associato un indirizzo per leggere e scrivere da e su di essa. La dimensione (in bit) degli indirizzi di un sistema è detta **word size**. Se la word size è $N$ si potreanno indirizzare $2^N$ celle diverse di memoria. Il numero totale di celle di memoria indirizzabili è detto spazio degli indirizzi virtuale. Quindi la differenza tra una macchina a 32 bit ed a 64 bit è la dimensione in bit degli indirizzi (e probabilmente dei registri interni della CPU).
+
+Visto che le informazioni sono lunghe più di un byte (più di una cella) bisogna decidere come ordinare i singoli byte dell'informazione nelle celle. Il byte più a sinistra è detto MSB (most significant byte) il byte più a destra è detto LSB (least significant byte). 
+
+```
+10110011 00010111 00111010 01001100
+<  MSB >                   <  LSB >
+```
+
+L'indirizzo di partenza dell'informazione è sempre quello del primo byte (della prima cella).
+Abbiamo due possibilità per sistemare i byte nelle celle:
+
+* **big endian**: MSB nell'indirizzo più basso
+* **little endian**: LSB nell'indirizzo più basso
+
+$ 0x12345678$
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/big_little_endian.png)
+
 ### Rappresentazione numeri decimali
 
 Esistono tre diverse rappresentazioni per i numeri:
