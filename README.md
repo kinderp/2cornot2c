@@ -1402,44 +1402,11 @@ int main(void){
 Il computer rappresenta le informazioni attraverso sequenze di bit. Qualsiasi tipo di dato sia esso un documento, un video, audio etc viene memorizzato come una lunga fila di bit . 
 Il bit è l'unità atomica, l'elemento minimo, per rappresentare informazioni. Il bit può essumere solamente due valori `0` (falso/basso) `1` (vero/falso). Dati $N$ bit è possible costruire $2^N$ diverse combinazioni di queste sequenze. Per intenderci facciamo un esempio con $N = 4$ abbiamo $2^4=16$ diverse sequenze di bit (sotto riportate).
 
-```
-+---+---+---+---+
-| 0 | 0 | 0 | 0 |
-+---+---+---+---+
-| 0 | 0 | 0 | 1 |
-+---+---+---+---+
-| 0 | 0 | 1 | 0 |
-+---+---+---+---+
-| 0 | 0 | 1 | 1 |
-+---+---+---+---+
-| 0 | 1 | 0 | 0 |
-+---+---+---+---+
-| 0 | 1 | 0 | 1 |
-+---+---+---+---+
-| 0 | 1 | 1 | 0 |
-+---+---+---+---+
-| 0 | 1 | 1 | 1 |
-+---+---+---+---+
-| 1 | 0 | 0 | 0 |
-+---+---+---+---+
-| 1 | 0 | 0 | 1 |
-+---+---+---+---+
-| 1 | 0 | 1 | 0 |
-+---+---+---+---+
-| 1 | 0 | 1 | 1 |
-+---+---+---+---+
-| 1 | 1 | 0 | 0 |
-+---+---+---+---+
-| 1 | 1 | 0 | 1 |
-+---+---+---+---+
-| 1 | 1 | 1 | 0 |
-+---+---+---+---+
-| 1 | 1 | 1 | 1 |
-+---+---+---+---+
-```
+![](https://github.com/kinderp/2cornot2c/blob/main/images/sequenza_binaria.jpg)
 
 Queste sequenze di bit possono essere difficili da interpretare e lunghe da stampare su shermo per questo si fa uso della loro rappresentazione in esadecimale di seguito riportata
 
+![](https://github.com/kinderp/2cornot2c/blob/main/images/tabella_binario_esadecimale_decimale.png)
 ```
 binariio-----------+
 esadecimale---+    |
