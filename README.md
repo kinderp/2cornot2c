@@ -1568,6 +1568,14 @@ Per ottnere il valore nella rappresentazione senza segno dovremmo sommare a 2 il
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/conversione_signed_unsigned.png)
 
+### Estensione bit
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/estensione_segno_unsigned.png)
+
+### Trancamento bit
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/troncamento_signed_unsigned.png)
+
 ### Tipi di dato
 
 ```c
