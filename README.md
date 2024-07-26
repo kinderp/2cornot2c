@@ -1407,46 +1407,6 @@ Il bit è l'unità atomica, l'elemento minimo, per rappresentare informazioni. I
 Queste sequenze di bit possono essere difficili da interpretare e lunghe da stampare su shermo per questo si fa uso della loro rappresentazione in esadecimale di seguito riportata
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/tabella_binario_esadecimale_decimale.png)
-```
-binariio-----------+
-esadecimale---+    |
-decimale--+   |    |
-	  |   |    |
-	  |   |    |
-	+---+---+------+
-	| 0 | 0 | 0000 |
-	+---+---+------+
-	| 1 | 1 | 0001 |
-	+---+---+------+
-	| 2 | 2 | 0010 |
-	+---+---+------+
-	| 3 | 3 | 0011 |
-	+---+---+------+
-	| 4 | 4 | 0100 |
-	+---+---+------+
-	| 5 | 5 | 0101 |
-	+---+---+------+
-	| 6 | 6 | 0110 |
-	+---+---+------+
-	| 7 | 7 | 0111 |
-	+---+---+------+
-	| 8 | 8 | 1000 |
-	+---+---+------+
-	| 9 | 9 | 1001 |
-	+---+---+------+
-	|10 | A | 1010 |
-	+---+---+------+
-	|11 | B | 1011 |
-	+---+---+------+
-	|12 | C | 1100 |
-	+---+---+------+
-	|13 | D | 1101 |
-	+---+---+------+
-	|14 | E | 1110 |
-	+---+---+------+
-	|15 | F | 1111 |
-	+---+---+------+
-```
 
 In esadecimale usiamo 16 simboli da 0 a F per rappresentare tutti i possibili valori. 
 Ogni simbolo esadecimale (da 0 a F) può rappresentare 4 bit ($2^4=16$).
