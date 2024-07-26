@@ -1,3 +1,4 @@
+
 # 2cornot2c
 It's a 101 C course for my students.
 Sorry, only italian version so far.
@@ -1397,7 +1398,7 @@ int main(void){
 ## Rappresentazione delle informazioni
 
 Il computer rappresenta le informazioni attraverso sequenze di bit. Qualsiasi tipo di dato sia esso un documento, un video, audio etc viene memorizzato come una lunga fila di bit . 
-Il bit è l'unità atomica, l'elemento minimo, per rappresentare informazioni. Il bit può essumere solamente due valori `0` (falso/basso) `1` (vero/falso). Dati $N$ bit è possible costruire $2^N$ diverse combinazioni di queste sequenze. Per intenderci facciamo un esempio con N = 4
+Il bit è l'unità atomica, l'elemento minimo, per rappresentare informazioni. Il bit può essumere solamente due valori `0` (falso/basso) `1` (vero/falso). Dati $N$ bit è possible costruire $2^N$ diverse combinazioni di queste sequenze. Per intenderci facciamo un esempio con $N = 4$ abbiamo $2^4=16$ diverse sequenze di bit (sotto riportate).
 
 ```
 +---+---+---+---+
@@ -1434,6 +1435,69 @@ Il bit è l'unità atomica, l'elemento minimo, per rappresentare informazioni. I
 | 1 | 1 | 1 | 1 |
 +---+---+---+---+
 ```
+
+Queste sequenze di bit possono essere difficili da interpretare e lunghe da stampare su shermo per questo si fa uso della loro rappresentazione in esadecimale di seguito riportata
+
+```
+binariio-----------+
+esadecimale---+    |
+decimale--+   |    |
+	  |   |    |
+	  |   |    |
+	+---+---+------+
+	| 0 | 0 | 0000 |
+	+---+---+------+
+	| 1 | 1 | 0001 |
+	+---+---+------+
+	| 2 | 2 | 0010 |
+	+---+---+------+
+	| 3 | 3 | 0011 |
+	+---+---+------+
+	| 4 | 4 | 0100 |
+	+---+---+------+
+	| 5 | 5 | 0101 |
+	+---+---+------+
+	| 6 | 6 | 0110 |
+	+---+---+------+
+	| 7 | 7 | 0111 |
+	+---+---+------+
+	| 8 | 8 | 1000 |
+	+---+---+------+
+	| 9 | 9 | 1001 |
+	+---+---+------+
+	|10 | A | 1010 |
+	+---+---+------+
+	|11 | B | 1011 |
+	+---+---+------+
+	|12 | C | 1100 |
+	+---+---+------+
+	|13 | D | 1101 |
+	+---+---+------+
+	|14 | E | 1110 |
+	+---+---+------+
+	|15 | F | 1111 |
+	+---+---+------+
+```
+
+In esadecimale usiamo 16 simboli da 0 a F per rappresentare tutti i possibili valori. 
+Ogni simbolo esadecimale (da 0 a F) può rappresentare 4 bit ($2^4=16$).
+La seguente sequenza di bit: 
+
+$0001 0111 0011 1010 0100 1100$
+
+diventa in esacimale:
+
+$1 7 3 A 4 C$
+
+### Rappresentazione numeri decimali
+
+Esistono tre diverse rappresentazioni per i numeri:
+
+* **Binaria tradizionale** per i **numeri interi senza segno**
+* **Complemento a due** per i **numeri interi con segno**
+* **Floating point**  per i **numeri interi con parte decimale**
+
+
 ### Tipi di dato
 
 ```c
