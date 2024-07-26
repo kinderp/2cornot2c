@@ -1579,11 +1579,19 @@ La figura di sotto ti aiuterà a capire meglio
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/estensione_segno_unsigned.png)
 
+Per esempio:
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/esempio_estensione_segno.png)
+
 ### Trancamento rappresentazione binaria di un numero
 
 Data una rappresentazione di un numero intero (con o senza segno) di $W+k$ per convertirla in una rappresentazione di $W$ bit che rappresenti lo stesso intero dovremmo eliminare i $k$ bit più significativi in questo modo:
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/troncamento_signed_unsigned.png)
+
+Per esempio:
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/esempio_troncamento.png)
 
 ### Tipi di dato
 
