@@ -1743,7 +1743,6 @@ Lo standard quindi non specifica la dimensione precisa dei diversi interi, l'ide
 | `short` 16    | `short` 16    | `short` 16    |
 | `int`   16    | `int`   32    | `int` 16 o 32 (dipende dalla word dell'architettura)|
 | `long`  32    | `long`  32    | `long` 32     |
-
 | `long long`   | `long long`   | `long long` 64|
 
 Quando allora usare i diversi tipi di interi? Dipenda dalla situazione.
