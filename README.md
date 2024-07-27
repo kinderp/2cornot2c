@@ -2103,6 +2103,11 @@ Sotto altri esempi
 
 ### Estensione della rappresentazione binario di un numero
 
+Come anticipato nella teoria quando si estende la rappresentazione binaria di un numero abbiamo due casi:
+
+* Se il numero è unsigned si effettua **zero extension**: si copia nei nuovi bit il valore 0
+* Se il numero è signed si effettua **sign extension**: si copia il valore contenuto nel bit più significativo (MSB) della vecchia rappresentazione nei nuovi bit della nuova rappresentazione
+  
 ```c
 #include<stdio.h>
 
@@ -2131,21 +2136,23 @@ int main(void){
                                   * effettuata una zero extension.
                                   * ux = 53191 (ma con 32 e non 16 bit)
                                   */
-        printf("sx = %d\t%#x\n", sx, sx);
-        printf("usx = %u\t%#x\n", usx, usx);
-        printf("x = %d\t%#x\n", x, x);
-        printf("ux = %u\t%#x\n", ux, ux);
+        printf("sx  = %d \t %#hx\n", sx, sx);
+        printf("usx = %u \t %#hx\n", usx, usx);
+        printf("x   = %d \t %#x\n", x, x);
+        printf("ux  = %u \t %#x\n", ux, ux);
         return 0;
 }
 ```
 
 ```bash
 vagrant@ubuntu2204:/lab/3_datatype$ bin/estensione_della_rappresentazione_binaria
-sx = -12345     0xffffcfc7
-usx = 53191     0xcfc7
-x = -12345      0xffffcfc7
-ux = 53191      0xcfc7
+sx  = -12345     0xcfc7
+usx = 53191      0xcfc7
+x   = -12345     0xffffcfc7
+ux  = 53191      0xcfc7
 ```
+
+Come puoi notare `sx` e `usx` sono entrambi `short` il primo con segno ed il secondo senza segno ma hanno la stessa rappresentazione binaria (il cast non cambia la configurazione dei bit ma solo l'interpretazione). Invece `x` ed `ux` sono a 32 bit rispettivamente con segno e senza segno ed hanno sequenze di bit diverse (`x` `0xffffcfc7`, `ux` `0xcfc7`) questo perchè `x` è con segno e quindi si effettua **sign extension** cioè MSB di `sx` è 1 e quindi vengono copiati nei nouvi 16 MSB tutti valori posti ad 1. Invece `ux` è unsigned ed anche se `usx` ha MSB alto (c esadecimale in binario è 1100) viene effettuato uno **zero extension**
 
 
 
