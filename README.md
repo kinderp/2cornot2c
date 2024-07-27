@@ -1667,7 +1667,7 @@ $2^{16} = 65536$
 
 Questi 65536 valori devono essere assegnati metà ai i numeri negativi e metà ai positivi  
 
-$65536/2 = 32768$
+$\frac{65536}{2} = 32768$
 
 Per i numeri positivi le diverse 32768 combinazioni devono essere assegnate a partire dallo zero, quindi i numeri positivi andranno da 0 fino a 32767. Per i numeri negativi (non avendo lo zero) i valori andranno da -1 a -32768.
 
