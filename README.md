@@ -2154,7 +2154,25 @@ ux  = 53191      0xcfc7
 
 Come puoi notare `sx` e `usx` sono entrambi `short` il primo con segno ed il secondo senza segno ma hanno la stessa rappresentazione binaria (il cast non cambia la configurazione dei bit ma solo l'interpretazione). Invece `x` ed `ux` sono a 32 bit rispettivamente con segno e senza segno ed hanno sequenze di bit diverse (`x` `0xffffcfc7`, `ux` `0xcfc7`) questo perchè `x` è con segno e quindi si effettua **sign extension** cioè MSB di `sx` è 1 e quindi vengono copiati nei nouvi 16 MSB tutti valori posti ad 1. Invece `ux` è unsigned ed anche se `usx` ha MSB alto (c esadecimale in binario è 1100) viene effettuato uno **zero extension**
 
+Ora ci possiamo domandare in una situazione in cui si effettua un cast da un tipo meno capiente con segno ad uno più capiente senza segno il C deve svolgere due operazioni: l'estensione dei bit ed il cast (cioè interpretare la sequenza di bit secondo il nuovo tipo). Non è difficile comprendere che il risultato finale (il valore) dipende dall'ordine di esecuzione di queste due operaizioni, vediamo un esempio:
 
+```c
+#include<stdio.h>
+
+int main(void){
+        short sx = -12345;
+        unsigned uy = sx;
+
+        printf("sx = %hd \t %hx\n", sx, sx);
+        printf("uy = %d  \t %x\n", uy, uy);
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/3_datatype$ bin/mistero
+sx = -12345      cfc7
+uy = -12345      ffffcfc7
+```
 
 
 
