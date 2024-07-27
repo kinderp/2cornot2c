@@ -2177,6 +2177,29 @@ sx = -12345              cfc7
 uy = 4294954951          ffffcfc7
 ```
 
+### Troncamento rappresentazione binaria
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int x = 53191;
+        /* castando int x a short avremo il trocamento dei 16 bit (MSB) */
+        short sx = (short) x; /* -12345 */
+        int y = sx;           /* -12345 signed short 2 signed con sign extension */
+        printf("x  = %d \t %x\n", x, x);
+        printf("sx = %hd \t %hx\n", sx, sx);
+        printf("y  = %d \t %x\n", y, y);
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/3_datatype$ bin/troncamento_bit
+x  = 53191       cfc7
+sx = -12345      cfc7
+y  = -12345      ffffcfc7
+```
 
 
 
