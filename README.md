@@ -1743,6 +1743,7 @@ Lo standard quindi non specifica la dimensione precisa dei diversi interi, l'ide
 | `short` 16    | `short` 16    | `short` 16    |
 | `int`   16    | `int`   32    | `int` 16 o 32 (dipende dalla word dell'architettura)|
 | `long`  32    | `long`  32    | `long` 32     |
+
 | `long long`   | `long long`   | `long long` 64|
 
 Quando allora usare i diversi tipi di interi? Dipenda dalla situazione.
@@ -1751,6 +1752,44 @@ Quando allora usare i diversi tipi di interi? Dipenda dalla situazione.
 * `long` è usato per rappresentare valori che `int` non riesce a rappresentare. Tieni conto che nei sistemi in cui `long` è maggiore di `int` usare `long` rallenta i calcoli, quindi usalo solo ne necessario. Altre considerazioni possono essere fatte sulla portabilità: se hai bisogno di interi a 32 e stai scrivendo codice su una macchina dove `int` e `long` sono a 32 bit dovresti scegliere `long` in modo tale che se il programma viene portato su macchine a 16 bit dove `int` è 16 il tuo intero sarà sempre a 32 bit perchè `long` su sistema a 16 bit è lungo 32 bit
 * `long long` è usato solo quando gli interi devono essere lunghi 64 bit
 * `short` è usato per risparmiare spazio, nel senso se i tuoi interi possono essere lunghi solo 16 bit usare `int` potrebbe renderli lunghi 32 bit (in macchine a 32 bit e superiori).
+
+#### Stampare altri tipi di interi
+
+| Tipo        		| 10	| 16	| 8	
+| ----------		| ------|------ |-------	
+| `int`			| `%d`	| `%x`	| `%o`
+| `unsigned`		| `%u`	| `%ux`	| `%uo`
+| `short`		| `%h`	| `%hx`	| `%ho`
+| `unsigned short` 	| `%hu` | `%hux`| `%huo`
+| `long`		| `%ld` | `%lx` | `%lo`
+| `unsigned long`	| `%lu	| `%lux`| `%luo`
+| `long long`		| `%lld`| `%llx`| `%llo`
+
+```c
+#include<stdio.h>
+
+int main(void){
+        unsigned int un = 300000000;
+        short end = 200;
+        long big = 65537;
+        long long verybig = 12345678908642;
+        /* Udasa un segnaposto errara nella printf() porta a
+         * risultati strani */
+        printf("un  = %u  and not %d\n", un, un);
+        printf("end = %hd and not %d\n", end, end);
+        printf("big = %ld and not %hd\n", big, big);
+        printf("verybig = %lld and not %ld\n", verybig, verybig);
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/3_datatype$ bin/print_others_ints
+un  = 300000000  and not 300000000
+end = 200 and not 200
+big = 65537 and not 1
+verybig = 12345678908642 and not 12345678908642
+```
 
 #### Overflow `int`
 
