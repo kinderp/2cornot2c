@@ -1541,14 +1541,14 @@ Come anticipato le sequenze di bit sono le stesse, le due codifiche si sovrappon
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/mappa_signed_unsigned.png)
 
-Data una sequenza di bit e conosciuto il valore in una codifica è possibile passare al valore nell'altra codifica aggiungendo o togliendo a quest'ultimo una valore pari a: $TMax+1=2^W$. 
-Per esempio con $W=4$ $TMax+1=2^W=16$ data la sequenza $1110$ nella codifica senza segno:
+Data una sequenza di bit e conosciuto il valore in una codifica è possibile passare al valore nell'altra codifica aggiungendo o togliendo a quest'ultimo una valore pari a: $UMax+1=2^W$. 
+Per esempio con $W=4$ $UMax+1=2^W=16$ data la sequenza $1110$ nella codifica senza segno:
 
 ```math
 1110 = 1*2^3 + 1*2^2 + 1*2^1 + 0*2^0 = 8 + 4 + 2 = 14
 ```
 
-Per ottenere il valore della stessa sequenza nella codifica in complemento (con segno) basta sommare a 14 il valore 16 ($TMax+1$ o anche $2^W$)
+Per ottenere il valore della stessa sequenza nella codifica in complemento (con segno) basta sommare a 14 il valore 16 ($UMax+1$ o anche $2^W$)
 
 ```math
 1110 = 14 - 16 = -2
@@ -1560,7 +1560,7 @@ Allo stesso modo se calcolassimo il valore della sequenza nella codifica in comp
 1110 = -1*2^3 + 1*2^2 + 1*2^1 + 0*2^0 = -8 + 4 + 2 = -2
 ```
 
-Per ottnere il valore nella rappresentazione senza segno dovremmo sommare a 2 il valore 16 ($TMax+1$ o anche $2^W$)
+Per ottnere il valore nella rappresentazione senza segno dovremmo sommare a 2 il valore 16 ($UMax+1$ o anche $2^W$)
 
 ```math
 1110 = -2 + 14
@@ -1963,6 +1963,9 @@ il valore stampato sarebbe 1.0 perchè prima vine effettuata la divisione tra `i
 
 #### Cast tra `signed` e `unsigned`
 
+In C, il cast in entrambi i versi: da signed ad unsigned e viceversa, non cambia mai la configurazione dei bit ma soltanto l'interpretazione che viene data alla sequenza di bit.
+Vediamo un esempio:
+
 ```c
 #include<stdio.h>
 /*
@@ -2007,6 +2010,38 @@ int main(void){
         return 0;
 }
 ```
+
+Lo stesso discorso vale nel caso di cast nel verso opposto:
+
+```c
+#include<stdio.h>
+/*
+ * Anche nel  caso di cast  da unsigned a signed
+ * la sequenza di bit rimane invariata ma cambia
+ * solo l'interpretazione data alla sequenza.
+ * Scegliendo  come valore senza segno l'estremo
+ * superiore  della  rappresentazione (UMax) che
+ * nel caso di  (unsigned short) e' 65536 (2^16)
+ * per conoscere  il valore  con segno basta sot
+ * trarre (UMax + 1) o 2^W
+ */
+
+int main(void){
+        unsigned short u = 65535; /* UMax */
+        short int tu = (short int) u;
+        printf("u = %u, tu=%d\n", u, tu);
+        printf("u = %#x, tu=%#x\n", u, tu);
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/3_datatype$ bin/cast_tra_unsigned_signed
+u = 65535, tu=-1
+u = 0xffff, tu=0xffffffff
+```
+
+
 
 
 
