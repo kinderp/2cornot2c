@@ -2041,7 +2041,11 @@ u = 65535, tu=-1
 u = 0xffff, tu=0xffffffff
 ```
 
+Il cast può avvenire sia eslicitamente con l'operatore di cast o anche implicitamente in un assegnmento:
 
+```c
+
+```
 
 
 
