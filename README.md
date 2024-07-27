@@ -2169,7 +2169,8 @@ int main(void){
 ```
 
 `sx` vale `0xcfc7` MSB = 1 (c = 1100) se viene effettuato prima il cast la sequenza di bit viene considerata unsigned e si effettua **zero extension** ed `uy` vale `0x0000cfc7`; se poi si effettua il cast ad unsigned, la sequenza ottenuta vale +12345
-Se invece viene effettuato prima l'estensione dei bit `sx` è ancora signed e viene eseguita una **sign extension** in questo modo `0xffffcfc7`; successivamente si effettua il cast ad unsigned
+Se invece viene effettuato prima l'estensione dei bit `sx` è ancora signed e viene eseguita una **sign extension** in questo modo `0xffffcfc7`; successivamente si effettua il cast ad unsigned e la sequenza varrà $uy{unsigned} = sx + (UMax + 1) = -12345 + 4294967296 = 4294954951$
+
 ```bash
 vagrant@ubuntu2204:/lab/3_datatype$ bin/mistero
 sx = -12345              cfc7
