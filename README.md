@@ -1794,14 +1794,26 @@ La rappresentazione dei numeri interi si comporta come un odometro (vedi figura 
 
 Ricordiamo che dati $W$ bit per la rappresentazione i range rappresentabili sono
 * con segno: $[-2^{W-1}:-1, 0:2^{W-1}-1]$
-* senza segno: $[0, 2^{W]}-1$
+* senza segno: $[0, 2^{W}-1]$
   
 Per i numeri con segno, abbiamo due casi.
-1. **un intero positivo, raggiunto il valore massimo** ($+2^{W-1}-1$), **se incrementato** di un'altra unità **assume il valore minimo negativo** rappresentabile($-2^{W-1}$). In figura $W=4$, il valore massimo positivo è $2^3-1=+7$ che ha codifica $0111$ se sommiamo 1 otteniamo un effetto a cascata del riporto $1000$ che in complento a due (siamo con numeri con segno) vale $-1*2^3+0*2^2+0*2^1+0*2^0=-8$ che è appunto il valore minimo rappresentabile
-2. **un intero negativo, raggiunto il valore massimo** ($-1$), **se incrementato** di un'altra unità **assume il valore minimo positivo** rappresentabile ($0$). In figura In figura $W=4$, il valore massimo negativo è $-1$ che ha codifica in complemento a due $1111=-1*2^3+1*2^2+1*2^0=-8+4+2+1=-1$ se sommiamo 1 otteniamo $10000$ ma la rappresentazione è a 4 bit ed il primo bit ad uno deve essere scartato con risultato $0000$ che è appunto il valore minimo positivo rappresentabile.
+* **un intero positivo, raggiunto il valore massimo** ($+2^{W-1}-1$), **se incrementato** di un'altra unità **assume il valore minimo negativo** rappresentabile($-2^{W-1}$). In figura $W=4$, il valore massimo positivo è $2^3-1=+7$ che ha codifica $0111$ se sommiamo 1 otteniamo un effetto a cascata del riporto $1000$ che in complento a due (siamo con numeri con segno) vale:
+```math
+-1*2^3+0*2^2+0*2^1+0*2^0=-8
+```
+che è appunto il valore minimo rappresentabile
+* **un intero negativo, raggiunto il valore massimo** ($-1$), **se incrementato** di un'altra unità **assume il valore minimo positivo** rappresentabile ($0$). In figura In figura $W=4$, il valore massimo negativo è $-1$ che ha codifica in complemento a due $1111$
+```math
+-1*2^3+1*2^2+1*2^0=-8+4+2+1=-1
+```
+se sommiamo 1 otteniamo $10000$ ma la rappresentazione è a 4 bit ed il primo bit ad uno deve essere scartato con risultato $0000$ che è appunto il valore minimo positivo rappresentabile.
 
 Per i numeri senza segno abbiamo:
-1. **un intero senza segno, raggiunto il valore massimo** ($2^{W}-1$), **se incrementato** di un'altra unità **assume il valore minimo** rappresentabile($0$). Per esempio sempre con $W=4$ il valore massimo rappresentabile è $2^4-1=15$ che ha una codifica $1111=1*2^3+1*2^2+1*2^1+1*2^0=8+4+2+1=15$ se sommiamo 1 otteniamo $10000$ ma la rappresentazione è a 4 bit ed il primo bit ad uno deve essere scartato con risultato $0000$ che è appunto il valore minimo rappresentabile.
+1. **un intero senza segno, raggiunto il valore massimo** ($2^{W}-1$), **se incrementato** di un'altra unità **assume il valore minimo** rappresentabile($0$). Per esempio sempre con $W=4$ il valore massimo rappresentabile è $2^4-1=15$ che ha una codifica $1111$
+```math
+1*2^3+1*2^2+1*2^1+1*2^0=8+4+2+1=15
+```
+se sommiamo 1 otteniamo $10000$ ma la rappresentazione è a 4 bit ed il primo bit ad uno deve essere scartato con risultato $0000$ che è appunto il valore minimo rappresentabile.
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/odometro_con_segno.png)
 
