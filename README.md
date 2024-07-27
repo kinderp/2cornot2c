@@ -1523,6 +1523,10 @@ In quanto con $W$ bit ho $2^W$ sequenze possibili da distribuire metà ai numeri
 
 Il file d'intestazione `<limits.h>` contiene informazioni circa gli intervalli (costanti per estremo superiore ed inferiore: `INT_MAX`, `INT_MIN`, `U_INT_MAX`) per i diversi tipi di interi relativi all'architettura di default del compilatore.
 
+Nella figura di sotto sono invece riportati i range reali per i vari tipi che le implementazioni del C hanno rispettivamente per macchine a 32 e 64 bit
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/c_32_64_bit_datatype_ranges.png)
+
 ### Mapping signed - unsigned
 
 $UMax$ : Estremo superiore intervallo codifica senza segno
