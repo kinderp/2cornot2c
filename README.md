@@ -1798,7 +1798,7 @@ Consideriamo un sistema a 32 bit quindi `int` 32.
 
 $2^{32} = 4.294.967.296$
 
-$4.294.967.296/2 = 2.147.483.648$
+$\frac{4.294.967.296}{2} = 2.147.483.648$
 
 ```
 Per gli `unsigned` avremo un range:
