@@ -2374,7 +2374,62 @@ int main(void){
 }
 ```
 
+### Operatore somma: +
 
+L'operatore di somma `+` somma tra loro il valore dei suoi operandi
+
+
+```c
+int main(void){
+	int uno = 1;
+	int due = 2
+	int quattro = uno + due + 1
+}
+```
+
+### Operatore differenza: -
+
+L'operatore differenza `-` sottrae il valore dell'operando di destra al valore dell'operando di sinistra
+
+### Operatore segno: - e +
+
+L'operatore segno permette di specificare o alterare il segno di un valore.
+Questo è un **operatore unario** perchè agisce su un singolo operando al contrario degli operatore che abbiamo vista fino ad ora.
+
+```c
+int main(void){
+	int uno = +1;
+	int meno_uno = -1;
+}
+```
+
+### Operatore moltiplicazione: *
+
+Questo operatore effettua il prodotto del valore dei due operandi
+
+```c
+int main(void){
+	int prodotto = 3 * 2;
+}
+```
+
+### Operatore divisione: /
+
+L'operatore `/` effettua la divisione del valore dei due operandi. Il risultato dipende dal tipo degli operandi come si vede nel codice di sotto.
+
+```c
+#include<stdio.h>
+
+int main(void){
+        printf("5/4=%d\n",5/4);
+        printf("6/3=%d\n",6/3);
+        printf("5.0/4.0=%1.2f\n",5.0/4.0);
+        printf("6.0/3.0=%1.2f\n",6.0/3.0);
+
+        printf("5.0/4=%1.2f\n",5.0/4);
+        printf("6/3.0=%1.2f\n",6/3.0);
+}
+```
 
 
 
