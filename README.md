@@ -2431,6 +2431,29 @@ int main(void){
 }
 ```
 
+### Operatore `sizeof`
+
+L'operatore ritorna il numero di byte occupati dal suo operando. L'operatore può essere sia una variabile sia il nome di un tipo. Il valore tornato da `sizeof` è di tipo `size_t` che è semplicemente un `unsigned int` o un `unsigned long` che è stato ridefinito con `typedef`.
+
+> [!NOTE]
+> **typedef** permette di definire un alias per un tipo di dato, per esempio `typedef unsigned int positivo` associa l'alias `positivo` al tipo `unsigned int` in moda da poter dichiarare varaibili intere positive in entramvi i seguenti modi: `unsigned int a`, `positivo a`. 
+
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int n = 0;
+        size_t int_in_byte;
+
+        int_in_byte = sizeof(int);
+        printf("n = %d, n occupa %zd bytes\n", n, sizeof n);
+        printf("Gli interi occupano %zd bytes\n", int_in_byte);
+        return 0;
+}
+```
+
+
 
 
 
