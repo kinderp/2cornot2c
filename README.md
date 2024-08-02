@@ -2283,7 +2283,14 @@ Per inizializzare un variabile di tipo `char` ad uno specifico carattere è nece
 
 ```c
 char lettera_a = 'A';
-char lettera_b = 'B'
+char lettera_b = 'B';
+```
+
+Inizializzare le variabili `char` come nel codice di sotto è un grave errore:
+
+```c
+char errore = "T"; /* i doppi apici sono usati per le stringhe, non per i caratteri */
+char altro_errore = T /* T senza apici singoli è interpretata come una variabile */
 ```
 
 Il tipo `char` è lungo 1 byte (8 bit) e in verità è un tipo intero: nel senso che il carattere viene memorizzato come un intero senza sengo e poi attraverso una tabella di codifica/decondifica (ASCII) il valore numerico viene convertito nel carattere corrispondente.
