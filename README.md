@@ -2334,10 +2334,45 @@ $1 = 0001
 Il valore decimale per rappreentare il carattere `A` è 65, in memoria vengono salvati valori binali che poi attraversi il sistema di codifica **ASCII** vengono convertiti in caratteri
 
 
+### Costanti
+
+### Operatori
+
+Gli operatori sono usati nelle operazione aritmetiche.
+
+#### Operatore di assegnamento: =
+
+Il simbolo di uguale `=` come abbiamo già visto viene usato per assegnare il valore ad una variabile e non rappresenta l'uguaglianza come invece siamo abitutati a pensarlo.
+
+Il codice di sotto usa l'operatore `=` per assegnare il valore `1234` alla variabile `mio_intero`
+
+```c
+mio_intero = 1234;
+```
+
+`mio_intero` è l'identificatore attraverso cui il programmatore può accedere alla locazione di memoria corrispondente. 
+`mio_intero` è anche detto **lvalue** mentre `1234` è detto **rvalue**
+
+Un **lvalue** identifica appunto una locazione di memoria (referenzia un indirizzo di memoria) e può essere usato a sinistra di un operatore di assegnamento (`l` in `lvalue` sta per **left** in inglese). Per la verità `mio_intero` è detto **modifiable lvalue** perchè è modificabile (non è una costante).
+
+Un **rvalue** può essere usato a destra di un operatore di assegnamento (quantità che possono essere assegnati ad un **modifiable lvalue**) questo può essere un: una costante, una variabile o un'espressione che ritorna un valore (es. una chiamata a funzione).
 
 
+```c
+int main(void){
+        int uno;
+        int due;
+        const int tre = 3;
 
-
+        uno = 1;
+        due = (uno + 1);
+        tre = due + 1;  /* ERRORE!
+                         * tre è una costante (non è modificabile) non può essere usato come lvalue
+                         * di un opeatore di assegnamento.
+                         */
+        due = tre - 1;
+}
+```
 
 
 
