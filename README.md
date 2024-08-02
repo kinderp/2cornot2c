@@ -2312,9 +2312,17 @@ A
 0x41
 ```
 
-$4 = 0100$
-$1 = 0001$
-$0X41 = 0100 0001 = 1*2 + 1*2^0 = 64 + 1 = 65$
+```math
+4 = 0100
+```
+
+```math
+$1 = 0001
+```
+
+```math
+0X41 = 0100 0001 = 1*2 + 1*2^0 = 64 + 1 = 65
+```
 
 Il valore decimale per rappreentare il carattere `A` è 65, in memoria vengono salvati valori binali che poi attraversi il sistema di codifica **ASCII** vengono convertiti in caratteri
 
