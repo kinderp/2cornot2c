@@ -2453,6 +2453,8 @@ int main(void){
 }
 ```
 
+Come avrai notato `sizeof` può essere usato con o senza parentesi tonde. L'uso delle parentesi è obbligatorio solo quando l'operando è un tipo ma è meglio usarle sempre. Per stampare un tipo `size_t` puoi usare `%zd` o in alternativa `%u` o `%lu`.
+
 
 
 
