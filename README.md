@@ -2270,6 +2270,56 @@ sx = -12345      cfc7
 y  = -12345      ffffcfc7
 ```
 
+### `char`
+
+Il tipo `char` è usato per memorizzare caratteri, la dichiarazione di una variabile di tipo `char` è fatta in questo modo:
+
+```c
+char letter;
+char one, two;
+```
+
+Per inizializzare un variabile di tipo `char` ad uno specifico carattere è necessario usare il singolo apice: `'` in questo modo:
+
+```c
+char lettera_a = 'A';
+char lettera_b = 'B'
+```
+
+Il tipo `char` è lungo 1 byte (8 bit) e in verità è un tipo intero: nel senso che il carattere viene memorizzato come un intero senza sengo e poi attraverso una tabella di codifica/decondifica (ASCII) il valore numerico viene convertito nel carattere corrispondente.
+
+### Stampare un `char`
+
+Per stamapre su schermo il contenuto di una variabile di tipo `char` si usa `%c`
+
+```c
+#include<stdio.h>
+
+int main(void){
+        char lettera_a = 'A';
+        printf("%c\n", lettera_a);  /* stampa il carattere A */
+        printf("%d\n", lettera_a);  /* stampa il valore intero usato per codificare il carattere A */
+        printf("%u\n", lettera_a);  /* stampa il valore senza segno, dovrebbe essere lo stesso */
+        printf("%#x\n", lettera_a); /* stampa la rappresentazione esadecimale */
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/3_datatype$ bin/print_char
+A
+65
+65
+0x41
+```
+
+$4 = 0100$
+$1 = 0001$
+$0X41 = 0100 0001 = 1*2 + 1*2^0 = 64 + 1 = 65$
+
+Il valore decimale per rappreentare il carattere `A` è 65, in memoria vengono salvati valori binali che poi attraversi il sistema di codifica **ASCII** vengono convertiti in caratteri
+
+
+
 
 
 
