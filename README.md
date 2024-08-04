@@ -2807,7 +2807,42 @@ int main(void){
 
 #### break e continue
 
+Le istruzioni `break` e `continue` sono utilizzate per controllare il flusso di esecuzione nei cicli `while`, `do-while` e `for` in particolare:
 
+* `break` termina immediatamente il ciclo più interno nel quale è contenuta
+* `continue` passa immediatamente all'interazione successiva
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int i = 0;
+        while(1){
+                if(i == 10){
+                        printf("\n");
+                        break;
+                }
+                if(i % 2 == 0){
+                        ++i;
+                        continue;
+                }
+                printf("%d ", i);
+                i++;
+        }
+
+
+        for(int j=0; ; j++){
+                if(j == 10){
+                        printf("\n");
+                        break;
+                }
+                if(j % 2 == 0)
+                        continue;
+                printf("%d ", j);
+        }
+        return 0;
+}
+```
 
 
 
