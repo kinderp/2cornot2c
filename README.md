@@ -2668,6 +2668,26 @@ int main(void){
 
 #### for
 
+Il costrutto `for` serve per realizzare un ciclo (**loop**) permette di eseguire un'istruzione (o un insieme di istruzioni) per un certo numero di volte consecutivamente. Ha questa forma:
+
+```c
+for ( espr1; espr2; espr3 ) istr 
+```
+
+Prima di iniziare il ciclo viene valutata **una volta sola** `espr1` che viene tipicamente utilizzata  per inizializzare le variabili  che controllano il ciclo, poi viene valutata l'espressoine `espr2`. Se `espr2` è vera (diversa da zero) venogono eseguite le istruzioni del corpo del ciclo rappresentate da `istr`. Quando `espr2` è falsa (uguale a zero) il ciclo termina. Prima di valutare `espr2` una seconda volta viene prima eseguita `espr3` che viene usata per incrementare o decrementare la variabile che controlla il ciclo
+
+```c
+#include<stdio.h>
+
+int main(void){
+        for(int i = 0; i < 10; i++){
+                printf("%d ", i);
+        }
+        printf("\n");
+        return 0;
+}
+```
+
 #### while
 
 #### do-while
