@@ -2455,6 +2455,27 @@ int main(void){
 
 Come avrai notato `sizeof` può essere usato con o senza parentesi tonde. L'uso delle parentesi è obbligatorio solo quando l'operando è un tipo ma è meglio usarle sempre. Per stampare un tipo `size_t` puoi usare `%zd` o in alternativa `%u` o `%lu`.
 
+### Operatore %
+
+L'operatore modulo ritorna il resto della divisione dei suoi due operandi
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int n;
+        printf("Inserisci un numero tra 1 e 10\n");
+        scanf("%d", &n);
+        int pari_o_dispari = n % 2;
+        if(pari_o_dispari == 0){
+                printf("%d e' pari\n", n);
+        } else{
+                printf("%d e' dispari\n", n);
+        }
+        return 0;
+}
+```
+
 
 
 
