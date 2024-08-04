@@ -2336,6 +2336,8 @@ Il valore decimale per rappreentare il carattere `A` è 65, in memoria vengono s
 
 ### Costanti
 
+**TODO**
+
 ### Operatori
 
 Gli operatori sono usati nelle operazione aritmetiche.
@@ -2561,6 +2563,24 @@ int main(void){
 Quindi quando l'operatore è usato singolarmente non c'è differenza nell'usare la versione pre o post ma quando questo si trova all'interno di un'espressione (assegnamento, test di un loop) allora dobbiamo tenere in considerazione questa lieve differenza tra i due.
 
 
+
+### Controllo del flusso
+
+**TODO**
+
+#### if
+
+#### else
+
+#### for
+
+#### while
+
+#### do-while
+
+#### switch
+
+#### break e continue
 
 
 
