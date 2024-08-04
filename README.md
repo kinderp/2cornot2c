@@ -2568,7 +2568,7 @@ Quindi quando l'operatore è usato singolarmente non c'è differenza nell'usare 
 
 **TODO**
 
-#### if
+#### if o if-else
 
 Il costrutto `if` serve per realizzare l'istruzione di salta condizionale ed ha questa forma:
 
@@ -2580,6 +2580,15 @@ Se la condizione è vera (cioè diversa da zero) viene esguito il blocco di istr
 
 > [!NOTE]
 > Come tutti gli altri costrutti, il blocco `istr` può rappresentare una singola istruzione, un altro costrutto di controllo, oppure un blocco di itruzioni racchiuse tra parentesi graffe
+
+il costrutto `if` ammette l'enunciato opzionale `else` in questa forma:
+
+```c
+if ( espr ) istr1 else istr2
+```
+
+I blocchi di istruzioni `istr1` e `istr2` vengono eseguiti a seconda che l'espressione `espr` sia rispettivamente vera o falsa.
+
 
 ```c
 #include<stdio.h>
@@ -2605,7 +2614,9 @@ int main(void){
 }
 ```
 
-#### else
+#### Condizioni complesse con l'uso di operatori logici
+
+
 
 #### for
 
