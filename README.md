@@ -2738,7 +2738,72 @@ int main(void){
         return 0;
 }
 ```
+
 #### switch
+
+ Lo `switch` è assolutamente equivalente ad un `if-esle` e serve a scegliere tra diversi blocchi di istruzioni in base al valore di una espressione intera. La sintassi è la seguente:
+
+```c
+switch ( espressione-intera ) {
+	case espressione-costante :
+	  [ istr ]
+	  [ ... ]
+	  [ break ; ]
+	case espressine-costante :
+	  [ istr ]
+	  [ ... ]
+	  [ break ; ]
+	[ default: ]
+	  [ istr ]
+	  [ ... ]
+	  [ break ; ]
+} 
+```
+
+Le parentesi quadre `[`, `]` indicano parti del costrutto opzionali. Le **parentesi graffe sono obbligatorie**, `case` e `default` sono parole chiave.
+Il costrutto permette di eseguire un'istruzione o una serie di istruzioni sulla base del valore di `espressione-intera`, l'esecuzione salta al case corrispondente al valore di `espressione-intera`. Se nessun `case` corrisponde ad `espressione-intera` viene eseguita la clausola `default` (se presente).
+
+> [!NOTE]
+> Le espressioni di ogni `case` devono essere **espressioni intere e costanti**
+
+* La presenza di istruzioni dopo il `case` è facoltativa per permeettere di ragruppare lo stesso codice in relazione a diversi casi
+* la presenza di `break` alla fine di un `case` è facoltativa e quindi la mancanza di `break` determina il continuamento dell'esecuzione del codice associato al `case` successivo
+* `default` è facoltativo
+* non è obbligatorio che `default` sia l'ultimo caso del costrutto
+
+```c
+#include<stdio.h>
+
+int main(void){
+        char scelta;
+        int a, b, c, other;
+        printf("a=%d \t b=%d \t c=%d \t other=%d\n", a, b, c, other);
+        printf("Quale variabile vuoi incrementare?\n");
+        printf("[a-A]\t[b-B]\t[c-C]\n");
+        scanf(" %c", &scelta);
+        switch(scelta){
+                case 'a':
+                case 'A':
+                        a++;
+                        break;
+                case 'b':
+                case 'B':
+                        b++;
+                        break;
+                case 'c':
+                case 'C':
+                        c++;
+                        break;
+                default:
+                        other++;
+                        /* non ho bisogno del break perchè è l'ultimo case se lo avessi messo sopra dovevo mettere il break altrimenti
+                         * l'esecuzione  del  flusso  sarebbe  passata  al  codice  relativo  al  case sottostante la clausola default
+                         */
+        }
+        printf("a=%d \t b=%d \t c=%d \t other=%d\n", a, b, c, other);
+        return 0;
+}
+```
 
 #### break e continue
 
