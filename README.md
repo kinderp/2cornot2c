@@ -2690,6 +2690,28 @@ int main(void){
 
 #### while
 
+Il costrutto `while` serve (come il `for`) per realizzare un ciclo. Ha questa forma:
+
+```c
+while ( espr ) istr
+```
+
+Il ciclo `while` continua ad eseguire il ciclo finzh+ la condizione indicata da `espr` risulta vera. Il ciclo termina quando la condizione è falsa. Se la condizione è inizialmente falsa il blocco non viene mai eseguito. I costrutti `while` e `for` sono equivalenti: ogni `for` può essere eseguito con un `while` e viceversa.
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int i = 0;
+        while(i < 10){
+                printf("%d ", i);
+                i++;
+        }
+        printf("\n");
+        return 0;
+}
+```
+
 #### do-while
 
 #### switch
