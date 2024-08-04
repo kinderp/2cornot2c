@@ -2566,7 +2566,24 @@ Quindi quando l'operatore è usato singolarmente non c'è differenza nell'usare 
 
 ### Controllo del flusso
 
-**TODO**
+Operatori Logici
+
+| Operatore  | Significato |
+| ---------- | ------------- |
+| `&&`  | and  |
+| `||`  |  or  |
+| `!`   | not  |
+
+Operatori Relazionali
+
+| Operatore  | Significato |
+|----- | ------------- |
+| `<`  | minore di         |
+| `>`  | maggiore di       |
+| `<=` | minore o uguale   |
+| `>=` | maggiore o uguale |
+| `==` | uguale uguale     |
+| `!=` | diverso           |
 
 #### if o if-else
 
