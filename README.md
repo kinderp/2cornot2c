@@ -2476,6 +2476,89 @@ int main(void){
 }
 ```
 
+### Operatore incremento/decremento ++ --
+
+Questi operatori incrementano o decrementano il proprio operando di un'unità.
+Possono essere usati in due versioni prima dell'operando o dopo l'operando in questo modo:
+
+```c
+int i = 0;
+i++; /* dopo l'operando i */
+++i; /* prima dell'operando i */
+
+i--; /* dopo l'operando i */
+--i; /* prima dell'operando i */
+```
+
+Il risultato è equivalente ad un normale incremento e decremento
+
+```c
+i = i + 1;
+i = i - 1;
+```
+
+Perchè due versioni dello stesso operatore?
+
+```c
+#include<stdio.h>
+
+int main(void){
+	int i = 0;
+	int j = 0;
+	int z = 0;
+	i++;
+	++j;
+	z = z + 1;
+
+	i++;
+	++j;
+	z = z + 1;
+
+	i++;
+	++j;
+	z = z + 1;
+
+	i++;
+	++j;
+	z = z + 1;
+
+	printf("i=%d, j=%d, z=%d\n", i, j, z);
+	return 0;	
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/4_operators$ bin/op_incremento_decremento
+i=4, j=4, z=4
+```
+
+Sembra che il risultato sia lo stesso ma esiste una sottile differenza tra l'uso dell'operatore nella versione pre e post. Quando l'operatore precede l'operando (versione pre) prima viene incrementato il valore dell'operando di un'unità e poi viene valutato l'operando, diversamente quando l'operatore segue l'operando (versione post) prima viene valutato il valore dell'operando e successivamento lo si incrementa di uno. 
+
+```c
+#include<stdio.h>
+
+int main(void){
+
+        int i = 0;
+        int j = 0;
+
+        int ii = i++; /* prima viene valutato i ( assegnato il suo valore ad ii )
+                       * successivamente i viene incrementato di uno ma ii rimane
+                       * al valore precedente di i, cioè 0
+                       */
+
+        int jj = ++j; /* prima j viene incrementato di uno e poi viene valutato il
+                       * il suo valore (assegnato alla variabile jj). In questo ca
+                       * jj vale 1
+                       */
+
+        printf("i=%d, ii=%d\n", i, ii);
+        printf("j=%d, jj=%d\n", j, jj);
+        return 0;
+}
+```
+
+Quindi quando l'operatore è usato singolarmente non c'è differenza nell'usare la versione pre o post ma quando questo si trova all'interno di un'espressione (assegnamento, test di un loop) allora dobbiamo tenere in considerazione questa lieve differenza tra i due.
 
 
 
