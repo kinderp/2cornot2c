@@ -2571,7 +2571,7 @@ Operatori Logici
 | Operatore  | Significato |
 | ---------- | ------------- |
 | `&&`  | and  |
-| `||`  |  or  |
+| `\|\|`  |  or  |
 | `!`   | not  |
 
 Operatori Relazionali
