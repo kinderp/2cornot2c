@@ -2911,9 +2911,6 @@ int other = *thing_ptr /* accedo al contenuto della variabile puntata da thing_p
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/deferenziazione.png)
 
 
-
-
-
 ```c
 #include<stdio.h>
 
@@ -2929,10 +2926,7 @@ int main(void){
 }
 ```
 
-
-
-
-
+![](https://github.com/kinderp/2cornot2c/blob/main/images/0_pointers.png)
 
 
 
