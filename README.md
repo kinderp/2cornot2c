@@ -2928,6 +2928,7 @@ int main(void){
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/0_pointers.png)
 
+***
 
 ```c
 #include<stdio.h>
@@ -2953,14 +2954,23 @@ int main(void){
 }
 ```
 
+***
+
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/1_1_pointers.png)
+
+***
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/1_2_pointers.png)
 
+***
+
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/1_3_pointers.png)
+
+***
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/1_4_pointers.png)
 
+***
 
 
 
