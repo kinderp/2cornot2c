@@ -2929,13 +2929,37 @@ int main(void){
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/0_pointers.png)
 
 
+```c
+#include<stdio.h>
 
+int main(void){
+        int i = 42, j = 107;
+        printf("i = %d, &i = %p\n", i, &i);
+        printf("j = %d, &j = %p\n", j, &j);
 
+        getchar();
 
+        int *p = &i;
+        int *q = &j;
 
+        printf("*p = %d, p = %p\n", *p, p);
+        printf("*q = %d, p = %p\n", *q, q);
 
+        p = q;  // (1)
+        *p = *q;// (2)
+        *p = q; // (3)
+        p = *q; // (4)
 
+}
+```
 
+![](https://github.com/kinderp/2cornot2c/blob/main/images/1_1_pointers.png)
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/1_2_pointers.png)
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/1_3_pointers.png)
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/1_4_pointers.png)
 
 
 
