@@ -3001,9 +3001,32 @@ int main(void){
 
 ***
 
+### Il puntatore nullo (NULL)
 
+Il puntatore nullo vale zero e non è un puntatore valido, non può essere utilizzato per un'operazione di derenziazione.
+Il valore `NULL` è definito tramite macro al preprocessore (`#define`) in questo modo:
 
+```c
+#define NULL 0
+```
 
+Sfruttando il valore `NULL` è possibile identificare un puntatore nullo, `NULL` è confrontabile con qualsiasi puntatore.
+E' buona norma inizializzare una variabile puntatore a `NULL` se la sua inizializzazione valida avverrà successivamente nel codice e controllare se il puntatore è nullo prima di effettuare operazioni di deferenziazione. Vediamo un esempio
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int *p = NULL; /* inizializzo il puntatore p a NULL */
+        if (p != NULL)  /* prima di deferenziare controllo se p e' diverso da NULL */
+                printf("*p = %d", *p);
+
+}
+```
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/3_pointers.png)
+
+***
 
 
 
