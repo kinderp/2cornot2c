@@ -2844,6 +2844,42 @@ int main(void){
 }
 ```
 
+## I puntatori
+
+Un puntatore è una variabile che contiene un indirizzo di memoria (di un'altra cella di memoria). 
+
+Un puntatore è un intero positivo (`unsigned int`). Di solito nelle macchine UNIX è di tipo `unsigned long` dato che deve contenere indirizzi da 64 bit.
+
+Per dichiarare un puntatore è necessario specificare il tipo della locazione di memoria a cui esso dovrà puntare. Un puntatore che ospita l'indirizzo di una variabile `int` è di tipo diverso rispetto ad un puntatore che ospita l'indirizzo di una variabile di tipo `char`. Per dichiarare il tipo del puntatore si utilizza il simbolo `*` insieme al tipo della variabile a cui esso dovrà puntare. Per esempio nel codice di sotto dichiariamo una variabile intera `thing` che viene inizializzata al valore 6, nella riga di sotto dichiariamo un puntatore (variabile `thing_ptr`) di tipo (`int *`) che conterrà l'indirizzo di memoria della variabile `int` di nome `thing`.
+
+```c
+int thing = 6;
+int *thing_ptr;
+```
+
+per un `char` avremmo fatto
+
+```
+char thing = 'A';
+char *thing_prt;
+```
+
+Quando un putatore è dichiarato il suo contenuto (come ogni variabile locale automatica) contiene un valore sporco assolutamente casuale. Come per tutte le altre variabili è necessario quindi inizializzare una variabile puntatore ad un indirizzo di memoria valido, per fare questo si usa l'operatore unario `&` (**operatore di deferenziazione**) che permette di ottenere l'indirizzo di memoria di una qualsiasi variabile.
+
+> [!NOTE]
+> L'operazione di accesso alla locazione di memoria di una variabile è detta **deferenziazione** per questo motivo `&` è detto **operatore di deferenziazione**
+
+Tornando al nostro esempio se volessimo inizializzare il puntatore ad intero `thing_ptr` all'indirizzo di memoria della variabile intera `thing` dovremmo usare l'operatore `&` in questo modo:
+
+```c
+int thing = 6; /* ipotizziamo che l'indirizzo della variabile thing sia 0x1000 */
+int *thing_ptr;
+
+thing_ptr = &thing; /* ora  nella  locazione di  memoria rappresentata da thing_ptr
+		     * c'è il valore 0x1000, cioè l'indirizzo della variabile thing */
+```
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/puntatore.png)
 
 
 
