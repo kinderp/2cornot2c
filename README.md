@@ -2864,10 +2864,7 @@ char thing = 'A';
 char *thing_prt;
 ```
 
-Quando un putatore è dichiarato il suo contenuto (come ogni variabile locale automatica) contiene un valore sporco assolutamente casuale. Come per tutte le altre variabili è necessario quindi inizializzare una variabile puntatore ad un indirizzo di memoria valido, per fare questo si usa l'operatore unario `&` (**operatore di deferenziazione**) che permette di ottenere l'indirizzo di memoria di una qualsiasi variabile.
-
-> [!NOTE]
-> L'operazione di accesso alla locazione di memoria di una variabile è detta **deferenziazione** per questo motivo `&` è detto **operatore di deferenziazione**
+Quando un putatore è dichiarato il suo contenuto (come ogni variabile locale automatica) contiene un valore sporco assolutamente casuale. Come per tutte le altre variabili è necessario quindi inizializzare una variabile puntatore ad un indirizzo di memoria valido, per fare questo si usa l'operatore unario `&` (**operatore di indirizzamento**) che permette di ottenere l'indirizzo di memoria di una qualsiasi variabile.
 
 Tornando al nostro esempio se volessimo inizializzare il puntatore ad intero `thing_ptr` all'indirizzo di memoria della variabile intera `thing` dovremmo usare l'operatore `&` in questo modo:
 
@@ -2881,6 +2878,10 @@ thing_ptr = &thing; /* ora  nella  locazione di  memoria rappresentata da thing_
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/puntatore.png)
 
+Una volta che abbiamo inizializzato `thing_ptr` all'indirizzo di memoria di `thing` possiamo accedere (leggere e modificare) il contenuto di `thing` attraverso `thing_ptr` usando l'operatore `*` (**operatore di deferenziazione**)
+
+> [!NOTE]
+> L'operazione di accesso alla locazione di memoria di una variabile è detta **deferenziazione** per questo motivo `&` è detto **operatore di deferenziazione**
 
 
 
