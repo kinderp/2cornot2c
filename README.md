@@ -3001,13 +3001,218 @@ int main(void){
 
 ***
 
+### Il puntatore nullo (NULL)
 
+Il puntatore nullo vale zero e non è un puntatore valido, non può essere utilizzato per un'operazione di derenziazione.
+Il valore `NULL` è definito tramite macro al preprocessore (`#define`) in questo modo:
 
+```c
+#define NULL 0
+```
 
+Sfruttando il valore `NULL` è possibile identificare un puntatore nullo, `NULL` è confrontabile con qualsiasi puntatore.
+E' buona norma inizializzare una variabile puntatore a `NULL` se la sua inizializzazione valida avverrà successivamente nel codice e controllare se il puntatore è nullo prima di effettuare operazioni di deferenziazione. Vediamo un esempio
 
+```c
+#include<stdio.h>
 
+int main(void){
+        int *p = NULL; /* inizializzo il puntatore p a NULL */
+        if (p != NULL)  /* prima di deferenziare controllo se p e' diverso da NULL */
+                printf("*p = %d", *p);
 
+}
+```
 
+![](https://github.com/kinderp/2cornot2c/blob/main/images/3_pointers.png)
+
+***
+
+### Vettori
+
+I vettori (o array) permettono di allocare un insieme di elementi **dello stesso tipo** in una zona contingua di memoria.
+La sintassi per dichiarare un array è la seguente:
+
+```c
+nome-tipo identificatore[cardinalità];
+```
+
+* `nome-tipo` è un tipo di dato predefinito o derivato
+* `identificatore` è il nome del vettore con cui si accede ai suoi elementi
+* `cardinalità` è **una costante** che indica il numero degli elementi
+  
+Per esempio, per dichiarare un vettore di interi di dieci elemetni
+
+```c
+int vettore[10];
+```
+
+Per accedere ai singoli elmenti di un vettore (operazione di **indicizzazione**) basta indicare tra le parentesi quadre (`[` `]`) l'indice del vettore a cui si vuole accedere.
+**Il primo elemento di un vettore ha indice zero** quindi nel nostro esempio avremo:
+
+```c
+vettore[0] = 1 // il primo elemento di un vettore ha indice 0, lo inizializzo al valore 1
+vettore[1] = 2 // secondo elemento (indice 1), inizializzato al valore 2
+vettore[2] = 3
+vettore[9] = 10 // ultimo elemento del vettore, assume valore 10
+```
+
+> [!IMPORTANT]
+> **Limiti indicizzazione di un vettore**
+> Dato un vettore di cardinalità N (N elementi contigui in memoria) il primo elemento avrà indice **0**, l'ultimo elemento avrà indice **N - 1**. Se si accede oltre il limite massimo il comportamento del programma è indefinito quindi non bisogna mai accedere un cella di memoria oltre il limite dell'indice massimo.
+
+> [!IMPORTANT]
+> ** Nome del vettore
+> Il nome (identificatore) di un vettore contiene l'indirizzo del primo elemento del vettore, in particolare è un **puntatore costante** al **primo elemento del vettore**. Questo vuol dire che per accedere all'elemento i-esimo entrambe le sintassi di sotto sono lecite
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int vettore[5];
+
+        /* inizializzo gli elementi del vettore con un ciclo */
+        for(int i=0; i < 5; i++)
+                vettore[i] = i;
+
+        /* accedo agli elementi del vettore tramite [] */
+        for(int i=0; i < 5; i++)
+                printf("%d ", vettore[i]);
+        printf("\n");
+
+        /* accedo agli elementi del vettore tramite aritemetica puntatori */
+        for(int j=0; j < 5; j++)
+                printf("%d ", *(vettore + j));
+        printf("\n");
+
+}
+```
+
+#### Inizializzare un vettore
+
+Possiamo inizializzare esplicitamente tutti gli elementi di un vettore in questo modo:
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int vettore[5];
+        vettore[0] = 1;
+        vettore[1] = 2;
+        vettore[2] = 3;
+        vettore[3] = 4;
+        vettore[4] = 5;
+
+        for(int i=0; i < 5; i++)
+                printf("%d ", vettore[i]);
+
+        printf("\n");
+        return 0;
+}
+```
+
+possiamo anche non esplicitare la cardinalità (parentesi quadre vuote) nella dichiarazione che verrà allora dedotta dal numero dei valori specificati nell'inizializzazione
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int vettore[] = {1, 2, 3, 4, 5};
+
+        for(int i=0; i < 5; i++)
+                printf("%d ", vettore[i]);
+
+        printf("\n");
+        return 0;
+}
+```
+
+Se vogliamo inizializzare tutti gli elementi del vettore allo stesso valore possiamo usare questa sintassi
+
+```c
+#include<stdio.h>
+
+int main(void){
+	int vettore[5] = {0};
+
+        for(int i=0; i < 5; i++)
+                printf("%d ", vettore[i]);
+
+        printf("\n");
+        return 0;
+}
+```
+
+Spesso nella dichiarazione di un vettore si usa la direttiva `#define` per specificare la cardinalità del vettore come mostrato nel codice di sotto.
+Come puoi vedere se dovessi cambiare la cardinalità non dovrei modidificare la riga della dichiarazione e quella del ciclo ma solamente la riga con la direttiva `#define`
+
+```c
+#include<stdio.h>
+
+#define N 5
+
+int main(void){
+	int vettore[N] = {0};
+
+        for(int i=0; i < N; i++)
+                printf("%d ", vettore[i]);
+
+        printf("\n");
+        return 0;
+}
+```
+
+Verifichiamo che gli elementi di un vettore siano effettivamente contigui stampando gli indirizzi dei singoli elementi. Per farlo sfruttiamo il fatto che il nome (identificatore) del vettore rappresenta l'indirizzo del primo elemento del vettore.
+
+```c
+#include<stdio.h>
+
+#define N 5
+
+int main(void){
+        int vettore[N] = {0, 1, 2, 3, 4};
+
+        for(int i=0; i < N; i++)
+                printf("%d\t\t\t", vettore[i]);
+        printf("\n");
+
+        for(int j=0; j < N; j++)
+                printf("%p\t\t", vettore + j);
+        printf("\n");
+
+        return 0;
+}
+```
+
+Questo è l'output prodotto dal codice di sopra:
+
+```bash
+vagrant@ubuntu2204:/lab/7_array$ bin/4_array
+0                       1                       2                       3                       4
+0x7fff64c62430          0x7fff64c62434          0x7fff64c62438          0x7fff64c6243c          0x7fff64c62440
+```
+
+Un intero occupa quattro byte sulla mia macchina (ricorda che puoi sempre usare `sizeof(int)`).
+
+```math
+vettore + 0 = 0x7fff64c62430
+```
+
+```math
+vettore + 1 = 0x7fff64c62430 + 4 = 0x7fff64c62434
+```
+
+```math
+vettore + 2 = 0x7fff64c62434 + 4 = 0x7fff64c62438
+```
+
+```math
+vettore + 3 = 0x7fff64c62438 + 4 = 0x7fff64c6243c
+```
+
+```math
+vettore + 4 = 0x7fff64c6243c + 4 = 0x7fff64c62440
+```
 
 
 
