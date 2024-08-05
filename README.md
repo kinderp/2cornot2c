@@ -3076,10 +3076,13 @@ Lo stesso valore in esadecimale vale
 0x 01 02 03 04
 ```
 
+Il primo byte vale 01, il secondo 02, il terzo 03, quarto 04.
+Ora se recupero l'indirizzo di questa variabile e la assegno ad un puntatore ad intero cosa accade se faccio un cast da puntatore ad intero ad un puntaore a carattere? Nulla, il valore dell'indirizzo non cambia ma quando uso l'artimetica dei puntatori per spostarmi con `+1` `+2` non aumento di 4byte (dimensione di un intero) ma di 1byte (dimensione di un carattere) perchè il tipo del puntatore è cambiato (da `int *` a `char *)`. Questo mi permettere di spostarmi attraverso i quattro byte del mio intero e di stamparne il valore, come mostrato nel codice di sotto.
+
 ```c
 #include<stdio.h>
 
-int main(void){
+int main(void){o 
         int magic = 16909060;
         int after_magic = 123456789;
         printf("magic        = %#x\n", magic);
@@ -3101,6 +3104,8 @@ int main(void){
         return 0;
 }
 ```
+
+Nell'output del programma, mostrato sotto, è interessante notare come siamo in configurazione **big endian** perchè l'indirizzo più alto (`ptr_a + 4`) è assegnato al byte MSB (quello più a sinistra, che contiene il valore 01)
 
 ```bash
 vagrant@ubuntu2204:/lab/6_pointers$ bin/4_pointers
