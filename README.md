@@ -2869,11 +2869,15 @@ Quando un putatore è dichiarato il suo contenuto (come ogni variabile locale au
 Tornando al nostro esempio se volessimo inizializzare il puntatore ad intero `thing_ptr` all'indirizzo di memoria della variabile intera `thing` dovremmo usare l'operatore `&` in questo modo:
 
 ```c
-int thing = 6; /* ipotizziamo che l'indirizzo della variabile thing sia 0x1000 */
-int *thing_ptr;
+int thing = 6;  /* ipotizziamo che l'indirizzo della variabile thing sia 0x1000 */
+int *thing_ptr; /* la variabile puntatore thing_ptr punta ad un indirizzo casuale
+                 * DEVE ESSERE INIZIALIZZATA ad un indirizzo valido
+                 */
 
 thing_ptr = &thing; /* ora  nella  locazione di  memoria rappresentata da thing_ptr
-		     * c'è il valore 0x1000, cioè l'indirizzo della variabile thing */
+		     * c'è il valore 0x1000, cioè l'indirizzo della variabile thing
+		     * ora thing_ptr è inizializzata correttamente,può essere usata
+		     */
 ```
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/puntatore.png)
@@ -2883,8 +2887,28 @@ Una volta che abbiamo inizializzato `thing_ptr` all'indirizzo di memoria di `thi
 > [!NOTE]
 > L'operazione di accesso alla locazione di memoria di una variabile è detta **deferenziazione** per questo motivo `&` è detto **operatore di deferenziazione**
 
+Una variabile puntatore può essere pensata come ad una freccia che punta ad una cella di memoria (ad un'altra variabile).
 
+```c
+int thing = 5;  /* ipotizziamo che l'indirizzo della variabile thing sia 0x1000 */
+int *thing_ptr; /* la variabile puntatore thing_ptr punta ad un indirizzo casuale
+                 * DEVE ESSERE INIZIALIZZATA ad un indirizzo valido
+                 */
 
+thing_ptr = &thing; /* ora  nella  locazione di  memoria rappresentata da thing_ptr
+		     * c'è il valore 0x1000, cioè l'indirizzo della variabile thing
+		     * ora thing_ptr è inizializzata correttamente,può essere usata
+		     */
+
+int other = *thing_ptr /* accedo al contenuto della variabile puntata da thing_prt cioè
+			* thing (il suo contenuto è il valore 5 ) e lo copio nella varia
+			* bile other
+			* /
+
+*thing_ptr = 6;    /* copio il valore 6 nella variabile puntata da thing_ptr (thing) */
+```
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/deferenziazione.png)
 
 
 
