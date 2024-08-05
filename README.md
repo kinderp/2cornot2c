@@ -3028,6 +3028,94 @@ int main(void){
 
 ***
 
+#### Aritmetica puntatori
+
+I puntatori sono variabili che hanno tutte la stessa lunghezza (`unsigned long` di solito nelle architetture a 64 bit) fissata dall'architettura (32, 64 bit). Però abbiamo detto che quando dichiariamo una variabile puntatore dobbiamo specificare anche il suo tipo che rappresenta il tipo della variabile puntata.
+Questo serve al compilatore per effettuare i calcoli quando si usa **l'artimetica dei puntatori**. L'aritmetica dei puntatori ci permette di spostarci, usando l'operatore `+`, nelle celle di memoria adiacenti a quella puntata dal puntatore.
+Vediamo un esempio, se ho tre variabili intere (`a`, `b`, `c`) contingue in memoria (`int` occupa 4 byte) ed ho un puntatore (`ptr_a`) che punta alla prima variabile (`a`) posso accedere ai due interi successivi (`b`, `c`) rispettiva con `ptr_a + 1` (accedo a `b`) e `ptr_a + 2` (accedo a c). 
+La sintassi `ptr_a + 1` o `ptr_a + 2` indica che ci vogliamo spostare dall'indirizzo puntato da `ptr_a` di un numero di byte pari alla dimensione di un intero (`ptr_a + 1`) o di due interi (`ptr_a + 2`) quindi nel nostro caso di interi a 4 byte il compilatore calcola per noi i byte dello scostamento in questo modo $ptr_a + 1*(4)$ e $ptr_a + 2*(4)$
+Ecco perchè è necessario specificare il tipo del puntatore (il tipo della variabile puntata).
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int a = 1;
+        int b = 2;
+        int c = 3;
+
+        int *ptr_a = &a;
+
+        printf("a = %d\n", *ptr_a);
+        printf("b = %d\n", *(ptr_a + 1));
+        printf("a = %d\n", *(ptr_a + 2));
+
+        return 0;
+}
+```
+
+Come puoi vedere dall'output del programma usando l'artimetica dei puntatori riusciamo ad accedere agli interi (`b` e `c`) adiacenti alla variabile puntata da `ptr_a` (variabile `a`)
+
+```bash
+vagrant@ubuntu2204:/lab/6_pointers$ bin/33_pointers
+a = 1
+b = 2
+a = 3
+```
+
+L'aritmetica dei puntatoti è potentissima, ipotizziamo ora di avere un intero il cui valore sia posto a $16909060$ (variabile `magic`)
+Il numero decimale $16909060$ ha una codifica binaria (32 bit, 4 byte) pari a:
+
+```math
+00000001 00000010 00000011 00000100
+```
+
+Lo stesso valore in esadecimale vale
+
+```math
+0x 01 02 03 04
+```
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int magic = 16909060;
+        int after_magic = 123456789;
+        printf("magic        = %#x\n", magic);
+        printf("after_magic  = %#x\n", after_magic);
+
+        int *ptr_magic = &magic;
+        printf("&magic       = %p\n", ptr_magic);
+        printf("&after_magic = %p\n", &after_magic);
+
+        char *ptr_byte1 = (char *)ptr_magic;
+        char *ptr_byte2 = ptr_byte1 + 1;
+        char *ptr_byte3 = ptr_byte1 + 2;
+        char *ptr_byte4 = ptr_byte1 + 3;
+
+        printf("ptr_byte1    = %d\n", *ptr_byte1);
+        printf("ptr_byte2    = %d\n", *ptr_byte2);
+        printf("ptr_byte3    = %d\n", *ptr_byte3);
+        printf("ptr_byte4    = %d\n", *ptr_byte4);
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/6_pointers$ bin/4_pointers
+magic        = 0x1020304
+after_magic  = 0x75bcd15
+&magic       = 0x7fff5ff87eb8
+&after_magic = 0x7fff5ff87ebc
+ptr_byte1    = 4
+ptr_byte2    = 3
+ptr_byte3    = 2
+ptr_byte4    = 1
+```
+
+L'artimetica dei puntatori ci sarà molto utile quando lavoreremo con i vettori (array).
+
 ### Vettori
 
 I vettori (o array) permettono di allocare un insieme di elementi **dello stesso tipo** in una zona contingua di memoria.
