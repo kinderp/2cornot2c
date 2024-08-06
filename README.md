@@ -3815,7 +3815,7 @@ risultato                    : 103
 * evitare di perdere tempo nella copia di dati di grandi dimensioni passando solo l'indirizzo e non il dato completo
 
 
-### Passaggop di puntatori const
+### Passaggio di puntatori const
 
 Quando è necessario passare dati di grandi dimensioni ad una funzione è quindi cosa buona e giusta passare solo il puntatore al dato (tramite variabile puntatore: passaggio per indirizzo). Abbiamo visto che passando il puntatore di una variabile ad una funzione applichiamo un passaggio per indirizzo ed il dato originale nel chiamante è di fatto modificabile dalla funzione che lo riceve. Se non vogliamo che la funzione sia in grado di modificare il dato passato per indirizzo attraverso la deferenziazione del puntatore possiamo dichiarare il puntatore const nel prototipo della funzione rendendo di fatto il dato a sola lettura dentro la funzione. Vediamo un esempio:
 
@@ -3848,7 +3848,47 @@ vagrant@ubuntu2204:/lab/6_pointers$ bin/5_pointers
 xxx voglio essere modificata
 ```
 
+### Array come parametri a funzioni
 
+In una definizione di funzione, un parametro in ingresso dichiarato come array è in realtà un puntatore. Quindi, quando un array viene passato ad una funzione, viene fatto un passaggio per valore dell'indirizzo del primo elemento dell'array; gli elementi degli array non vengono mai copiati. Per convenienza notaionale, il compilatore permette l'utilizzo della notazione con le parentesi quadre (vuote) degli array per dichiarare parametri di tipo puntatore. Vediamo un esempio:
+
+```c
+#include<stdio.h>
+#define N 100
+
+int sum(int a[], int dim);
+int somma(int *, int dim);
+
+int main(void){
+        int vettore[N];
+        for(int i=0; i < N; i++)
+                vettore[i] = 1;
+
+        printf("%d\n", sum(vettore, N));
+        printf("%d\n", somma(vettore, N));
+        return 0;
+}
+
+int sum(int a[], int dim){
+        int risultato = 0;
+        for(int i=0; i < dim; i++)
+                risultato += a[i];
+        return risultato;
+}
+
+int somma(int *a, int dim){
+        int risultato = 0;
+        for(int i=0; i < dim; i++)
+                risultato += a[i];
+        return risultato;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/9_functions$ bin/3_functions
+100
+100
+```
 
 
 
