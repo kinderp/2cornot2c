@@ -3363,6 +3363,42 @@ int main(void){
 }
 ```
 
+### Le stringhe
+
+Il linguaggio C non ha un tipo predefinito per le stringhe, queste vengono implementate come array di caratteri.
+Una stringa in C deve essere racchiusa tra **doppi apici**: `"` in questo modo
+
+```c
+"Questa è una stringa"
+```
+
+Per assegnare la stringa ad una variabile dobbiamo dichiarare un array di catteri sufficientemente capiente per contenere tutti i caratteri della stringa. Tutte le stringhe vengono terminate (ultimo elemento della stringa) dal carattere `\0` detto di fine stringa che ovviamente non è stampabile ma serve per delimitare la fine della stringa. Nel calcolo della dimensione del vettore di carattere che conterrà la stringa dobbiamo quindi tenere conto del `\0` ed aumentare la dimenisone di 1 per esempio: la stringa "ciao" è composta da quattro caratteri, dobbiamo dichiarare un array di 5 caratteri per ospitare anche il carattere `\0`, in questo modo:
+
+> [!NOTE]
+> Il carattere di fine stringa `\0` è diverso dal catattere '0' (il valore in ACII del carattere '0' è 48). `\0` in ASCII ha valore 0.
+
+```c
+#include<stdio.h>
+
+int main(void){
+        char ciao[5] = "ciao";
+        for(int i=0; i < 5; i++)
+                printf("%c \t", ciao[i]);
+        printf("\n");
+
+        for(int i=0; i < 5; i++)
+                printf("%d \t", ciao[i]);
+        printf("\n");
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/8_strings$ bin/0_strings
+c       i       a       o
+99      105     97      111     0
+```
+
 
 
 
