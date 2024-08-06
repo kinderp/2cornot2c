@@ -3363,6 +3363,86 @@ int main(void){
 }
 ```
 
+### Relazione tra array e puntatori
+
+Abbiamo detto che il nome di un array è un puntatore costante al primo elemento del vettore.
+Quello che non abbiamo detto che i puntatori come gli array possono essere indicizzati con le parentesi `[` `]` esattamente come i vettori.
+La differenza tra nome di un array e puntatori è che il primo è un puntatore costante quindi non è possibile fare le operazione seguenti:
+
+```c
+#define N 300
+
+int main(void){
+        int a[N] = {1};
+        int *p;
+
+        a = p;   // errore: a è un puntaore costante, non lo posso cambiare assegnando un altro indirizzo
+        p = a++; // errore: a è un puntaore costante, non lo posso incrementare con operatore ++ ma (a+1) ok
+        p = &a;  // errore: a è un puntaore costante, non posso accedere al suo indirizzo
+}
+```
+
+```c
+#include<stdio.h>
+
+#define N 300
+
+int main(void){
+        int a[N];
+        for(int j=0; j < N; j++)
+                a[j] = 1;
+        int *p = NULL;
+        int i = 0;
+        p = a; // equivalente a: p = &a[0]
+
+        /*
+         * array e puntatori sono simili:
+         * - posso usare aritmetica puntatori con nome array
+         * - posso usare indicizzazione array con puntatori
+         * quindi le espressioni di sotto sono tutte lecite
+         *   *(a + 1) // aritmetica puntatori con nome array
+         *   a[i]     // indicizzazione array con nome array
+         *   p[i]     // indicizzazione array con  puntatore
+         *   *(p +1)  // aritemetica puntatori con puntatore
+         */
+
+        int risultato = 0;
+        /* ciclo il vettore usando l'indicizzazione dei vettore sul nome del vettore */
+        for(i = 0; i < N; i++)
+                risultato += a[i];
+        printf("%d\n", risultato);
+
+        /* ciclo il vettore uando l'artmetica dei puntatori sul puntatore*/
+        risultato = 0;
+        for(p = a; p < &a[N]; p++)
+                risultato += *p;
+        printf("%d\n", risultato);
+
+        /* ciclo il vettore usando l'aritmetica dei puntatori sul nome del vettore */
+        risultato = 0;
+        for(i=0; i < N; i++)
+                risultato += *(a + i);
+        printf("%d\n", risultato);
+
+        /* ciclo il vettore usando l'indicizzazione dei vettori sul puntatore */
+        risultato = 0;
+        p = a;
+        for(i=0; i < N; i++)
+                risultato += p[i];
+        printf("%d\n", risultato);
+
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/6_pointers$ bin/7_pointers
+300
+300
+300
+300
+```
+
 ### Le stringhe
 
 Il linguaggio C non ha un tipo predefinito per le stringhe, queste vengono implementate come array di caratteri.
