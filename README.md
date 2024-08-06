@@ -3443,6 +3443,58 @@ vagrant@ubuntu2204:/lab/6_pointers$ bin/7_pointers
 300
 ```
 
+### Differenza tra puntatori
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int a[2], *p, *q;
+        printf("(int  ) %ld bytes\n", sizeof(int));
+        printf("(long ) %ld bytes\n", sizeof(long));
+        printf("(int *) %ld bytes\n", sizeof(int *));
+        printf("\n");
+
+        /* La differenza  tra due puntatori ritorna  il numero di elementi
+         * che li separa e NON il numero di byte  come ci si  aspetterebbe
+         * devi fare  un  cast  per  ottenere  il risultato atteso
+         */
+        p = a;
+        q = a + 1; // equivalente a: q = p + 1, q = &a[1]
+        printf("%ld\n", q - p); // %ld -> long int, un puntatore è di tipo long int (arch a 64 bit)
+        printf("%ld\n", (long)q - (long)p);
+        printf("\n");
+
+        /* questi vale anche se le variabili puntate non sono elementi di un array */
+        int b = 2;
+        int c = 1;
+        int d = 3;
+        q = &d;
+        p = &b;
+        printf("&b = %p\n", p);
+        printf("&c = %p\n", &c);
+        printf("&d = %p\n", q);
+        printf("%ld\n", q - p); // distanza in elementi in memoria
+        printf("%ld\n", (long)q - (long)p); // distanza in termini di byte
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/6_pointers$ bin/8_pointers
+(int  ) 4 bytes
+(long ) 8 bytes
+(int *) 8 bytes
+
+1
+4
+
+&b = 0x7fff570affa4
+&c = 0x7fff570affa8
+&d = 0x7fff570affac
+2
+8
+```
+
 ### Le stringhe
 
 Il linguaggio C non ha un tipo predefinito per le stringhe, queste vengono implementate come array di caratteri.
