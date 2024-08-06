@@ -3677,6 +3677,11 @@ valore dopo     l'invocazione: 103
 risultato                    : 103
 ```
 
+> [!IMPORTANT]
+> L'utilizzo della tecnica del passaggio di parametri per indirizzo permette al programmatore di:
+* ritornare più di una valore da una funzione
+* evitare di perdere tempo nella copia di dati di grandi dimensioni passando solo l'indirizzo e non il dato completo
+
 
 
 
