@@ -3307,6 +3307,41 @@ vettore + 3 = 0x7fff64c62438 + 4 = 0x7fff64c6243c
 vettore + 4 = 0x7fff64c6243c + 4 = 0x7fff64c62440
 ```
 
+#### Dimensione vettore (`sizeof`)
+
+Abbiamo visto come l'operatore `sizeof` ci permetta di conoscere il numero di byte occupati da una variabile o di un tipo di dato. Possiamo sfruttare questo operatore per conoscere il numero di elementi di un vettore a tempo di esecuzione svolgendo semplicemente la divisione tra il numero di byte totali occupati dal vettore ed il numero di byte occupati dal singolo elemento del vettore (ricordiamo che gli elementi di un vettore sono tutti dello stesso tipo ed allocati in celle contigue in memoria).
+
+```c
+#include<stdio.h>
+
+#define NUM_ELEM 100
+int main(void){
+        int array[NUM_ELEM] = {0};
+
+        unsigned int num_byte_array = sizeof(array); /* n. di byte occupati dall'intero verrore (100*4) */
+        unsigned int num_byte_int   = sizeof(int);   /* n. di byte occupati da un intero in questa arch */
+
+        unsigned int n_elem = num_byte_array / num_byte_int;
+        printf("Il vettore di interi occupa %d byte\n", num_byte_array);
+        printf("Un singolo intero occupa %d byte\n", num_byte_int);
+        printf("Il vettore ha %d(byte)/%d(byte) = %d elementi\n", num_byte_array, num_byte_int, num_byte_array/num_byte_int);
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/7_array$ bin/5_array
+Il vettore di interi occupa 400 byte
+Un singolo intero occupa 4 byte
+Il vettore ha 400(byte)/4(byte) = 100 elementi
+```
+
+Volendo è possibile definire una macro da usare ogni volta che è necessario calcolare il numero di elementi di un array, sfruttando il fatto che il nome del vettore è un **puntatore costante** al primo elemento del vettore:
+
+```c
+#define ARRAY_SIZE(x) sizeof(x)/sizeof(*x)
+```
+
 
 
 
