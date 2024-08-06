@@ -3564,7 +3564,61 @@ vagrant@ubuntu2204:/lab/9_functions$ bin/0_functions
 2^(16)   = 65536
 ```
 
+### Passaggio di parametri per valore
 
+I parametri di ingresso di una funzione sono **passati sempre per valore**: la funzione utilizza **una nuova variabile** (nello stack della funzione) per immagazzinare **una copia del valore** contenuto nella variabile passata come parametro in ingresso alla funzione dal chiamante. Anche se dentro la funzione il valore passato in ingresso alla funzione viene alterato (incremento/decremento etc) siccome questo valore è stato copiato in una variabile diversa rispetto a quella passata come in ingresso dal chiamante, il valore nella variabile del chiamante rimane inalterato; sarà modificato il valore nella variabile (nuova) allocata nello stack della funzione quando questa è stata invocata.
+Cechiamo di capire con un esempio:
+
+```c
+#include<stdio.h>
+
+int incrementa(int, int); /* prototipo */
+
+int main(void){
+        int valore = 100;   /* valore iniziale di partenza */
+        printf("valore = %d, &valore = %p\n\n", valore, &valore);
+
+        printf("valore prima dell'invocazione: %d\n\n", valore);
+        /* quando la funzoine incremanta() viene invocata, il contenuto della variabile di nome valore
+         * viene copiato all'interno della variabile valore_f ( primo parametro in input nel prototipo
+         * della funzione). Il valore contenuto in questa nuova variabile puo' essere modificato ma è
+         * una copia del valore della variabile orginale nel chiamante. Quest'ultimo dunque non subisce
+         * alcuna variazione perchè si trova in un'altra variabile in memoria.
+         */
+        int risultato = incrementa(valore, 3); /* incremento il valore di iniziale di 3 */
+        printf("\n");
+        printf("valore dopo     l'invocazione: %d\n", valore);
+        printf("risultato                    : %d\n", risultato);
+}
+
+int incrementa(int valore_f, int iterazioni){
+        printf("************incrementa****************\n");
+        for(int i=0; i<iterazioni; i++){
+                valore_f++;
+                printf("i=%d valore_f = %d, &valore_f = %p\n", i, valore_f, &valore_f);
+        }
+        printf("************incrementa****************\n");
+        return valore_f;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/9_functions$ bin/1_functions
+valore = 100, &valore = 0x7ffef9659030
+
+valore prima dell'invocazione: 100
+
+************incrementa****************
+i=0 valore_f = 101, &valore_f = 0x7ffef965900c
+i=1 valore_f = 102, &valore_f = 0x7ffef965900c
+i=2 valore_f = 103, &valore_f = 0x7ffef965900c
+************incrementa****************
+
+valore dopo     l'invocazione: 100
+risultato                    : 103
+```
+
+### Passaggio di parametri per indirizzo
 
 
 
