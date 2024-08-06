@@ -3399,6 +3399,8 @@ c       i       a       o
 99      105     97      111     0
 ```
 
+> [!CAUTION]
+> I doppi apici `"` devono essere utilizzati per le stringhe, i singoli apici `'` per i caratteri. Fai attenzione a non scambiare i simboli tra loro.
 
 
 
