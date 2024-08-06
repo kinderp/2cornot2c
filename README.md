@@ -3683,7 +3683,38 @@ risultato                    : 103
 * evitare di perdere tempo nella copia di dati di grandi dimensioni passando solo l'indirizzo e non il dato completo
 
 
+### Passaggop di puntatori const
 
+Quando è necessario passare dati di grandi dimensioni ad una funzione è quindi cosa buona e giusta passare solo il puntatore al dato (tramite variabile puntatore: passaggio per indirizzo). Abbiamo visto che passando il puntatore di una variabile ad una funzione applichiamo un passaggio per indirizzo ed il dato originale nel chiamante è di fatto modificabile dalla funzione che lo riceve. Se non vogliamo che la funzione sia in grado di modificare il dato passato per indirizzo attraverso la deferenziazione del puntatore possiamo dichiarare il puntatore const nel prototipo della funzione rendendo di fatto il dato a sola lettura dentro la funzione. Vediamo un esempio:
+
+```c
+#include<stdio.h>
+
+void leggi(const char *);
+
+int main(void){
+        char qualcosa[30] = "Non voglio essere modificata";
+        qualcosa[0] = 'x';
+        qualcosa[1] = 'x';
+        qualcosa[2] = 'x';
+        leggi(qualcosa);
+}
+
+void leggi(const char *qualcosa){
+        // qualcosa[0] = '\0';
+        /* Se decommenti la riga sopra e provi a ricompilare ottineni errore
+         * error: assignment of read-only location *qualcosa
+         * perchè stai provando a modificare una locazione di memoria in sola
+         * lettura (puntatore costante)
+         */
+        printf("%s\n",qualcosa);
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/6_pointers$ bin/5_pointers
+xxx voglio essere modificata
+```
 
 
 
