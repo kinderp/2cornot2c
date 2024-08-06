@@ -3567,6 +3567,10 @@ vagrant@ubuntu2204:/lab/9_functions$ bin/0_functions
 ### Passaggio di parametri per valore
 
 I parametri di ingresso di una funzione sono **passati sempre per valore**: la funzione utilizza **una nuova variabile** (nello stack della funzione) per immagazzinare **una copia del valore** contenuto nella variabile passata come parametro in ingresso alla funzione dal chiamante. Anche se dentro la funzione il valore passato in ingresso alla funzione viene alterato (incremento/decremento etc) siccome questo valore è stato copiato in una variabile diversa rispetto a quella passata come in ingresso dal chiamante, il valore nella variabile del chiamante rimane inalterato; sarà modificato il valore nella variabile (nuova) allocata nello stack della funzione quando questa è stata invocata.
+
+> [!IMPORTANT]
+> Le variabili allocate all'interno di una funzione sono **locali** alla funzione. La memoria per queste variabili viene allocata solo al momento dell'invocazione della funzione e questa memoria è accessibile solo all'interno della funzione. Quando la funzione termina la memoria viene completamente deallocata. Questa porzione di memria usata per variabili locali delle funzioni è detta **stack**
+		
 Cechiamo di capire con un esempio:
 
 ```c
