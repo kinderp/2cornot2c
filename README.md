@@ -3624,6 +3624,10 @@ risultato                    : 103
 
 ### Passaggio di parametri per indirizzo
 
+Se si vuole modificare il valore della variabile del chiamante, bisogna passare alla funzione l'indirizzo della variabile (usando una variabile puntatore) del chiamante da modificare. Ovviamente il passaggio dell'indirizzo dal chiamante alla funzione è fatto per copia: cioè l'indirizzo della variabile del chiamante è copiato all'interno una nuova variabile di tipo puntatore ma avendo a disposizione l'indirizzo della variabile del chiamante la funzione potrà (attraverso la deferenziazione) acccedere al reale valore della variabile originale.
+Per ottenere un passaggio per indirizzo nel codice precedente dobbiamo trasformare il primo parametro della funzione (variabile `valore_f`) da `int` a `int *` rendondola un puntatore pronta ad aspitare l'indirizzo della variabile `valore` (la variabile del chiamante da modificare). Per modificare all'interno della funzione il valore della variabile `valore` basterà usare la deferenziazione sul puntatore `valore_f` in questo modo `*valore_f` di fatto accedendo alla locazione di memoria riservata alla variabile `valore`.
+Sotto il codice modificato:
+
 ```c
 #include<stdio.h>
 
