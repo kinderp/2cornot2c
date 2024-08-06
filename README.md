@@ -3403,8 +3403,166 @@ c       i       a       o
 > I doppi apici `"` devono essere utilizzati per le stringhe, i singoli apici `'` per i caratteri. Fai attenzione a non scambiare i simboli tra loro.
 
 
+### Funzioni
 
+Quando un certo numero di istruzioni vengono usate più volte nel codice, piuttosto che copiarle ed incollarle in tutte le parti dove ne abbiamo bisogno, è preferibile raggrupparle in una funzione.
+Una funzione è una porzione di codice che può essere richiamata in qualsiasi parte del programma e di solito raggruppa le istruzioni che cooperano per svolgere un certo compito. Ogni funzione ritorna uno ed un solo valore (di solito un intero che informa circa il successo o meno delle operazioni svolte oppure direttamente il risultato dell'operazione) e riceve una serie di parametri in ingresso (può anche non accettare alcun parametro in ingresso se non ne ha bisogno).
+Una funzione ha questa forma:
 
+```c
+tipo-valore-ritorno nome-funzione(tipo-parametro-1 nome-parametro-1, ..., tipo-parametro-N nome-parametro-N){
+	istruzione1;
+ 	...
+  	return valore-di-ritorno;
+}
+```
+
+La prima riga esclusa la parentesi graffa aperta `{` è detta **prototipo** della funzione
+
+```c
+tipo-valore-ritorno nome-funzione(tipo-parametro-1 nome-parametro-1, ..., tipo-parametro-N nome-parametro-N)
+```
+
+In realtà il nome dei paraemtri in ingresso è opzionale, quindi il prototipo di sotto (più compatto) è comunque corretto
+
+```c
+tipo-valore-ritorno nome-funzione(tipo-parametro-1, ..., tipo-parametro-N)
+```
+
+Specificare i nomi dei parametri aiuta chi legge il codice a comprendere il tipo di operazioni che la funzione svolge, è cosa buona e giusta aggiugerli nella dichiarazione della funzione (nel prototipo)
+
+> [!IMPORTANT]
+> **Prototipo** di funzione: consiste nel tipo di ritorno, nel nome della funzione e nella lista dei tipi dei parametri in ingresso (se presenti)
+
+tutto il codice compreso tra le parentesi graffe `{` `}` è il **corpo** (body) della funzione:
+
+```c
+{
+	istruzione1;
+ 	...
+  	return valore-di-ritorno;
+}
+```
+
+Quindi se ho questa funzione
+
+```c
+int differenza(int minuendo, int sottraendo)
+{
+	return minuendo - sottraendo;
+}
+```
+
+questo è il suo prototipo
+
+```c
+int differenza(int minuendo, int sottraendo)
+```
+
+o in forma compatta
+
+```c
+int differenza(int, int)
+```
+
+questo è il suo corpo
+
+```c
+{
+	return minuendo - sottraendo;
+}
+```
+
+Le funzioni possono essere dichiarate e definite. 
+
+### Dichiarazione di funzione
+**La dichiarazione è opzionale** e non prevede che si specifichino le istruzioni che compongono la funzione ma **solo il suo prototipo**. La dichiarazione serve solo per informare il compilatore circa l'esistenza di una certa funzione da qualche altra parte nel codice sorgente. In questo modo quando il compilatore incontrerà una chiamata alla funzione avrà (grazie alla dichiarazione che precede la cihamata) le informazioni necessaria per verificare la correttezza della chiamata (i parametri sono dei tipi attesi, nel numero corretto, il valore di ritorno coincide con quello nel prototipo, etc). Ovviamente **la dichiarazione della funzione deve sempre precedere la prima invocazione della funzione stessa**. La definizione (che vedremo sotto) può essere inserita in qualunque punto del codice sorgente. **La dichiarazione è il prototipo della funzione**.
+
+### Uso di void nelle funzioni
+
+Le funzioni possono non accettare al parametro in ingresso o non restituire alcun valore di ritorno. Per informare di questo il compilatore si uso il tipo `void`. Per esempio
+
+Questa funzione non ritorna nulla:
+
+```c
+void stampa(char *stringa){
+	pritnf("%s\n", stringa);
+}
+```
+
+Questa non accetta alcun parametro in ingresso
+
+```c
+char *saluta(void){
+	return "ciao"
+}
+```
+
+### Definizione di funzione
+
+La definizione di funzone include il prototipo  e le istruzioni che formano il corpo della funzione. Una definizione di funzione può comparire solo una volta nel codice sorgente. La definizione di funzione termina quando viene eseguita l'ultima istruzione o quando viene incontrata l'istruzione `return`. Quando l'istruzione termina, il programma prosegue dall'istruzione successiva alla chiamata della funzione appena terminata. Lo scopo dell'istruzione `return` è quella di specificare il valore di ritorno della funzione.
+Una funzione può anche avere un corpo vuoto:
+
+```c
+void do_nothing(void){
+
+}
+```
+
+> [!CAUTION]
+> Un programma in linguaggio C deve almeno contenere la definizione della funzione main() da cui inizia l'esecuzione del programma
+
+### Chiamata di funzione
+
+La chiamata di una funzione (invocazione di funzione) è l'operazione con lal quale si richiama l'esecuzione della funzione stessa. E' possibile richiamare 0 o N volte una funzione in un qualunque punto del programma. Ogni volta che la funzione viene invocata, l'esecuzione del programma si sposta dal punto di invocaione alla prima istruzione del corpo della funzione. Quando una funzione termina la propria esecuzione, il flusso di esecuzione ritorna al punto in cui la funzione era stata invocata e continua ed eseguire l'istruzione successiva.
+Vediamo un esempio:
+
+```c
+#include<stdio.h>
+
+#define ESPONENTE 16
+
+int potenza_di_due(int esponente); /* prototipo o dichiarazione di funzione */
+
+int main(void){
+        /* stampo potenze del 2 con esponente da 0 a 16 */
+        for(int i=0; i < ESPONENTE + 1; i++){
+                int risultato = potenza_di_due(i); /* invocazione funzione */
+                printf("2^(%d)\t = %d\n", i, risultato);
+        }
+        return 0;
+
+}
+
+/* definizione di funzione */
+int potenza_di_due(int esponente){
+        int risultato = 1;
+        for(int i=1; i <= esponente; i++)
+                risultato *= 2;
+        return risultato;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/9_functions$ bin/0_functions
+2^(0)    = 1
+2^(1)    = 2
+2^(2)    = 4
+2^(3)    = 8
+2^(4)    = 16
+2^(5)    = 32
+2^(6)    = 64
+2^(7)    = 128
+2^(8)    = 256
+2^(9)    = 512
+2^(10)   = 1024
+2^(11)   = 2048
+2^(12)   = 4096
+2^(13)   = 8192
+2^(14)   = 16384
+2^(15)   = 32768
+2^(16)   = 65536
+```
 
 
 
