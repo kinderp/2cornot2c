@@ -3504,7 +3504,7 @@ Una stringa in C deve essere racchiusa tra **doppi apici**: `"` in questo modo
 "Questa è una stringa"
 ```
 
-Per assegnare la stringa ad una variabile dobbiamo dichiarare un array di catteri sufficientemente capiente per contenere tutti i caratteri della stringa. Tutte le stringhe vengono terminate (ultimo elemento della stringa) dal carattere `\0` detto di fine stringa che ovviamente non è stampabile ma serve per delimitare la fine della stringa. Nel calcolo della dimensione del vettore di carattere che conterrà la stringa dobbiamo quindi tenere conto del `\0` ed aumentare la dimenisone di 1 per esempio: la stringa "ciao" è composta da quattro caratteri, dobbiamo dichiarare un array di 5 caratteri per ospitare anche il carattere `\0`, in questo modo:
+**Una costante stringa come quella di sopra è tratta dal compilatore come un puntatore a carattere** quindi per assegnare una costante stringa ad una variabile abbiamo due possibilità. La prima è dichiarare un array di catteri sufficientemente capiente per contenere tutti i caratteri della stringa. Tutte le stringhe vengono terminate (ultimo elemento della stringa) dal carattere `\0` detto di fine stringa che ovviamente non è stampabile ma serve per delimitare la fine della stringa. Nel calcolo della dimensione del vettore di carattere che conterrà la stringa dobbiamo quindi tenere conto del `\0` ed aumentare la dimenisone di 1 per esempio: la stringa "ciao" è composta da quattro caratteri, dobbiamo dichiarare un array di 5 caratteri per ospitare anche il carattere `\0`, in questo modo:
 
 > [!NOTE]
 > Il carattere di fine stringa `\0` è diverso dal catattere '0' (il valore in ACII del carattere '0' è 48). `\0` in ASCII ha valore 0.
@@ -3534,6 +3534,84 @@ c       i       a       o
 > [!CAUTION]
 > I doppi apici `"` devono essere utilizzati per le stringhe, i singoli apici `'` per i caratteri. Fai attenzione a non scambiare i simboli tra loro.
 
+Un altra possibilità per assegnare una costante stringa ad una variabile è quella di utilizzare una variabile di tipo puntatore a carattere `char *` in questo modo:
+
+```c
+#include<stdio.h>
+
+int main(void){
+        char *ciao = "ciao";
+        for(int i=0; i < 5; i++)
+                printf("%c \t", ciao[i]);
+        printf("\n");
+
+        for(int i=0; i < 5; i++)
+                printf("%d \t", ciao[i]);
+        printf("\n");
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/8_strings$ bin/1_strings
+c       i       a       o
+99      105     97      111     0
+```
+In questo modo non ci dobbiamo preoccupare di tenere conto del carattere di fine stringa `\0`.
+
+Abbiamo visto che c'è una relazione tra array e puntatori, il compilatore infatti ci permette di dichiarare una stringa anche usando un array con le parentesi quadre vuote in questo modo:
+
+```c
+#include<stdio.h>
+
+int main(void){
+        char ciao[] = "ciao";
+        for(int i=0; i < 5; i++)
+                printf("%c \t", ciao[i]);
+        printf("\n");
+
+        for(int i=0; i < 5; i++)
+                printf("%d \t", ciao[i]);
+        printf("\n");
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/8_strings$ bin/2_strings
+c       i       a       o
+99      105     97      111     0
+```
+Anche in questo caso possiamo scordarci di `\0`.
+
+### Stampare una stringa
+
+Fare un ciclo `for` per stampare carattere dopo carattere tutti gli elementi della stringa (come fatto sopra) non è una grande idea, per stampare una stringa basta usare `%s` con la funzione `printf()` passando l'indirizzo base della stringa (l'indirizzo del primo carattere).
+
+
+```c
+#include<stdio.h>
+
+int main(void){
+        char ciao_v1[5] = "ciao"; // vettore dimensione fissa (+1 per '\0')
+        char *ciao_v2 = "ciao";   // puntatore a carattere
+        char ciao_v3[] = "ciao";  // vettore dimensine dedotta dal numero di caratteri
+
+        printf("%s\n", ciao_v1);
+        printf("%s\n", ciao_v2);
+        printf("%s\n", ciao_v3);
+        printf("%s\n", "ciao");
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/8_strings$ bin/4_strings
+ciao
+ciao
+ciao
+ciao
+```
 
 ### Funzioni
 
