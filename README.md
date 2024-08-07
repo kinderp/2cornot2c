@@ -4379,6 +4379,11 @@ Inserisci un numero da 1 a 12
 6 -> Giugno
 ```
 
+### Sezioni di memoria di un programma C
+
+![](https://github.com/kinderp/2cornot2c/blob/main/images/memoria_programma_c.png)
+
+### Allocazione dinamica di matrici
 
 
 
