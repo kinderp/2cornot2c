@@ -4129,6 +4129,7 @@ La dichiarazione di una matrice prevede quindi due cardinalità per il numero de
 nome-tipo identificatore [ cardinalita-riga] [cardinalita-colonna]
 ```
 
+![](https://github.com/kinderp/2cornot2c/blob/main/images/matrici.png)
 
 
 ### Array di puntatori
