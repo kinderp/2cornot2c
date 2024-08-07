@@ -3363,6 +3363,138 @@ int main(void){
 }
 ```
 
+### Relazione tra array e puntatori
+
+Abbiamo detto che il nome di un array è un puntatore costante al primo elemento del vettore.
+Quello che non abbiamo detto che i puntatori come gli array possono essere indicizzati con le parentesi `[` `]` esattamente come i vettori.
+La differenza tra nome di un array e puntatori è che il primo è un puntatore costante quindi non è possibile fare le operazione seguenti:
+
+```c
+#define N 300
+
+int main(void){
+        int a[N] = {1};
+        int *p;
+
+        a = p;   // errore: a è un puntaore costante, non lo posso cambiare assegnando un altro indirizzo
+        p = a++; // errore: a è un puntaore costante, non lo posso incrementare con operatore ++ ma (a+1) ok
+        p = &a;  // errore: a è un puntaore costante, non posso accedere al suo indirizzo
+}
+```
+
+```c
+#include<stdio.h>
+
+#define N 300
+
+int main(void){
+        int a[N];
+        for(int j=0; j < N; j++)
+                a[j] = 1;
+        int *p = NULL;
+        int i = 0;
+        p = a; // equivalente a: p = &a[0]
+
+        /*
+         * array e puntatori sono simili:
+         * - posso usare aritmetica puntatori con nome array
+         * - posso usare indicizzazione array con puntatori
+         * quindi le espressioni di sotto sono tutte lecite
+         *   *(a + 1) // aritmetica puntatori con nome array
+         *   a[i]     // indicizzazione array con nome array
+         *   p[i]     // indicizzazione array con  puntatore
+         *   *(p +1)  // aritemetica puntatori con puntatore
+         */
+
+        int risultato = 0;
+        /* ciclo il vettore usando l'indicizzazione dei vettore sul nome del vettore */
+        for(i = 0; i < N; i++)
+                risultato += a[i];
+        printf("%d\n", risultato);
+
+        /* ciclo il vettore uando l'artmetica dei puntatori sul puntatore*/
+        risultato = 0;
+        for(p = a; p < &a[N]; p++)
+                risultato += *p;
+        printf("%d\n", risultato);
+
+        /* ciclo il vettore usando l'aritmetica dei puntatori sul nome del vettore */
+        risultato = 0;
+        for(i=0; i < N; i++)
+                risultato += *(a + i);
+        printf("%d\n", risultato);
+
+        /* ciclo il vettore usando l'indicizzazione dei vettori sul puntatore */
+        risultato = 0;
+        p = a;
+        for(i=0; i < N; i++)
+                risultato += p[i];
+        printf("%d\n", risultato);
+
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/6_pointers$ bin/7_pointers
+300
+300
+300
+300
+```
+
+### Differenza tra puntatori
+
+```c
+#include<stdio.h>
+
+int main(void){
+        int a[2], *p, *q;
+        printf("(int  ) %ld bytes\n", sizeof(int));
+        printf("(long ) %ld bytes\n", sizeof(long));
+        printf("(int *) %ld bytes\n", sizeof(int *));
+        printf("\n");
+
+        /* La differenza  tra due puntatori ritorna  il numero di elementi
+         * che li separa e NON il numero di byte  come ci si  aspetterebbe
+         * devi fare  un  cast  per  ottenere  il risultato atteso
+         */
+        p = a;
+        q = a + 1; // equivalente a: q = p + 1, q = &a[1]
+        printf("%ld\n", q - p); // %ld -> long int, un puntatore è di tipo long int (arch a 64 bit)
+        printf("%ld\n", (long)q - (long)p);
+        printf("\n");
+
+        /* questi vale anche se le variabili puntate non sono elementi di un array */
+        int b = 2;
+        int c = 1;
+        int d = 3;
+        q = &d;
+        p = &b;
+        printf("&b = %p\n", p);
+        printf("&c = %p\n", &c);
+        printf("&d = %p\n", q);
+        printf("%ld\n", q - p); // distanza in elementi in memoria
+        printf("%ld\n", (long)q - (long)p); // distanza in termini di byte
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/6_pointers$ bin/8_pointers
+(int  ) 4 bytes
+(long ) 8 bytes
+(int *) 8 bytes
+
+1
+4
+
+&b = 0x7fff570affa4
+&c = 0x7fff570affa8
+&d = 0x7fff570affac
+2
+8
+```
+
 ### Le stringhe
 
 Il linguaggio C non ha un tipo predefinito per le stringhe, queste vengono implementate come array di caratteri.
@@ -3372,7 +3504,7 @@ Una stringa in C deve essere racchiusa tra **doppi apici**: `"` in questo modo
 "Questa è una stringa"
 ```
 
-Per assegnare la stringa ad una variabile dobbiamo dichiarare un array di catteri sufficientemente capiente per contenere tutti i caratteri della stringa. Tutte le stringhe vengono terminate (ultimo elemento della stringa) dal carattere `\0` detto di fine stringa che ovviamente non è stampabile ma serve per delimitare la fine della stringa. Nel calcolo della dimensione del vettore di carattere che conterrà la stringa dobbiamo quindi tenere conto del `\0` ed aumentare la dimenisone di 1 per esempio: la stringa "ciao" è composta da quattro caratteri, dobbiamo dichiarare un array di 5 caratteri per ospitare anche il carattere `\0`, in questo modo:
+**Una costante stringa come quella di sopra è tratta dal compilatore come un puntatore a carattere** quindi per assegnare una costante stringa ad una variabile abbiamo due possibilità. La prima è dichiarare un array di catteri sufficientemente capiente per contenere tutti i caratteri della stringa. Tutte le stringhe vengono terminate (ultimo elemento della stringa) dal carattere `\0` detto di fine stringa che ovviamente non è stampabile ma serve per delimitare la fine della stringa. Nel calcolo della dimensione del vettore di carattere che conterrà la stringa dobbiamo quindi tenere conto del `\0` ed aumentare la dimenisone di 1 per esempio: la stringa "ciao" è composta da quattro caratteri, dobbiamo dichiarare un array di 5 caratteri per ospitare anche il carattere `\0`, in questo modo:
 
 > [!NOTE]
 > Il carattere di fine stringa `\0` è diverso dal catattere '0' (il valore in ACII del carattere '0' è 48). `\0` in ASCII ha valore 0.
@@ -3402,6 +3534,132 @@ c       i       a       o
 > [!CAUTION]
 > I doppi apici `"` devono essere utilizzati per le stringhe, i singoli apici `'` per i caratteri. Fai attenzione a non scambiare i simboli tra loro.
 
+Un altra possibilità per assegnare una costante stringa ad una variabile è quella di utilizzare una variabile di tipo puntatore a carattere `char *` in questo modo:
+
+```c
+#include<stdio.h>
+
+int main(void){
+        char *ciao = "ciao";
+        for(int i=0; i < 5; i++)
+                printf("%c \t", ciao[i]);
+        printf("\n");
+
+        for(int i=0; i < 5; i++)
+                printf("%d \t", ciao[i]);
+        printf("\n");
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/8_strings$ bin/1_strings
+c       i       a       o
+99      105     97      111     0
+```
+In questo modo non ci dobbiamo preoccupare di tenere conto del carattere di fine stringa `\0`.
+
+Abbiamo visto che c'è una relazione tra array e puntatori, il compilatore infatti ci permette di dichiarare una stringa anche usando un array con le parentesi quadre vuote in questo modo:
+
+```c
+#include<stdio.h>
+
+int main(void){
+        char ciao[] = "ciao";
+        for(int i=0; i < 5; i++)
+                printf("%c \t", ciao[i]);
+        printf("\n");
+
+        for(int i=0; i < 5; i++)
+                printf("%d \t", ciao[i]);
+        printf("\n");
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/8_strings$ bin/2_strings
+c       i       a       o
+99      105     97      111     0
+```
+Anche in questo caso possiamo scordarci di `\0`.
+
+### Dettagli sull'inizializzazione
+
+Anche se esistono due modi diversi per dichiarare una stringa (il primo pensandola come un array di carattere e il secondo pensandola come un literals puntato da un puntatore a carattere) esistono delle differenza sottili tra i due metodi che vanno oltre il non doversi preoccupare di allocare spazio per '\0'.
+Vediamole in questo esempio:
+
+```c
+#include<stdio.h>
+#include<string.h>
+
+int main(void){
+        char ciao[] = "ciao";
+        /*  Il nome di un array e' un putatore costante al primo elemento del vettore
+         *  non posso farlo puntatore ad un'altro indirizzo, si ottiene un errore:
+         *  error: assignment to expression with array type
+         */
+        //ciao = "miao";/* errore: ciao e' puntaore costante */
+
+        /* Il puntatore non può essere modificato ma i caratteri ovviamente si come
+         * singoli elementi del vettore oppure usando la strcpy()
+         */
+        ciao[0] = 'm'; // corretto
+        printf("%s\n", ciao); // (1) miao
+        strcpy(ciao, "ciao");
+        printf("%s\n", ciao); // (2) ciao
+
+        printf("\n");
+
+        /* Se assegno la stringa ad un puntatore a carattere posso far puntare ciao_
+         * ad un' altra  cella di memoria senza problemi perche' il puntatore non e'
+         * const
+         */
+        char *ciao_ = "ciao";
+        printf("%s\n", ciao_); // (3) ciao
+        ciao_ = "miao";
+        printf("%s\n", ciao_); // (4) miao
+        /* In questo caso *ciao_ punta alla stringa "ciao" e di solito il compilatore
+         * inserisce le stringhe in un'area di memoria a sola lettura quindi probabil
+         * mente tentare di modificare la stringa con indicizzazione  o strcpy  porta
+         * al crash del programma (segmentation fault)
+         */
+        strcpy(ciao_, "ciao");
+        printf("%s\n", ciao_); // (5) ciao
+        ciao_[0] = 's';
+        printf("%s\n", ciao_); // (6) siao
+
+}
+```
+
+### Stampare una stringa
+
+Fare un ciclo `for` per stampare carattere dopo carattere tutti gli elementi della stringa (come fatto sopra) non è una grande idea, per stampare una stringa basta usare `%s` con la funzione `printf()` passando l'indirizzo base della stringa (l'indirizzo del primo carattere).
+
+
+```c
+#include<stdio.h>
+
+int main(void){
+        char ciao_v1[5] = "ciao"; // vettore dimensione fissa (+1 per '\0')
+        char *ciao_v2 = "ciao";   // puntatore a carattere
+        char ciao_v3[] = "ciao";  // vettore dimensine dedotta dal numero di caratteri
+
+        printf("%s\n", ciao_v1);
+        printf("%s\n", ciao_v2);
+        printf("%s\n", ciao_v3);
+        printf("%s\n", "ciao");
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/8_strings$ bin/4_strings
+ciao
+ciao
+ciao
+ciao
+```
 
 ### Funzioni
 
@@ -3677,10 +3935,86 @@ valore dopo     l'invocazione: 103
 risultato                    : 103
 ```
 
+> [!IMPORTANT]
+> L'utilizzo della tecnica del passaggio di parametri per indirizzo permette al programmatore di:
+* ritornare più di una valore da una funzione
+* evitare di perdere tempo nella copia di dati di grandi dimensioni passando solo l'indirizzo e non il dato completo
 
 
+### Passaggio di puntatori const
 
+Quando è necessario passare dati di grandi dimensioni ad una funzione è quindi cosa buona e giusta passare solo il puntatore al dato (tramite variabile puntatore: passaggio per indirizzo). Abbiamo visto che passando il puntatore di una variabile ad una funzione applichiamo un passaggio per indirizzo ed il dato originale nel chiamante è di fatto modificabile dalla funzione che lo riceve. Se non vogliamo che la funzione sia in grado di modificare il dato passato per indirizzo attraverso la deferenziazione del puntatore possiamo dichiarare il puntatore const nel prototipo della funzione rendendo di fatto il dato a sola lettura dentro la funzione. Vediamo un esempio:
 
+```c
+#include<stdio.h>
+
+void leggi(const char *);
+
+int main(void){
+        char qualcosa[30] = "Non voglio essere modificata";
+        qualcosa[0] = 'x';
+        qualcosa[1] = 'x';
+        qualcosa[2] = 'x';
+        leggi(qualcosa);
+}
+
+void leggi(const char *qualcosa){
+        // qualcosa[0] = '\0';
+        /* Se decommenti la riga sopra e provi a ricompilare ottineni errore
+         * error: assignment of read-only location *qualcosa
+         * perchè stai provando a modificare una locazione di memoria in sola
+         * lettura (puntatore costante)
+         */
+        printf("%s\n",qualcosa);
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/6_pointers$ bin/5_pointers
+xxx voglio essere modificata
+```
+
+### Array come parametri a funzioni
+
+In una definizione di funzione, un parametro in ingresso dichiarato come array è in realtà un puntatore. Quindi, quando un array viene passato ad una funzione, viene fatto un passaggio per valore dell'indirizzo del primo elemento dell'array; gli elementi degli array non vengono mai copiati. Per convenienza notaionale, il compilatore permette l'utilizzo della notazione con le parentesi quadre (vuote) degli array per dichiarare parametri di tipo puntatore. Vediamo un esempio:
+
+```c
+#include<stdio.h>
+#define N 100
+
+int sum(int a[], int dim);
+int somma(int *, int dim);
+
+int main(void){
+        int vettore[N];
+        for(int i=0; i < N; i++)
+                vettore[i] = 1;
+
+        printf("%d\n", sum(vettore, N));
+        printf("%d\n", somma(vettore, N));
+        return 0;
+}
+
+int sum(int a[], int dim){
+        int risultato = 0;
+        for(int i=0; i < dim; i++)
+                risultato += a[i];
+        return risultato;
+}
+
+int somma(int *a, int dim){
+        int risultato = 0;
+        for(int i=0; i < dim; i++)
+                risultato += a[i];
+        return risultato;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/9_functions$ bin/3_functions
+100
+100
+```
 
 
 
