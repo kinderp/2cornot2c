@@ -3632,6 +3632,16 @@ int main(void){
 }
 ```
 
+```bash
+vagrant@ubuntu2204:/lab/8_strings$ bin/5_strings
+miao
+ciao
+
+ciao
+miao
+Segmentation fault (core dumped)
+```
+
 ### Stampare una stringa
 
 Fare un ciclo `for` per stampare carattere dopo carattere tutti gli elementi della stringa (come fatto sopra) non è una grande idea, per stampare una stringa basta usare `%s` con la funzione `printf()` passando l'indirizzo base della stringa (l'indirizzo del primo carattere).
@@ -4015,6 +4025,8 @@ vagrant@ubuntu2204:/lab/9_functions$ bin/3_functions
 100
 100
 ```
+
+### Allocazione dinamica della memoria
 
 
 
