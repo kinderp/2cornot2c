@@ -4138,7 +4138,7 @@ int mat[6][7];
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/matrici.png)
 
 Come puoi vedere nella figura di sopra anche se da un punto di vista di indicizzazione `mat` ha due indici quindi è bidimensionale in memoria lo spazio allocato è lineare e continguo (la RAM ha una struttura monodimensionale): viene allocato spazio contiguo per 42 interi.
-Rimane la relazione tra array e puntatori, il nome della matrice è un puntatore doppio (punta ad un puntatore) cioè se faccio la deferenziazione `*mat` non ottengo il valore del primo elemento del vettore contingue di 46 elementi ma l'indirizzo del primo elemento del vettore contiguo in RAM; usando l'aritmetica dei puntatori a partire da questo indirizzo mi sposto tra i vari elementi.
+Rimane la relazione tra array e puntatori, il nome della matrice è un puntatore doppio (punta ad un puntatore) cioè se faccio la deferenziazione `*mat` non ottengo il valore del primo elemento del vettore contingue di 42 elementi ma l'indirizzo del primo elemento del vettore contiguo in RAM; usando l'aritmetica dei puntatori a partire da questo indirizzo mi sposto tra i vari elementi.
 Per esempio data una matrice di `N_RIGHE=6` e `N_COLONNE=7`: `mat[6][7]` sia `i` l'indice di riga e `j` l'indice colonna, per accedere al 21° elemento (ultimo elemento della terza riga) quindi `i=2` (gli indici partono sempre da zero, i=0 prima riga, i=2 terza riga) `j=6` (settima ed ultima colonna) possiamo usare: 
 
 * l'accesso ad indice degli array
@@ -4149,12 +4149,12 @@ Per esempio data una matrice di `N_RIGHE=6` e `N_COLONNE=7`: `mat[6][7]` sia `i`
   ```c
   	/*
   	 * mat è un puntatore doppio: contiene l'indirizzo di una variabile puntatore che continene
-  	 * a suo volta l'indirizzo del primo elemento del vettore contiguo di 46 elementi.
+  	 * a suo volta l'indirizzo del primo elemento del vettore contiguo di 42 elementi.
   	 * 1. deferenziazione sul doppio puntatore mat:
   	 *           *mat 
   	 * ottengo l'indirizzo del primo elemento del vettore
   	 * 2. mi sposto con aritmetica puntatori all'indirizzo del 21 elemento con la formula
-         *           *mat + ( (i*N_COLONNE) + j) )
+  	 *           *mat + ( (i*N_COLONNE) + j) )
   	 * 3. deferenziazione del puntatore che punta al 21 elemento
   	 *           *(*mat + ( (i*N_COLONNE) + j) ) )
   	 * e finalmente ottengo il valore del 21 elemento
