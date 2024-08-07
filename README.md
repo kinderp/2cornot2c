@@ -4129,7 +4129,16 @@ La dichiarazione di una matrice prevede quindi due cardinalità per il numero de
 nome-tipo identificatore [ cardinalita-riga] [cardinalita-colonna]
 ```
 
+Per esempio per allocare spazio per una matrice con 6 righe e 7 colonne dovremmo fare:
+
+```c
+int mat[6][7];
+```
+
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/matrici.png)
+
+Come puoi vedere nella figura di sopra anche se da un punto di vista di indicizzazione `mat` ha due indici quindi è bidimensionale in memoria lo spazio allocato è lineare e continguo (la RAM ha una struttura monodimensionale).
+
 
 
 ### Array di puntatori
