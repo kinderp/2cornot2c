@@ -4120,6 +4120,42 @@ statico : 0 1 2 3 4 5 6 7 8 9
 dinamico: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
 ```
 
+### Array bidimensionali
+
+Gli array sono memorizzati in modo contiguo (linearmente) in memoria ma spesso è utile pensare a vettori a due dimensioni (detti anche matrici) in cui un elmento del vettore a due dimensioni è indentificato da due indici: **indice di riga** e **indice di colonna**.
+La dichiarazione di una matrice prevede quindi due cardinalità per il numero delle righe e per il numero delle colonne.
+
+```c
+nome-tipo identificatore [ cardinalita-riga] [cardinalita-colonna]
+```
+
+
+
+### Array di puntatori
+
+I puntatori sono variabili come tutte le altre e quinei è possibile dichiare un vettore di puntatori. 
+```c
+#include<stdio.h>
+
+int main(void){
+        char *mesi_anno[12] = {"Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio",
+                              "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"};
+
+        int mese;
+        printf("Inserisci un numero da 1 a 12\n");
+        scanf("%d", &mese);
+
+        printf("%d -> %s\n", mese, mesi_anno[mese-1]);
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/6_pointers$ bin/9_pointers
+Inserisci un numero da 1 a 12
+10
+10 -> Ottobre
+```
 
 
 
