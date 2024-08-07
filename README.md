@@ -4028,6 +4028,42 @@ vagrant@ubuntu2204:/lab/9_functions$ bin/3_functions
 
 ### Allocazione dinamica della memoria
 
+Quando si dichiara una variabile, il compilatore alloca automaticamente lo spazio in memoria necessario per memorizzare la variabile. La quantità di spazio allocato dipende dal tipo della variabile. Quando si dichiara un puntatore ad un determinato tipo, viene allocato spazio in memoria per il puntatore soltanto (che è sempre la stessa `unsisgned long` 8byte) indipendentemente dalla dimensione del tipo puntato. Il puntatore potrà successivamente essere assegnato per contenere l'indirizzo di una variabile dello stesso tipo del puntatore e da quel momento si potrà utilizzare il puntatore per accedere al contenuto della variabile passando per il suo indirizzo (usando l'operazione di derenziazione dei puntatori che abbiamo studiato).
+Questo tipo di allocazione della memoria avviene a tempo di compilazione ed è spesso detta **allocazione statica della memoria**. L'allocazione statica può risultare inutile soprattutto nel caso dei vettori se la dimensione (il numero di elementi del vettore) non è noto a tempo di compilazione ma solo durante l'esecuzione del programma (ad esempio il numero degli elementi è scelto dall'utente ad ogni nuova esecuzione). Il linguaggio C permette di effettuare l'allocazione di memoria a tempo di esecuzione; questo tipo di allcoazione è detta: **allocazione dinamica della memmoria**.
+Esistono diverse funzioni offerte dal libreria standard del C, per allocare dinamicamente la memoria a tempo di esecuzione. Per adesso vediamo la più comune: la funzione **malloc()**.
+Questo è il suo prototipo:
+
+```c
+void * malloc(size_t n);
+```
+
+La funzione `malloc()` alloca n byte contigui in memoria e ritorna in caso di successo il puntatore al primo elemento della memoria allocata o in caso di errore `NULL`.
+
+* `size_t n`: n è il numero di byte da allocare contigui in memoria
+* `void *`: ritorna un puntatore a void (che può essere trasformato in un puntatore di qualsiasi tipo) che punta al primo elemento della memoria contigua allocata
+
+Tornando `NULL` in caso di errore è cosa buona e giusta, prima di usare la memoria allocata, effettuare un controllo sul puntatore tornato da `malloc()` in questo modo:
+
+```c
+	int *ptr = (int *)malloc(sizeof(int));
+	if (ptr) {
+		/* codice che usa ptr ed accede alla memoria allocata*/
+	}
+```
+
+o anche esplicitamente
+
+```c
+	int *ptr = (int *)malloc(sizeof(int));
+	if (ptr != NULL) {
+		/* codice che usa ptr ed accede alla memoria allocata*/
+	}
+
+```
+
+> [!CAUTION]
+> Tutta la memoria allocata dinamicamente deve essere rilasciata quando non più necessaria. A questo scopo si richiama la funzione free() che accetta come parametro un puntatore contenente la memoria da deallocara
+> Chiamare free() su un puntatore non allocato o precedentemente deallocato può portare a comportamenti del programma imprevedibili. Chiamare free() su un puntatore nullo (`NULL`) non ha alcun effetto.
 
 ```c
 #include<stdio.h>
@@ -4070,6 +4106,8 @@ int main(void){
         for(k=0; k<M; k++)
                 printf("%d ", dinamico[k]);
         printf("\n");
+        /* dealloco la memoria con free() */
+        free(dinamico);
         return 0;
 }
 ```
