@@ -4217,7 +4217,8 @@ vagrant@ubuntu2204:/lab/7_array$ bin/7_array
 
 ### Array di puntatori
 
-I puntatori sono variabili come tutte le altre e quinei è possibile dichiare un vettore di puntatori. 
+I puntatori sono variabili come tutte le altre e quindi è possibile dichiare un vettore di puntatori. 
+
 ```c
 #include<stdio.h>
 
@@ -4241,8 +4242,45 @@ Inserisci un numero da 1 a 12
 10 -> Ottobre
 ```
 
+### Differenza tra array bidimensionali ed array di puntatori
 
+Benchè simili i vettori bidimensionali (matrici) e gli array di puntatori sono diversi.
+Riprendendo l'esempio dei mesi dell'anno le due variabili: `array_di_puntatori` e `matrice` svolono lo stesso identico ruolo: contenere la lista ordinata dei mesi dell'anno
 
+```c
+#include<stdio.h>
+
+int main(void){
+        char *array_di_puntatori[12] = {"Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio",
+                                        "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"};
+
+        char matrice[12][10] =  {"Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio",
+                                 "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"};
+
+        int mese;
+        printf("Inserisci un numero da 1 a 12\n");
+        scanf("%d", &mese);
+
+        printf("%d -> %s\n", mese, array_di_puntatori[mese-1]);
+        printf("%d -> %s\n", mese, matrice[mese-1]);
+        return 0;
+}
+```
+
+```bash
+vagrant@ubuntu2204:/lab/6_pointers$ bin/10_pointers
+Inserisci un numero da 1 a 12
+6
+6 -> Giugno
+6 -> Giugno
+```
+
+e l'accesso indicizzato `array_di_puntatori[5][0]` o `matrici[5][0]` è equivalente e permette di leggere la lettera `G` (il primo carattere del mese di giugno, primo elemento dell'array in sesta posizione).
+Da un punto di vista di allocazione di memoria ci sono delle sottili differenze.
+Nel caso di vettore bidimensionale abbiamo allocato una quantità di memoria fissa pari a 12*10=120 byte (12 mesi e 10 è dato dalla lunghezza della stringa più lunga: Settembre che misura 9 caratteri più il carattere di fine stringa `\0`) quindi abbiamo 12 righe tutto di 10 colonne. C'è un certo spreco di memoria perchè non tutti i mesi sono lunghi 9 caratteri ed i byte resteranno non utlizzati.
+Nel caso di vettori di puntaori invece abbiamo una quantità di memoria allocata pari a 12 puntatori a carattere quindi 12*8=96 byte, un puntatore doppio che punta al primo elemento del vettore di puntatori quindi 8 byte e più la memoria allocata per ogni singola stringa rappresentante i mesi dell'anno. Questa volta però le stringhe occupano lo spazio strettamente necessario a contenere i loro caratteri senza spreco di spazio e qualche elemento del vettore di puntatori potrebbe anche non contenere alcun indirizzo quindi non puntatore a nulla se fosse necessario.
+La differenza sostanziale però tra i due metodi è che nel caso delle matrici gli elementi sono allocati in modo contiguo in memoria mentre in un array di puntatori solo i puntatori sono contigui in memoria mentre le variabili puntate sono sparse in memoria questo secondo approccio si traduce in un grosso vantaggio quando si devono svolgere operazioni di ordinamento e/o spostamento tra i vari elementi.
+Il vantaggio di un array di puntaori non è tanto il risparmio di memoria nella rappresentazione delle stringhe ma piuttosto il fatto che ordinamenti e spostamenti degli elementi del vettore sono molto più facili e veloci da fare perchè lo scambio di positizione tra due elementi del vettore si traduce nello scrivere dei nuov indirizzi nelle variabili puntatori mentre nel caso delle matrice dobbiamo spostare tutti gli elementi compresi tra i due elementi interessati.
 
 
 
