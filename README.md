@@ -4412,7 +4412,7 @@ Lo **stack** è un'area di memoria contigua all'heap e cresce in direzione oppos
 ### Allocazione dinamica di matrici
 
 
-
+![](https://github.com/kinderp/2cornot2c/blob/main/images/pianeti_matrice.png)
 
 
 
