@@ -4400,6 +4400,15 @@ Lo **stack** è un'area di memoria contigua all'heap e cresce in direzione oppos
 
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/memoria_programma_c.png)
 
+### L'inizializzazioni delle variabili
+
+**In assenza di inizializzazioni esplicite**, l'inizializzazione di una variabile segue alcune regole che dipendono dalla classe di memorizzazione alla quale la variabile appartiene. In particolare:
+
+* le **variabili globali** vengono **inizializzate a zero** (si trovano nel **BSS**, se fossero state inizializzate esplictiamente sarebbero state nella sezione **data** del **data segment**)
+* le **variabili statiche** vengono **inizializzate a zero** (si trovano nel **BSS**, se fossero state inizializzate esplictiamente sarebbero state nella sezione **data** del **data segment**)
+* le **variabili statiche e globali** possono essere **inizializzate solo tramite espresioni costanti** (quindi non con valori di altre variabili non statiche o globali o valori restituiti da funzioni)
+* le **variabili locali** possono essere inizializzate anche con valori di altre variabili o restituiti da funzione e se non inizializzate esplicitamente **non vengono poste a zero ma contengono un valore casuale e non prevedibile** a priori.
+
 ### Allocazione dinamica di matrici
 
 
