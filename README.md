@@ -4381,6 +4381,23 @@ Inserisci un numero da 1 a 12
 
 ### Sezioni di memoria di un programma C
 
+Quando un programma viene caricato in memoria per la sua esecuzione, al programma vengono assegnate delle porzioni di memoria dette **sezioni** o **segmenti**, ciscuna delle quali è deputata ad una funzione specifica. La memoria di un programma C consiste nelle seguenti sezioni:
+
+* **text segment** (anche detto **code segment**)
+* **data segment** (che si divide in tre zone: data, BSS e heap)
+* **stack segment**
+
+Il **text segment** (o anche **code segment**) è la parte della memoria che contiene le **istruzioni eseguibili** del programma. Per questioni di sicurezza (accidentali o malefiche modifiche del codice del programma), questa zona di memoria è in **sola lettura** (read-only)
+Il **data segment** è la parte di memoria che contiene: **variabili globali**, **variabili statiche**. Esso si divide in tre zone: **data**, **BSS** e **heap**
+* Il segmento **data** contiene
+  * le variabili inizializzate dal programmatore nella dichiarazione (es: `static int i = 10`)
+* Il segmento **BSS** (*Block Started by Symbol) contiene
+  * le variabili non inizializzate dal programmatore (es: `int vet[100]`), queste variabili vengono inizializzate dal sistema oprativo al valore 0 prima dell'esecuzione del programma
+* Il segmento **heap** è destinato ad ospitare la memoria allocata dinamicamente tramite funzioni come `malloc()`. Quando il programmatore allora o dealloca memoria dinamicamente la dimensione di questo segmento cresce o diminuisce. Questo segmento inizia dopo il **BSS** e cresce verso l'alto occupando indirizzi crescenti
+* Il segmento **stack** gestisce la chiamata a funzione ed ospita le variabili automatiche della funzione chiamata (variabil locali, classe memorizzazione `auto`) i parametri passati in ingresso alla funzione, l'indirizzo di ritorno al chiamante da cui riprendere l'esecuzine al termine dell'esecuzione della funzione ed il contenuto di alcuni registri della CPU. Lo stack cresce verso il basso dagli indirizzi più alti verso indirizzi più bassi e confina con il segmento **heap**
+
+Lo **stack** è un'area di memoria contigua all'heap e cresce in direzione opposta a quest'utlimo, quando il puntatore allo stack incontra il puntatore all'heap, lo spazio di memoria libera per il programma è esautito.
+
 ![](https://github.com/kinderp/2cornot2c/blob/main/images/memoria_programma_c.png)
 
 ### Allocazione dinamica di matrici
