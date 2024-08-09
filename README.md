@@ -4604,6 +4604,81 @@ Neptune
 Pluto
 ```
 
+### Le strutrure
+
+Una struttura o **struct** è un tipo di dato derivato che permette di raggruppare un insieme di elementi di tipo diverso con una qualche forte correlazione tra loro, detti **campi** della struttura, in un'area contigua in memoria.  
+I campi della struttura possono essere semplici (predefiniti dal linguaggio) o derivari (anche altre sterutture stesse) e come detto possono essere di tipo diverso tra loro (al contrario degli array).
+La sintassi per dichiarare una struttura è la seguente:
+
+```c
+struct nome-struttura {
+	tipo-campo1 nome-campo1;
+	[tipo-campo2 nome-campo2;]
+	[...]
+} ;
+```
+
+Per esempio per dichiarare un tipo che rappresenti un punto nello spazio bidimensionale:
+
+```c
+/* dichiaro il nuovo tipo che si chiama: struct punto_2d */
+struct punto_2d {
+	int x;
+	int y;
+};
+```
+
+Una volta che il nuovo tipo è stata dichiarato è possibile dichiarare variabili o puntatori del nuovo tipo, in questo modo:
+
+```c
+/* dichiaro una variabile ed un puntatore del tipo struct punto_2d
+ * fai attenzione che il nuovo tipo è "struct punto_2s" e non sola
+ * mente "punto_2d", non ti scordare "struct" nel nome del tipo.
+ */
+struct punto_2d i;
+struct punto_2d *ptr
+```
+
+Per accedere ai singoli campi di una struttura attraverso una variabile basta usare il `.` in questo modo: `nome_variabile.nome_campo`, se si accede ai campi attraverso un puntatore si usa `->` in questo modo `nome_variabile_puntatore->nome_campo`. Per esempio:
+
+```c
+#include<stdio.h>
+
+/* dichiaro il nuovo tipo che si chiama: struct punto_2d */
+struct punto_2d {
+        int x;
+        int y;
+};
+
+int main(void){
+        /* dichiaro una variabile ed un puntatore del tipo struct punto_2d
+         * fai attenzione che il nuovo tipo è "struct punto_2s" e non sola
+         * mente "punto_2d", non ti scordare "struct" nel nome del tipo.
+         */
+        struct punto_2d i;
+        struct punto_2d *ptr = NULL; /* alloco spazio per il puntatore */
+
+        /* il puntaore deve essere inizializzato all'indirizzo della struttura
+         * altrimenti non punta ad una locazione di memoria valida per noi
+         */
+        ptr = &i;
+        /* inizializzo la struttura accedendo ai campi con la notazione puntata
+          * attraverso una variabile di tipo "struct punto_2d"
+          */
+        i.x = 0;
+        i.y = 0;
+        printf("(%d, %d)\n", i.x, i.y);
+
+        /* accedo ai campi della struttura attraverso il puntatore usando -> */
+        ptr->x = 1;
+        ptr->y = 1;
+        printf("(%d, %d)\n", ptr->x, ptr->y);
+
+        return 0;
+}
+```
+
+
 
 
 
