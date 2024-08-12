@@ -5060,13 +5060,86 @@ Alcuni esempi di segnali sono
 | First Header  | Significato | Disposizione
 | ------------- | ------------- |------------- |
 | `SIGSEGV`  | segmentation fault  | termina il processo
-| `SIGTERM`  | chiede al processo di terminare, il processo potrebbe ignorare il segnale di terminazione  | 
-| `SIGKILL`  | termina il processo immediatamente, il processo non può ignorare questo segnale  | 
+| `SIGTERM`  | chiede al processo di terminare, il processo potrebbe ignorare il segnale di terminazione  | termina il processo
+| `SIGKILL`  | termina il processo immediatamente, il processo non può ignorare questo segnale  | termina il processo 
 | `SIGUSR1`  | Definito dall'utente  |
 | `SIGUSR2`  | Definito dall'utente  |
 | `SIGHUP`   | Risveglia un processo o lo mette in sleep o lo costringe e rileggere la sua configurazione |
 
 
+#### sigaction function
+
+La **sigaction** può essere usata per settare la disposizione per un segnale (per modificare la disposizione di default).
+Questa riceva in ingresso tre parametri:
+
+1. `int`: il numero del segnale
+2. `const struct sigaction *`: la disposizione desiderata per il segnale
+3. `struct sigaction *`: la precedente disposizione per il segnale
+   
+```c
+int sigaction(int signum,
+                     const struct sigaction *_Nullable restrict act,
+                     struct sigaction *_Nullable restrict oldact);
+```
+
+La struct `sigaction` ha questa forma:
+
+```c
+struct sigaction {
+               void     (*sa_handler)(int);
+               void     (*sa_sigaction)(int, siginfo_t *, void *);
+               sigset_t   sa_mask;
+               int        sa_flags;
+               void     (*sa_restorer)(void);
+           };
+```
+
+Il campo più importante in questa struttura è `sa_handler` che può assumere uno di questi tre valori:
+
+* **SIG_DFL**
+* **SIG_IGN**
+* Un puntatore alla funzione **signal-handler**. La funzione dovrebbe accettare un paraemtre (il numero del segnale) e ritornare `void`.
+
+Quando il segnale viene processata dal programma questo può essere in uno stato altamente instabile (quindi durante l'esecuzione di un **signal-hadler**). Quindi all'interno di una funzione **signal-hanlder** bisogna svolgere solo i task strettamente necessari per gestire/rispondere il/al segnale ed evitare operazione di I/O o richiamare librerie esterne o del linguaggio. Può accadere che un **signal-handler** sia interrotto a causa della ricezione di un altro segnale e questo è un problema molto complicato da diagnosticare e debuggare e per questo bisogna essere molto cauti su cosa fare dentro un **signal-handler**.
+
+Un altro aspetto da tenere in considerazione è rendere le prorpie istruzioni (variabili globali) atomiche usando il tipo `sig_atomic_t`. Linux garantisce che l'assegnazione di variabili di questo tipo avvenga in modo atomico e non possa essere interrotto dall'arrivo di un nuovo segnale.
+
+Vediamo un esempio di **signal-handler** per la gestione del segnale **SIGUSR1** uno dei due segnale riservati all'uso da parte dei programmi applicativi.
+
+```c
+/***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+
+#include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+sig_atomic_t sigusr1_count = 0;
+
+void handler (int signal_number)
+{
+  ++sigusr1_count;
+}
+
+int main ()
+{
+  struct sigaction sa;
+  memset (&sa, 0, sizeof (sa));
+  sa.sa_handler = &handler;
+  sigaction (SIGUSR1, &sa, NULL);
+
+  /* Do some lengthy stuff here.  */
+  /* ...  */
+
+  printf ("SIGUSR1 was raised %d times\n", sigusr1_count);
+  return 0;
+}
+```
 
 
 
