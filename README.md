@@ -5344,6 +5344,40 @@ the child process exited normally, with exit code 0
 done with main program
 ```
 
+#### Processi zombie
+
+Quando un processo figlio termina ed il processo padre ha chiamato la `wait()` le informazioni circa la terminazione della propria esecuzione sono passati attraverso la `wait()` al padre. Se il padre non chiama la `waiit()` queste informazioni vanno perse? No, perchè in questo caso il processo figlio diventa un processo **zombie**.
+Un processo **zombie** è un processo che ha terminato la propria esecuzione ma non è stato ancora pulito, è compito del processo padre ripulire il processo proprio processo figlio zombie. Il compito della `wait()` è appunto questo: una volta che il processo figlio termina questo diventa una zombio poi la `wait()` andrà ad estrarre lo status di uscita del figlio zombie e finalmente il processo figlio può essere eliminato. Se il processo padre non chiama la `wait()` il figlio resta nello stato di zombie, vediamo un esempio:
+
+```c
+/***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main ()
+{
+  pid_t child_pid;
+
+  /* Create a child process.  */
+  child_pid = fork ();
+  if (child_pid > 0) {
+    /* This is the parent process.  Sleep for a minute.  */
+    sleep (60);
+  }
+  else {
+    /* This is the child process.  Exit immediately.  */
+    exit (0);
+  }
+  return 0;
+}
+```
+
 
 
 
