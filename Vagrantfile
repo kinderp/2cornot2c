@@ -44,6 +44,7 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
    config.vm.synced_folder "./lab", "/lab"
+   config.vm.synced_folder "./lab2", "/lab2"
 
   # Disable the default share of the current code directory. Doing this
   # provides improved isolation between the vagrant box and your host
