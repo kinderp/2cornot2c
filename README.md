@@ -4753,9 +4753,296 @@ Luigi Bianchi di eta' 31 ha una media di 19.700001
 ```
 
 
+## Linux Programming
 
+### Processi
 
+Un processo è un instanza di un programma; un programma (un file eseguibile presente sul disco) che è stato caricato in memoria.
+Quando dalla riga di comando invochiamo il nome di un programma o clicchiamo sull'icona presente sulla scrivania il file eseguibile viene caricato in memoria ed ha inizio la sua esecuzione in un nuovo processo. Un singolo programma può far uso di più processi contemporaneamente per fare più cose contemporaneamente. La maggior parte dell funzioni per la manipolazione dei processi richiedono l'inclusione del file header `<unistd.h>`
 
+#### Process IDs
+
+Ciascun processo in Linux è identificato da un id univoco detto *process ID* anche detto **PID**. Un **PID** è lungo 16 bit ($s^16=65536$). Ciascun processo ha un processo padre (tranne il processo che viene creato per primo all'avvio del sistema operativo detto processo **init** che ha **PID** 1 e nessun padre).
+Il process ID del processo padre è anche detto **PPID**. I processi sui sistemi Linux sono quindi rappresentabili attraverso un albero dove la radice è il processo **init**.
+Quando in C si vuole rappresentare il **PID** di un processo si usa il tipo `pid_t` definito in `<sys/types.h`>. Per ottenere il proprio **PID** si richiamo la system call `getpid()`, allo stesso modo per ottenere il **PPID** si richiama la `getppid()`. Vediamo un esempio:
+
+```c
+/***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+
+#include <stdio.h>
+#include <unistd.h>
+
+int main ()
+{
+  printf ("The process id is %d\n", (int) getpid ());
+  printf ("The parent process id is %d\n", (int) getppid ());
+  return 0;
+}
+```
+
+### Vedere i processi attivi
+
+Il comando **ps** mostra i processi attivi sul sistema.
+
+```bash
+vagrant@ubuntu2204:/lab2/0_processes$ ps
+    PID TTY          TIME CMD
+   1331 pts/0    00:00:00 bash
+   1421 pts/0    00:00:00 ps
+ ```
+
+Sembra ci siano due processi attivi sul sistema, il primo è **bash** ed il secondo è **ps** che abbiamo lanciato. La prima colonna mostra il **PID** dei processi attivi. Per maggiori dettagli possiamo digitare
+
+```bash
+ps -e -o pid,ppid, command
+```
+
+| Opzione  | Significato |
+| ------------- | ------------- |
+| `-e`  | mostra tutti i processi attivi sul sistema non solo quelli dell'utente corrente  |
+| `-o`  | specifica quali informazioni mostrare per il singolo processo  |
+| `pid`  | mostra il **pid**  |
+| `ppid`  | mostra il **ppid**  |
+| `ppid`  | mostra il programma eseguito all'interno del processo |
+
+```bash
+vagrant@ubuntu2204:/lab2/0_processes$ ps -e -o pid,ppid,command
+    PID    PPID COMMAND
+      1       0 /sbin/init =
+      2       0 [kthreadd]
+      3       2 [rcu_gp]
+      4       2 [rcu_par_gp]
+      5       2 [slub_flushwq]
+      6       2 [netns]
+      8       2 [kworker/0:0H-events_highpri]
+     10       2 [mm_percpu_wq]
+     11       2 [rcu_tasks_rude_]
+     12       2 [rcu_tasks_trace]
+     13       2 [ksoftirqd/0]
+     14       2 [rcu_sched]
+     15       2 [migration/0]
+     16       2 [idle_inject/0]
+     18       2 [cpuhp/0]
+     19       2 [cpuhp/1]
+     20       2 [idle_inject/1]
+     21       2 [migration/1]
+     22       2 [ksoftirqd/1]
+     24       2 [kworker/1:0H-events_highpri]
+     25       2 [kdevtmpfs]
+     26       2 [inet_frag_wq]
+     27       2 [kauditd]
+     28       2 [khungtaskd]
+     29       2 [oom_reaper]
+     30       2 [writeback]
+     31       2 [kcompactd0]
+     32       2 [ksmd]
+     33       2 [khugepaged]
+     80       2 [kintegrityd]
+     81       2 [kblockd]
+     82       2 [blkcg_punt_bio]
+     83       2 [tpm_dev_wq]
+     84       2 [ata_sff]
+     85       2 [md]
+     86       2 [edac-poller]
+     87       2 [devfreq_wq]
+     88       2 [watchdogd]
+     90       2 [kworker/0:1H-kblockd]
+     92       2 [kswapd0]
+     93       2 [ecryptfs-kthrea]
+     95       2 [kthrotld]
+     96       2 [acpi_thermal_pm]
+     98       2 [scsi_eh_0]
+     99       2 [scsi_tmf_0]
+    100       2 [scsi_eh_1]
+    101       2 [scsi_tmf_1]
+    103       2 [vfio-irqfd-clea]
+    104       2 [kworker/u4:4-events_unbound]
+    105       2 [mld]
+    106       2 [ipv6_addrconf]
+    115       2 [kstrp]
+    118       2 [zswap-shrink]
+    119       2 [kworker/u5:0]
+    124       2 [charger_manager]
+    148       2 [kworker/1:1H-kblockd]
+    165       2 [kworker/0:2-events]
+    166       2 [cryptd]
+    175       2 [scsi_eh_2]
+    178       2 [scsi_tmf_2]
+    217       2 [kdmflush]
+    243       2 [raid5wq]
+    291       2 [jbd2/dm-0-8]
+    292       2 [ext4-rsv-conver]
+    354       1 /lib/systemd/systemd-journald
+    379       2 [kaluad]
+    382       2 [kmpath_rdacd]
+    385       2 [kmpathd]
+    386       2 [kmpath_handlerd]
+    387       1 /sbin/multipathd -d -s
+    391       1 /lib/systemd/systemd-udevd
+    440       2 [kworker/u4:6-events_power_efficient]
+    504       2 [jbd2/sda2-8]
+    505       2 [ext4-rsv-conver]
+    524       2 [kworker/0:4-events]
+    526       1 /lib/systemd/systemd-networkd
+    534       1 /usr/sbin/haveged --Foreground --verbose=1
+    538       1 /lib/systemd/systemd-resolved
+    602       1 /usr/sbin/cron -f -P
+    603       1 @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-acti
+    610       1 /usr/sbin/irqbalance --foreground
+    611       1 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+    612       1 /usr/libexec/polkitd --no-debug
+    614       1 /usr/sbin/rsyslogd -n -iNONE
+    620       1 /usr/lib/snapd/snapd
+    624       1 /lib/systemd/systemd-logind
+    629       1 /usr/libexec/udisks2/udisksd
+    644       1 /usr/sbin/ModemManager
+    658       1 /usr/sbin/ifplugd -i eth0 -q -f -u0 -d10 -w -I
+    666       1 /sbin/agetty -o -p -- \u --noclear tty1 linux
+    696       1 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+    704       1 /usr/sbin/VBoxService
+   1279     696 sshd: vagrant [priv]
+   1282       1 /lib/systemd/systemd --user
+   1283    1282 (sd-pam)
+   1330    1279 sshd: vagrant@pts/0
+   1331    1330 -bash
+   1427       2 [kworker/1:0-events]
+   1429       2 [kworker/1:3-events]
+   1453       2 [kworker/u4:0-events_unbound]
+   1455    1331 ps -e -o pid,ppid,command
+``
+
+### Uccidere un processo
+
+Tu puoi uccidere un processo con il comando `kill`. Semplicemente indica sulla riga di comand il pid del processo che deve essere ucciso. Il comando kill invia al processo un signale `SIGTERM`. La ricezione di questo segnale determina (a meno che il processo non gestisca il signale o lo ignori) la terminazione del processo.
+
+### Creare un processo
+
+Ci sono due modi per crare un processo; il primo è relativamente semplice ma è inefficiente e rischioso da un punto di vista di sicurezza, il secondo è più complesso ma fornisce maggiore sicurezza e flessibilità.
+
+#### `system()`
+
+La funzione `system()` è fornita nella libreria standard del linguaggio C e fornisce un modo semplice per eseguire un comando all'interno di un programma come se il comando fosse stato digitato all'interno di una shell. La funzione `system()` crea un sottoprocesso  lanciando `/bin/sh`. Per esempio il codice di sotto invoce il comando `ls` per mostrare il contenuto della root directory come se si fosse digitato `ls -l /` direttamente dalla shell
+
+```c
+/***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+
+#include <stdlib.h>
+
+int main ()
+{
+  int return_value;
+  return_value = system ("ls -l /");
+  return return_value;
+}
+```
+
+### `fork()` `exec()`
+
+La system call `fork()` crea un nuovo processo che è la copia identica del processo padre. La `exec()` permette di sostituire il processo padre con un nuovo programma nel processo appena creato con la `fork()`.
+
+Per distinguire il padre del figlio la funzione `fork()` restituisce un intero: in particolare restituisce zero  al processo figlio ed il **pid** del processo figlio al padre. 
+
+```c
+/***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main ()
+{
+  pid_t child_pid;
+
+  printf ("the main program process id is %d\n", (int) getpid ());
+
+  child_pid = fork ();
+  if (child_pid != 0) {
+    printf ("this is the parent process, with id %d\n", (int) getpid ());
+    printf ("the child's process id is %d\n", (int) child_pid);
+  }
+  else 
+    printf ("this is the child process, with id %d\n", (int) getpid ());
+
+  return 0;
+}
+```
+
+Nota che il codice all'interno del blocco `if` è eseguito solo dal processo padre, mentre il codice dentro il blocco `else` è eseguito dal processo figlio.
+
+La systam call `exec()` sostituisce il programma eseguito all'interno del processo con un nuovo programma. Quando un programma richiama la `exec()` il processo smette immediatamente di eseguire il programma e ed inizio l'esecuzione del nuovo programma richiamata dalla `exec()`.
+Ci sono diverse versioni della `exec()`:
+
+* Funzioni che contengono la lettera `p` nel nome (`exexcvp`, `execlp`) accettano il nome del programma e lo cercano nel sistema; le funzioni che non contengono la `p` nel nome necessitano del percorso assoluto del programma da eseguire
+* Funzioni che contengono la lettera `v` nel nome (`execv`, `execvp`, `execve`) accettano una  lista di argomenti da passare in ingresso al nuovo programma come un array di puntatori a caratteri terminati da `NULL`. Le funzioni invece che contengono la lettra `l` (`execl` `execlp`, `execle`) accettano una lista di argomenti in ingresso secondo il meccanismo delle `vargargs` del lingugiaggio C
+* Funzioni che contengono la lettera `e` nel nome (`execve`, `execle`) accettano un argomento in più, un array di variabili d'ambiente. L'argomento dovrebbe essere un array di puntatori a caratteri terminato da `NULL`, ciascun stringa dovrebbe essere nella forma `VARIABILE=valore`
+
+```c
+/***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+/* Spawn a child process running a new program.  PROGRAM is the name
+   of the program to run; the path will be searched for this program.
+   ARG_LIST is a NULL-terminated list of character strings to be
+   passed as the program's argument list.  Returns the process id of
+   the spawned process.  */
+
+int spawn (char* program, char** arg_list)
+{
+  pid_t child_pid;
+
+  /* Duplicate this process.  */
+  child_pid = fork ();
+  if (child_pid != 0)
+    /* This is the parent process.  */
+    return child_pid;
+  else {
+    /* Now execute PROGRAM, searching for it in the path.  */
+    execvp (program, arg_list);
+    /* The execvp function returns only if an error occurs.  */
+    fprintf (stderr, "an error occurred in execvp\n");
+    abort ();
+  }
+}
+
+int main ()
+{
+  /* The argument list to pass to the "ls" command.  */
+  char* arg_list[] = {
+    "ls",     /* argv[0], the name of the program.  */
+    "-l", 
+    "/",
+    NULL      /* The argument list must end with a NULL.  */
+  };
+
+  /* Spawn a child process running the "ls" command.  Ignore the
+     returned child process id.  */
+  spawn ("ls", arg_list); 
+
+  printf ("done with main program\n");
+
+  return 0;
+}
+```
 
 
 
