@@ -5044,6 +5044,40 @@ int main ()
 }
 ```
 
+Eseguendo il programma ti accorgerai che il processo padre termina immediatamente ("done with the main program") successivamente viene stampato il prompt e poco dopo l'output del processo figlio sporca il terminale perchè continua a scrivere sullo stdout. In generale non è possibile sapere quale processo tra il padre ed il figlio concluda per primo ma vedremo che è possibile sincronizzare l'esecuzione dei due processi facendo in modo che il processo padre attenda la terminazione dei suoi figli prima di concludere la propria esecuzione.
+
+```bash
+vagrant@ubuntu2204:/lab2/0_processes$ bin/3_fork_exec
+done with main program
+vagrant@ubuntu2204:/lab2/0_processes$ total 2097224
+lrwxrwxrwx   1 root    root             7 Aug 10  2023 bin -> usr/bin
+drwxr-xr-x   4 root    root          4096 Jan 11  2024 boot
+drwxr-xr-x  19 root    root          3980 Aug 12 08:33 dev
+drwxr-xr-x 104 root    root          4096 Aug 12 08:33 etc
+drwxr-xr-x   3 root    root          4096 Jan 10  2024 home
+drwxrwxrwx   1 vagrant vagrant       4096 Aug  9 07:23 lab
+drwxrwxrwx   1 vagrant vagrant          0 Aug 12 08:30 lab2
+lrwxrwxrwx   1 root    root             7 Aug 10  2023 lib -> usr/lib
+lrwxrwxrwx   1 root    root             9 Aug 10  2023 lib32 -> usr/lib32
+lrwxrwxrwx   1 root    root             9 Aug 10  2023 lib64 -> usr/lib64
+lrwxrwxrwx   1 root    root            10 Aug 10  2023 libx32 -> usr/libx32
+drwx------   2 root    root         16384 Jan 10  2024 lost+found
+drwxr-xr-x   2 root    root          4096 Aug 10  2023 media
+drwxr-xr-x   2 root    root          4096 Aug 10  2023 mnt
+drwxr-xr-x   2 root    root          4096 Aug 10  2023 opt
+dr-xr-xr-x 162 root    root             0 Aug 12 08:32 proc
+drwx------   5 root    root          4096 Jan 11  2024 root
+drwxr-xr-x  28 root    root           840 Aug 12 10:37 run
+lrwxrwxrwx   1 root    root             8 Aug 10  2023 sbin -> usr/sbin
+drwxr-xr-x   6 root    root          4096 Jul  7 07:31 snap
+drwxr-xr-x   2 root    root          4096 Aug 10  2023 srv
+-rw-------   1 root    root    2147483648 Jan 10  2024 swap.img
+dr-xr-xr-x  13 root    root             0 Aug 12 08:32 sys
+drwxrwxrwt  12 root    root          4096 Aug 12 16:36 tmp
+drwxr-xr-x  14 root    root          4096 Aug 10  2023 usr
+drwxr-xr-x  13 root    root          4096 Aug 10  2023 var
+```
+
 #### Segnali
 
 I segnali sono un meccanismo per comunicare e manipolare i processi in Linux. Un segnale è semplicemente un messaggio inviato ad un processo. I segnali sono definiti il linux in `/usr/include/bits/signum.h` ma per usarli basta includere `<signal.h>` nel tuo sorgente.
@@ -5275,8 +5309,39 @@ int main ()
 }                                                                    
 ```
 
-```bash
+Come puoi vedere sotto, prima il terminale è occupato dell'output del processo figlio (`ls -l`) e successivamente il processo padre termina stampando a schermo (`done with the main program`).
 
+```bash
+vagrant@ubuntu2204:/lab2/0_processes$ bin/5_fork_exec_wait
+total 2097224
+lrwxrwxrwx   1 root    root             7 Aug 10  2023 bin -> usr/bin
+drwxr-xr-x   4 root    root          4096 Jan 11  2024 boot
+drwxr-xr-x  19 root    root          3980 Aug 12 08:33 dev
+drwxr-xr-x 104 root    root          4096 Aug 12 08:33 etc
+drwxr-xr-x   3 root    root          4096 Jan 10  2024 home
+drwxrwxrwx   1 vagrant vagrant       4096 Aug  9 07:23 lab
+drwxrwxrwx   1 vagrant vagrant          0 Aug 12 08:30 lab2
+lrwxrwxrwx   1 root    root             7 Aug 10  2023 lib -> usr/lib
+lrwxrwxrwx   1 root    root             9 Aug 10  2023 lib32 -> usr/lib32
+lrwxrwxrwx   1 root    root             9 Aug 10  2023 lib64 -> usr/lib64
+lrwxrwxrwx   1 root    root            10 Aug 10  2023 libx32 -> usr/libx32
+drwx------   2 root    root         16384 Jan 10  2024 lost+found
+drwxr-xr-x   2 root    root          4096 Aug 10  2023 media
+drwxr-xr-x   2 root    root          4096 Aug 10  2023 mnt
+drwxr-xr-x   2 root    root          4096 Aug 10  2023 opt
+dr-xr-xr-x 163 root    root             0 Aug 12 08:32 proc
+drwx------   5 root    root          4096 Jan 11  2024 root
+drwxr-xr-x  28 root    root           840 Aug 12 10:37 run
+lrwxrwxrwx   1 root    root             8 Aug 10  2023 sbin -> usr/sbin
+drwxr-xr-x   6 root    root          4096 Jul  7 07:31 snap
+drwxr-xr-x   2 root    root          4096 Aug 10  2023 srv
+-rw-------   1 root    root    2147483648 Jan 10  2024 swap.img
+dr-xr-xr-x  13 root    root             0 Aug 12 08:32 sys
+drwxrwxrwt  12 root    root          4096 Aug 12 16:36 tmp
+drwxr-xr-x  14 root    root          4096 Aug 10  2023 usr
+drwxr-xr-x  13 root    root          4096 Aug 10  2023 var
+the child process exited normally, with exit code 0
+done with main program
 ```
 
 
