@@ -5146,11 +5146,15 @@ int main ()
 }
 ```
 
+In un primo terminale esegui il programma che resterà in esecuzione per 5 minuti, alla fine dell'esecuzione stamperà il numero di volte che il segnale `SIGUSR1` è stato ricevuto.
+
 ```bash
 vagrant@ubuntu2204:/lab2/0_processes$ bin/4_sigusr1
 ***************************************************
 **************************SIGUSR1 was raised 6 times
 ```
+
+Per inviare il segnale `SIGUSR1` basta usare il comando `kill` usando il **PID** del processo (che puoi recuperare con il comando `ps` come mostrato sotto)
 
 ```bash
 vagrant@ubuntu2204:~$ ps -e|grep 4_sigusr1
