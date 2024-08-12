@@ -5118,6 +5118,10 @@ Vediamo un esempio di **signal-handler** per la gestione del segnale **SIGUSR1**
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <time.h>
+
+#define SOME_MINUTES 5
+#define SECONDS_PER_MINUTE 60
 
 sig_atomic_t sigusr1_count = 0;
 
@@ -5133,12 +5137,31 @@ int main ()
   sa.sa_handler = &handler;
   sigaction (SIGUSR1, &sa, NULL);
 
-  /* Do some lengthy stuff here.  */
-  /* ...  */
-
+  time_t start = time(NULL);
+  while (time(NULL) - start < (time_t) (SOME_MINUTES * SECONDS_PER_MINUTE)) {
+    printf("*");
+  }
   printf ("SIGUSR1 was raised %d times\n", sigusr1_count);
   return 0;
 }
+```
+
+```bash
+vagrant@ubuntu2204:/lab2/0_processes$ bin/4_sigusr1
+***************************************************
+**************************SIGUSR1 was raised 6 times
+```
+
+```bash
+vagrant@ubuntu2204:~$ ps -e|grep 4_sigusr1
+   1642 pts/0    00:01:17 4_sigusr1
+
+vagrant@ubuntu2204:~$ kill -SIGUSR1 1642
+vagrant@ubuntu2204:~$ kill -SIGUSR1 1642
+vagrant@ubuntu2204:~$ kill -SIGUSR1 1642
+vagrant@ubuntu2204:~$ kill -SIGUSR1 1642
+vagrant@ubuntu2204:~$ kill -SIGUSR1 1642
+vagrant@ubuntu2204:~$ kill -SIGUSR1 1642
 ```
 
 
