@@ -5378,6 +5378,23 @@ int main ()
 }
 ```
 
+Lancia il programma da un terminale in questo modo:
+
+```bash
+vagrant@ubuntu2204:/lab2/0_processes$ bin/6_zombie
+```
+Ed usa, su un altro terminale, il comando `ps` in questo modo:
+
+```bash
+vagrant@ubuntu2204:~$ ps -e -o pid,ppid,stat,cmd|grep 6_zombie
+   2317    1331 S+   bin/6_zombie
+   2318    2317 Z+   [6_zombie] <defunct>
+   2325    2301 S+   grep --color=auto 6_zombie
+```
+
+Il processo padre ha pid `2317` ed è in sleep `S+` il processo figlio è `<defunct>` ed è uno zombio `Z+`
+Quando il processo padre termina prima del figlio senza chiamare la `wait()`, chi si occupa di ripulire il processo figlio e portarlo dallo stato di zombie a terminato? Il processo **init** che è il padre di tutti i processi (init infatti ha PID=1) ed eredita tutti i figli rimasti orfani del proprio padre. Se rilanci `ps` dopo un po' di tempo vedrai che il processo figlio con pid `2318` non esiste più in quanto è stato ripulito da init. 
+
 
 
 
