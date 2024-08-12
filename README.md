@@ -5067,7 +5067,7 @@ Alcuni esempi di segnali sono
 | `SIGHUP`   | Risveglia un processo o lo mette in sleep o lo costringe e rileggere la sua configurazione |
 
 
-#### sigaction function
+#### sigaction
 
 La **sigaction** può essere usata per settare la disposizione per un segnale (per modificare la disposizione di default).
 Questa riceva in ingresso tre parametri:
@@ -5168,9 +5168,37 @@ vagrant@ubuntu2204:~$ kill -SIGUSR1 1642
 vagrant@ubuntu2204:~$ kill -SIGUSR1 1642
 ```
 
+#### Terminare un processo
 
+Un processo termina o attraverso la chiamata alla funzione `exit()` o quando termina la funzione `main()` del programma (attraverso `return` o perchè raggiunge l'ultima istruzione del blocco della funzione `main()`). Il valore intero ritornato attraverso `return` o come parametro in input alla `exit()` è detto **exit code**. Un processo può anche terminare in risposta ad un segnale (`SIGSEGV`, `SIGKILL` etc). Altri segnali per terminare un processo sono `SIGINT` inviato quando si preme la combinazione di tast `CTRL+C` nel terminale occupato del programma. Un altro segnale che termina un processo è `SIGABRT` che oltre che terminare il processo genera un core file, è possibile inviare questo segnale attraverso la chiamata `abort()`. Il modo più brutale per terminare un processo è quello di inviare il segnale `SIGKILL` che termina immediatamente il processo e non può essere ignorato o bloccato.
+Tutti questi segnale ed anche altri possono essere inviati con il comando `kill` specificando quale segnale inviare come parametro, per inviare un `SIGKILL` fai in questo modo:
 
+```bash
+kill -KILL pid
+```
 
+Esiste anche la funzione `kill()` per inviare un segnale dal codice ed ha questo prototipo:
+
+```c
+int kill(pid_t pid, int sig);
+```
+
+1. `pid_t pid`: il pid del processo
+2. `int sig`: segnale da inviare
+
+Devi includere `<sys/types.h>` e `<signal.h` per utilizzare la funzione `kill()`.
+
+> [!IMPORTANT]
+> Per convenzione, **exit code** è usato per indicare se il programma ha terminato la sua esecuzione correttamente o con degli errir. Un valore pari a zero indica una corretta esecuzione mentre valori diversi da zero indicano che il processo ha terminato con qualche errore. E' importante seguire questa convezione se vuoi usare gli operatori logici della shell (`&&` `||`) per concatenare più programma tra loro.
+
+Puoi leggere l'**exit code** dell'ultimo programma lanciato sulla shell stampando il contenuto della variabile `$?` per esempio
+
+```bash
+vagrant@ubuntu2204:/lab2/0_processes$ ls
+0_print_pid.c  1_system.c  2_fork.c  3_fork_exec.c  4_sigusr1.c  bin
+vagrant@ubuntu2204:/lab2/0_processes$ echo $?
+0
+```
 
 
 
