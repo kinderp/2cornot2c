@@ -5044,6 +5044,30 @@ int main ()
 }
 ```
 
+#### Segnali
+
+I segnali sono un meccanismo per comunicare e manipolare i processi in Linux. Un segnale è semplicemente un messaggio inviato ad un processo. I segnali sono definiti il linux in `/usr/include/bits/signum.h` ma per usarli basta includere `<signal.h>` nel tuo sorgente.
+
+Quando un processo riceve un segnale può comportarsi in modi differenti sulla base della disposizione di default che determina che cosa accade se il programma non specifica qualche altre comportamente specifico per il segnale. Per ciascun segnale, un programma può:
+1. Specificare un diverso comportamente dalla disposizione di default
+2. Ignora il segnale
+3. Chiamare una funzione, detta **signal-handler** per rispondere in modo personalizzato al segnale
+
+Se una funzione **signal-handler** è usata, l'esecuzione del programma è messa in pausa e la funzione è immeditamente eseguita e solo dopo che questa termina l'esecuzione del programma riprende nel punto dove si era interrotta.
+
+Alcuni esempi di segnali sono 
+
+| First Header  | Significato | Disposizione
+| ------------- | ------------- |------------- |
+| `SIGSEGV`  | segmentation fault  | termina il processo
+| `SIGTERM`  | chiede al processo di terminare, il processo potrebbe ignorare il segnale di terminazione  | 
+| `SIGKILL`  | termina il processo immediatamente, il processo non può ignorare questo segnale  | 
+| `SIGUSR1`  | Definito dall'utente  |
+| `SIGUSR2`  | Definito dall'utente  |
+| `SIGHUP`   | Risveglia un processo o lo mette in sleep o lo costringe e rileggere la sua configurazione |
+
+
+
 
 
 
