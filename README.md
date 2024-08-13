@@ -5641,9 +5641,9 @@ int pthread_join(pthread_t thread, void **retval);
 ```
 
 1. `pthread_t`: id del thread di cui si vuole attendere il completamento
-2. `void *`: puntatore a void per il valore di ritorno del thread
+2. `void *`: puntatore a void per il valore di ritorno del thread. Se non sei interessato al valore di ritorno passa `NULL` a questo parametro.
 
-Vediamo come risolvere il bug dell'esempio predente usando la `pthread_join()` per attendere il completamente dei thread creati nel `main()`
+Vediamo come risolvere il bug dell'esempio predente usando la `pthread_join()` per attendere il completamento dei thread creati nel `main()`
 
 ```c
 /***********************************************************************
