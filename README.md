@@ -5850,7 +5850,11 @@ int main ()
 }
 ```
 
+Anche se un thread è stato creato con stato joinable può essere imopstato in un secondo momento nello stato detached, per fare questo basta usare la funzione `pthread_detach()`. Questo è il suo prototipo:
 
+```c
+int pthread_detach(pthread_t thread);
+```
 
 
 
