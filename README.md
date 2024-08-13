@@ -5773,25 +5773,26 @@ vagrant@ubuntu2204:/lab2/1_threads$ bin/3_primes
 The 5000th prime number is 48611.
 ```
 
+#### `pthread_self()` e `pthread_equal()`
 
+`pthread_self()` ritorna il thread id del thread corrente che la sta eseguendo. Questo è il suo prototipo:
 
+```c
+pthread_t pthread_self(void);
+```
 
+`pthread_equal()` confronta due thread id(s): ritorna zero se i due ID sono uguali. Questo è il suo prototipo:
 
+```c
+int pthread_equal(pthread_t t1, pthread_t t2);
+```
 
+Queste due funzioni possonoe essere utlili per controllare se un certo ID corrisponde a quello del thread corrente per esempio prima di chiamare una `pthread_join()` in quanto aspettare la terminazione di se stessi è un grosso errore. Sotto un esempio:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+```c
+if (!pthread_equal (pthread_self (), other_thread))
+  pthread_join (other_thread, NULL);
+```
 
 
 
