@@ -5505,7 +5505,65 @@ Child exit with 0 status
 Father's quitting
 ```
 
+### I Thread
 
+I thread come i processi sono un meccanismo per permettere ad un programma di svolgere più compiti contemporaneamenente. Come i processi anche i thread si contengono la CPU per l'esecuzione. Da un punsto di vista teorico un threada esiste all'interno di un processo: quando un programma viene invocato, Linux crea un nuovo processo ed al suo interno crea anche un singolo thread che esegue il programma in modo sequenziale. Questo thread può creare altri thread che eseguono lo stesso programma nello stesso processo ma ciascun thread potrebbe eseguire una parte diversa del programma in un qualsiasi momento.
+Abbiamo visto come un processo può forkare un processo figlio. Il processo figlio inizialmente esegue il programma del padre come una copia della memoria virtuale del processo padre, i descrittori dei file e così via. Il processo figlio può modificare la sua memoria, chiudere i descrittori dei file etc senza alterare quelli del padre. Quando un thread crea un nuovo thread nulla è copiato. Il thread padre ed il thread figlio condividono la stessa memoria, i descrittori dei file e tutte le altre risorse. Se un thread cambia il valore di una variabile anche l'altro thread vedrà questa modifica; se un thread chiude un descrittore di un file gli altri thread potrebbero non poter più leggere o scrivere su quel descrittore. Siccome un processo e tutti i suoi thread possono eseguire un solo programma alla volta se un thread richiama la `exec()` tutti i thread saranno terminati.
+Linux implementa le API POSIX per i thread (conosciuto come **pthread**). Tutte le funzioni per i thread sono definite nel file d'intestazione `<pthread.h>` che non è inclusa nella librearia standard fornita dal linguaggio C. La librearia è fornita in `libpthread.so` ed è necessario passare il parametro `-lpthread` a gcc per linkarla al momento della compilazione.
+
+#### Creazione di un thread
+
+Ad ogni thread è associato un id univoco di tipo `pthread_t`.
+Una volta creato un thread esegue un semplice funzione che contiene il codice che il thread dovrà eseguire, quando questa funzione termina anche il thread termina la propria esecuzione. Questa funzione riceva in ingresso un puntatore a void `void *` e ritorna sempre un altro puntatore a void `void *`.
+Per creare un nuovo thread bisogna usare la funzione `pthread_create()`, questo è il suo prototipo:
+
+```c
+int pthread_create(pthread_t *restrict thread,
+                          const pthread_attr_t *restrict attr,
+                          void *(*start_routine)(void *),
+                          void *restrict arg);
+```
+
+1. `pthread *t`: un puntatore al thread id
+2. `const pthread_attr_t *`: un puntatore all'oggetto contenente gli attributi del thread: questo oggetto controlla i dettagli di ocme il thread interagisce con il resto del programma. Se passi `NULL` come attributo del thread, il thread sarà creato con gli attributi di default.
+3. `void* (*) (void*)`: un puntore alla funzione del thread, questo è un semplice puntatore a funzione
+4. `void *`: l'argomento in ingresso da passare alla funzione del thread di tipo `void *`
+
+Vediamo un esempio di creazione di un thread:
+
+```c
+/***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+
+#include <pthread.h>
+#include <stdio.h>
+
+/* Prints x's to stderr.  The parameter is unused.  Does not return.  */
+
+void* print_xs (void* unused)
+{
+  while (1)
+    fputc ('x', stderr);
+  return NULL;
+}
+
+/* The main program.  */
+
+int main ()
+{
+  pthread_t thread_id;
+  /* Create a new thread.  The new thread will run the print_xs
+     function.  */
+  pthread_create (&thread_id, NULL, &print_xs, NULL);
+  /* Print o's continuously to stderr.  */
+  while (1)
+    fputc ('o', stderr);
+  return 0;
+}
+```
 
 
 
