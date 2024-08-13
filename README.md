@@ -5794,7 +5794,61 @@ if (!pthread_equal (pthread_self (), other_thread))
   pthread_join (other_thread, NULL);
 ```
 
+#### Gli attributi dei thread
 
+Gli attributi del thread forniscono un meccanismo per la messa a punto del comportamento dei singoli thread. Abbiamo visto come la `pthread_create()` accetta un argomento che è un puntatore a un oggetto attributo del thread. Se passi un puntatore nullo a questo argomento, gli attributi predefiniti vengono utilizzati per configurare il nuovo thread. Tuttavia, puoi creare e personalizzare un oggetto attributo thread per specificare altri valori per gli attributi. Per specificare attributi thread personalizzati, devi seguire questi passaggi: 
+
+1. Crea un oggetto `pthread_attr_t`. Il modo più semplice per farlo èdichiarare una variabile automatica di questo tipo.
+2. Chiama la funzione `pthread_attr_init()`, passando un puntatore a questo oggetto. Ciò inizializza gli attributi ai loro valori predefiniti.
+3. Modifica l'oggetto attributo per contenere i valori attributo desiderati.
+4. Passa un puntatore all'oggetto attributo che hai valorizzato al punto di sopra quando ruchiami la `pthread_create()`.
+5. Chiama la `pthread_attr_destroy()` per rilasciare l'oggetto attributo. La variabile `pthread_attr_t` non viene deallocata; può essere reinizializzata con `pthread_attr_init()`
+  
+Un singolo oggetto attributo thread può essere utilizzato per inizializzare diversi thread. Non è necessario mantenere l'oggetto attributo thread dopo che i thread sono stati creati.
+Per la maggior parte delle attività di programmazione delle applicazioni GNU/Linux, un solo attributo thread è in genere di interesse (gli altri attributi disponibili sono principalmente per la programmazione in tempo reale).
+Questo attributo è il **detach state** del thread. Un thread può essere creato come un thread **joinable** (l'impostazione predefinita) o come un **detached** thread. Un joinable thread, come un processo, non viene automaticamente ripulito da GNU/Linux quando termina e lo stato di uscita del thread rimane sospeso nel sistema (un po' come un processo zombie) finché un altro thread non richiama la `pthread_join()` per ottenere il suo valore di ritorno. **Solo allora le sue risorse vengono rilasciate**. Un **detached** thread, al contrario, viene ripulito automaticamente quando termina. Poiché un detache thread viene immediatamente ripulito, un altro thread potrebbe non sincronizzarsi al suo completamento tramite `pthread_join()` o ottenere il suo valore di ritorno.
+
+Per impostare lo stato detacjed in un oggetto attributo thread, basta utilizzare `pthread_attr_setdetachstate()`.
+Questo è il suo prototipo:
+
+```c
+int pthread_attr_setdetachstate(pthread_attr_t *attr, int detachstate);
+```
+
+Il primo argomento è un puntatore all'oggetto attributo thread (`pthread_attr_t *`) e il secondo è lo stato detached desiderato. Poiché lo stato joinable è quello predefinito, è necessario chiamare questo solo per creare detached thread passando `PTHREAD_CREATE_DETACHED` come secondo argomento.
+Il codice di sotto crea un detached thread impostando l'attributo thread a `PTHREAD_CREATE_DETACHED`.
+
+```c
+/***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+
+#include <pthread.h>
+
+void* thread_function (void* thread_arg)
+{
+  /* Do work here...  */
+  return NULL;
+}
+
+int main ()
+{
+  pthread_attr_t attr;
+  pthread_t thread;
+
+  pthread_attr_init (&attr);
+  pthread_attr_setdetachstate (&attr, PTHREAD_CREATE_DETACHED);
+  pthread_create (&thread, &attr, &thread_function, NULL);
+  pthread_attr_destroy (&attr);
+
+  /* Do work here...  */
+
+  /* No need to join the second thread.  */
+  return 0;
+}
+```
 
 
 
