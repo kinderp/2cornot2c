@@ -6019,7 +6019,7 @@ vagrant@ubuntu2204:/lab2/1_threads$ bin/5_critical_section
 [9] 13$
 ```
 
-
+Si noti che è importante ripristinare il vecchio stato di annullamento alla fine della sezione critica piuttosto che impostarlo incondizionatamente su `PTHREAD_CANCEL_ENABLE`. Ciò consente di chiamare la funzione `process_transaction()` in modo sicuro da un'altra sezione critica, in quel caso la funzione setterà lo stato di annullamento nello stesso modo in cui lo ha trovato.
 
 
 
