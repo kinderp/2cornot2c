@@ -4913,7 +4913,7 @@ vagrant@ubuntu2204:/lab2/0_processes$ ps -e -o pid,ppid,command
    1429       2 [kworker/1:3-events]
    1453       2 [kworker/u4:0-events_unbound]
    1455    1331 ps -e -o pid,ppid,command
-``
+```
 
 ### Uccidere un processo
 
