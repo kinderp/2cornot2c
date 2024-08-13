@@ -5862,11 +5862,11 @@ In circostanze normali, un thread termina quando esce normalmente, sia tornando 
 
 Spesso un thread può essere in un codice che deve essere eseguito in modalità tutto o niente. Ad esempio, il thread può allocare alcune risorse, usarle e quindi deallocarle. Se il thread viene annullato nel mezzo di questo codice, potrebbe non avere l'opportunità di deallocare le risorse, e quindi le risorse saranno perse. Per contrastare questa possibilità, è possibile che un thread controlli se e quando può essere annullato. Un thread può trovarsi in uno dei tre stati per quanto riguarda la cancellazione del thread:
 
-* Il thread può essere cancellabile in modo asincrono. Il thread può essere annullato in qualsiasi momento della sua esecuzione.
-* Il thread può essere cancellabile in modo sincrono. Il thread può essere annullato, ma non in qualsiasi momento della sua esecuzione. Invece, le richieste di annullamento vengono messe in coda e il thread viene cancellato solo quando raggiunge punti specifici della sua esecuzione.
-* Un thread può essere non annullabile. I tentativi di annullare il thread vengono ignorati silenziosamente.
+* Il thread può essere **cancellabile in modo asincrono**. Il thread può essere annullato in qualsiasi momento della sua esecuzione.
+* Il thread può essere **cancellabile in modo sincrono**. Il thread può essere annullato, ma non in qualsiasi momento della sua esecuzione. Invece, le richieste di annullamento vengono messe in coda e il thread viene cancellato solo quando raggiunge punti specifici della sua esecuzione.
+* Un thread può essere **non cancellabile**. I tentativi di cancellare 	il thread vengono ignorati silenziosamente.
 
-**Quando viene creato inizialmente, un thread è annullabile in modo sincrono**
+**Quando viene creato inizialmente, un thread è cancellabile in modo sincrono**
 
 #### Thread sincroni ed asincroni
 
