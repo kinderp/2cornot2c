@@ -5630,6 +5630,10 @@ int main ()
 }
 ```
 
+Il problema in questo codice è che le due variabili locali (automatiche) `thread1_args` e `thread1_args` che contengono i parametri da passare ai due thread sono dichiarate nel processo padre, il processo padre termina immediatamente e tutte le sue variabili verranno deallocata comprese quelle passate come argomenti alle funzoni dei thread che accederanno quindi a locazioni di memoria non valide. Per risolvere questo problema dovremmo fare in modo che il processo padre attenda la terminazione dei thread nello stesso modo con cui attraverso la `wait()` attendeva la terminazione del processo figlio.
+
+#### Attendere la terminazione dei thread
+
 
 
 
