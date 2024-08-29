@@ -6232,9 +6232,90 @@ int main(void){
 }
 ```
 
+### Sincronizzazione e Sezioni Critiche
+
+La programmazione con i thread è molto complicata perché la maggior parte dei programmi con thread sono programmi concorrenti. In particolare, non c'è modo di sapere quando il sistema pianificherà l'esecuzione di un thread e quando ne eseguirà un altro. Un thread potrebbe essere eseguito per un tempo molto lungo o il sistema potrebbe passare da un thread all'altro molto rapidamente. Su un sistema con più processori, il sistema potrebbe persino pianificare l'esecuzione di più thread letteralmente nello stesso momento. Il debug di un programma con thread è difficile perché non è sempre possibile riprodurre facilmente il comportamento che ha causato il problema. Potresti eseguire il programma una volta e far funzionare tutto correttamente; la volta successiva che lo esegui, potrebbe bloccarsi. Non c'è modo di far pianificare i thread esattamente nello stesso modo in cui lo faceva prima.
+
+La causa ultima della maggior parte dei bug che coinvolgono i thread è che **i thread accedono agli stessi dati**. Come accennato in precedenza, questo è uno degli aspetti più potenti dei thread, ma può anche essere pericoloso. Se un thread è solo a metà dell'aggiornamento di una struttura dati quando un altro thread accede alla stessa struttura dati, è probabile che si verifichi il caos. Spesso, i programmi con thread buggati contengono un codice che funzionerà solo se un thread viene pianificato più spesso, o prima, di un altro thread. Questi bug sono chiamati **race conditions**; i thread sono in competizione tra loro per modificare la stessa struttura dati.
+
+#### Race Conditions
+
+Supponiamo che il tuo programma abbia una serie di lavori in coda che vengono elaborati da diversi thread simultanei. La coda dei lavori è rappresentata da una lista di oggetti struct job. Dopo che ogni thread termina un'operazione, controlla la coda per vedere se è disponibile un lavoro aggiuntivo. Se job_queue è diverso da null, il thread rimuove la testa dell'elenco collegato e imposta job_queue sul lavoro successivo nell'elenco.
+
+Ora supponiamo che due thread finiscano un lavoro più o meno nello stesso momento, ma che solo un lavoro rimanga nella coda. Il primo thread controlla se job_queue è nullo; scoprendo che non lo è, il thread entra nel ciclo e memorizza il puntatore all'oggetto lavoro in next_job. A questo punto, Linux interrompe il primo thread e pianifica il secondo. Anche il secondo thread controlla job_queue e, trovandolo non nullo, assegna lo stesso puntatore lavoro a next_job. Per una sfortunata coincidenza, ora abbiamo due thread che eseguono lo stesso lavoro. A peggiorare le cose, un thread scollegherà l'oggetto lavoro dalla coda, lasciando job_queue contenente null. Quando l'altro thread valuta job_queue->next, si verificherà un errore di segmentazione. Questo è un esempio di condizione di gara. In circostanze "fortunate", questa particolare pianificazione dei due thread potrebbe non verificarsi mai e la condizione di gara potrebbe non manifestarsi mai. Solo in circostanze diverse, magari quando si esegue su un sistema pesantemente caricato (o sul nuovo server multiprocessore di un cliente importante!) il bug può manifestarsi. Per eliminare le **race conditions**, è necessario un modo per **rendere le operazioni atomiche**. **Un'operazione atomica è indivisibile e ininterrotta; una volta avviata, non verrà messa in pausa o interrotta fino al suo completamento e nel frattempo non verrà eseguita nessun'altra operazione**. In questo particolare esempio, si desidera controllare job_queue; se non è vuoto, rimuovere il primo lavoro, il tutto come un'unica operazione atomica.
+
+```c
+/***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+
+#include <malloc.h>
+#include <pthread.h>
+
+struct job {
+  /* Link field for linked list.  */
+  struct job* next;
+  char *message;
+  /* Other fields describing work to be done... */
+};
+
+/* A linked list of pending jobs.  */
+struct job* job_queue;
+
+void process_job (struct job* tmp){
+  char print_me[20];
+  printf("Thread %ld completed job %s \n", pthread_self(), tmp->message);
+}
+
+/* Process queued jobs until the queue is empty.  */
+
+void* thread_function (void* arg)
+{
+  while (job_queue != NULL) {
+    /* Get the next available job.  */
+    struct job* next_job = job_queue;
+    /* Remove this job from the list.  */
+    job_queue = job_queue->next;
+    /* Carry out the work.  */
+    process_job (next_job);
+    /* Clean up.  */
+    free (next_job);
+  }
+  return NULL;
+}
+
+int main(void){
+  struct job *one   = (struct job *) malloc(sizeof(struct job));
+  struct job *two   = (struct job *) malloc(sizeof(struct job));
+  struct job *three = (struct job *) malloc(sizeof(struct job));
+
+  one->message   = "1";
+  two->message   = "2";
+  three->message = "3";
+
+  job_queue = (struct job *) malloc(sizeof(struct job));
+  job_queue->message = "4";
+  job_queue->next = three;
+
+  three->next = two;
+  two->next = one;
+  one->next = NULL;
 
 
+  pthread_t first;
+  pthread_t second;
 
+  pthread_create(&first, NULL, thread_function, NULL);
+  pthread_create(&second, NULL, thread_function, NULL);
+
+  pthread_join(first, NULL);
+  pthread_join(second, NULL);
+
+  return 0;
+}
+```
 
 
 
