@@ -6165,10 +6165,72 @@ La funzione principale in questo programma di esempio crea una chiave per memori
 
 Si noti che **thread_function()** non ha bisogno di chiudere il file di registro. Questo perché quando è stata creata la chiave del file di registro, **close_thread_log()** è stato specificato come funzione di pulizia per quella chiave. Ogni volta che un thread esce, GNU/Linux chiama quella funzione, passando il valore specifico del thread per la chiave del registro del thread. Questa funzione si occupa di chiudere il file di registro.
 
-### Cleanup Handler
+### Gestori di pulizia (Cleanup Handler)
 
+Le funzioni di pulizia per chiavi dati specifiche del thread possono essere molto utili per garantire che le risorse non vengano perse quando un thread esce o viene annullato. A volte, tuttavia, è utile poter specificare funzioni di pulizia senza creare un nuovo elemento dati specifico del thread duplicato per ogni thread. GNU/Linux fornisce gestori di pulizia a questo scopo. **Un gestore di pulizia è semplicemente una funzione che dovrebbe essere chiamata quando un thread esce**. Il gestore accetta un singolo parametro void* e il suo valore di argomento viene fornito quando il gestore viene registrato, il che semplifica l'utilizzo della stessa funzione del gestore per gestire più istanze di risorse. **Un gestore di pulizia è una misura temporanea**, **utilizzata per deallocare una risorsa solo se il thread esce o viene annullato** anziché terminare l'esecuzione di una particolare regione di codice. **In circostanze normali, quando il thread non esce e non viene annullato, la risorsa dovrebbe essere deallocata in modo esplicito** e il gestore di pulizia dovrebbe essere rimosso. Per registrare un gestore di pulizia, chiama **pthread_cleanup_push()**, passando un puntatore alla funzione di pulizia e il valore del suo argomento void*. La chiamata a pthread_cleanup_push deve essere bilanciata da una chiamata corrispondente a pthread_cleanup_pop, che annulla la registrazione del gestore di pulizia. 
 
+```c
+void pthread_cleanup_push(void (*routine)(void *), void *arg);
+```
 
+```c
+void pthread_cleanup_pop(int execute);
+```
+
+Per comodità, pthread_cleanup_pop accetta un argomento flag int; se il flag è diverso da zero, l'azione di pulizia viene effettivamente eseguita in quanto annullata. Il frammento di programma di sotto mostra come è possibile utilizzare un gestore di pulizia per assicurarsi che un buffer allocato dinamicamente venga ripulito se il thread termina.
+
+```c
+***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+#include <stdio.h>
+#include <malloc.h>
+#include <pthread.h>
+
+/* Allocate a temporary buffer.  */
+
+void* allocate_buffer (size_t size)
+{
+  return malloc (size);
+}
+
+/* Deallocate a temporary buffer.  */
+
+void deallocate_buffer (void* buffer)
+{
+  printf("Called cleanup handler function\n");
+  free (buffer);
+}
+
+void* do_some_work ()
+{
+  /* Allocate a temporary buffer.  */
+  void* temp_buffer = allocate_buffer (1024);
+  /* Register a cleanup handler for this buffer, to deallocate it in
+     case the thread exits or is cancelled.  */
+  pthread_cleanup_push (deallocate_buffer, temp_buffer);
+
+  /* Do some work here that might call pthread_exit or might be
+     cancelled...  */
+  pthread_exit(0);
+  /* Unregister the cleanup handler.  Since we pass a non-zero value,
+     this actually performs the cleanup by calling
+     deallocate_buffer.  */
+  pthread_cleanup_pop (1);
+
+  return NULL;
+}
+
+int main(void){
+  pthread_t allocator_thread;
+  pthread_create(&allocator_thread, NULL, do_some_work, NULL);
+  pthread_join(allocator_thread, NULL);
+  return 0;
+
+}
+```
 
 
 
