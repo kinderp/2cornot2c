@@ -6059,6 +6059,114 @@ vagrant@ubuntu2204:/lab2/1_threads$ bin/5_critical_section
 Si noti che è importante ripristinare il vecchio stato di annullamento alla fine della sezione critica piuttosto che impostarlo incondizionatamente su `PTHREAD_CANCEL_ENABLE`. Ciò consente di chiamare la funzione `process_transaction()` in modo sicuro da un'altra sezione critica, in quel caso la funzione setterà lo stato di annullamento nello stesso modo in cui lo ha trovato.
 
 
+#### Quando usare la cancellazione del thread
+
+In generale, è una buona idea non usare la cancellazione del thread per terminare l'esecuzione di un thread, tranne in circostanze insolite. Durante il normale funzionamento, una strategia migliore è quella di indicare al thread che dovrebbe uscire e quindi attendere che il thread esca da solo in modo ordinato. Per far questo è necessario conoscere le tecniche di IPC (Interprocess Communication).
+
+### Dati specifici del thread
+
+A differenza dei processi, **tutti i thread in un singolo programma condividono lo stesso spazio di indirizzamento**. Ciò significa che se un thread modifica una posizione nella memoria (ad esempio, una variabile globale), la modifica è visibile a tutti gli altri thread. Ciò consente a più thread di operare sugli stessi dati senza utilizzare meccanismi di comunicazione tra processi. Tuttavia, ogni thread ha il proprio stack di chiamate. Ciò consente a ogni thread di eseguire codice diverso e di chiamare e restituire da subroutine nel modo consueto. Come in un programma a thread singolo, ogni invocazione di una subroutine in ogni thread ha il proprio set di variabili locali, che vengono memorizzate nello stack per quel thread. A volte, tuttavia, è desiderabile duplicare una determinata variabile in modo che ogni thread abbia una copia separata. GNU/Linux supporta ciò **fornendo a ogni thread un'area dati specifica per il thread**. Le variabili memorizzate in quest'area vengono duplicate per ogni thread e ogni thread può modificare la propria copia di una variabile senza influenzare gli altri thread. Poiché tutti i thread condividono lo stesso spazio di memoria, **i dati specifici del thread potrebbero non essere accessibili tramite normali riferimenti alle variabili**. GNU/Linux fornisce funzioni speciali per impostare e recuperare valori dall'area dati specifica del thread.
+
+Puoi creare tutti gli elementi dati specifici del thread che vuoi, ognuno di tipo void*.
+Ogni elemento è referenziato da una chiave. Per creare una nuova chiave, e quindi un nuovo elemento dati per ogni thread, usa **pthread_key_create()**. 
+
+```c
+int pthread_key_create(pthread_key_t *key, void (*destructor)(void*));
+```
+
+Il primo argomento è un puntatore a una variabile di tipo **pthread_key_t**. Quel valore chiave può essere usato da ogni thread per accedere alla propria copia dell'elemento dati corrispondente. 
+Il secondo argomento dopo pthread_key_t è una funzione di pulizia (cleanup function). Se passi un puntatore a funzione qui, GNU/Linux chiama automaticamente quella funzione quando il thread esce, passando il valore specifico del thread corrispondente
+a quella chiave. Ciò è particolarmente utile perché la funzione di pulizia viene chiamata anche se il thread viene annullato in un punto arbitrario della sua esecuzione. Se il valore specifico del thread è null, la funzione di pulizia del thread non viene chiamata. Se non hai bisogno di una funzione di pulizia, puoi passare null invece di un puntatore a funzione. **Dopo aver creato una chiave**, **ogni thread può impostare il suo valore specifico del thread corrispondente a quella chiave** chiamando **pthread_setspecific()**.
+
+```c
+int pthread_setspecific(pthread_key_t key, const void *value);
+```
+
+Il primo argomento è la chiave e il secondo è il valore specifico del thread (di tipo void*) da memorizzare. Per recuperare un elemento dati specifico del thread, chiama **pthread_getspecific()**, passando la chiave come argomento. 
+
+```c
+void *pthread_getspecific(pthread_key_t key);
+```
+
+Supponiamo, ad esempio, che l'applicazione divida un'attività tra più thread. Ogni thread deve avere un file di registro separato, in cui vengono registrati i messaggi di avanzamento per le attività di quel thread. L'area dati specifica del thread è un posto comodo in cui memorizzare il puntatore del file per il file di registro per ogni singolo thread. 
+
+
+```c
+/***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+
+#include <malloc.h>
+#include <pthread.h>
+#include <stdio.h>
+
+/* The key used to assocate a log file pointer with each thread.  */
+static pthread_key_t thread_log_key;
+
+/* Write MESSAGE to the log file for the current thread.  */
+
+void write_to_thread_log (const char* message)
+{
+  FILE* thread_log = (FILE*) pthread_getspecific (thread_log_key);
+  fprintf (thread_log, "%s\n", message);
+}
+
+/* Close the log file pointer THREAD_LOG.  */
+
+void close_thread_log (void* thread_log)
+{
+  fclose ((FILE*) thread_log);
+}
+
+void* thread_function (void* args)
+{
+  char thread_log_filename[20];
+  FILE* thread_log;
+
+  /* Generate the filename for this thread's log file.  */
+  sprintf (thread_log_filename, "thread-%d.log", (int) pthread_self ());
+  /* Open the log file.  */
+  thread_log = fopen (thread_log_filename, "w");
+  /* Store the file pointer in thread-specific data under thread_log_key.  */
+  pthread_setspecific (thread_log_key, thread_log);
+
+  write_to_thread_log ("Thread starting.");
+  char string_log[20];
+  sprintf (string_log, "My ID is %d", (int) pthread_self ());
+  write_to_thread_log (string_log);
+
+
+  return NULL;
+}
+
+int main ()
+{
+  int i;
+  pthread_t threads[5];
+
+  /* Create a key to associate thread log file pointers in
+     thread-specific data.  Use close_thread_log to clean up the file
+     pointers.  */
+  pthread_key_create (&thread_log_key, close_thread_log);
+  /* Create threads to do the work.  */
+  for (i = 0; i < 5; ++i)
+    pthread_create (&(threads[i]), NULL, thread_function, NULL);
+  /* Wait for all threads to finish.  */
+  for (i = 0; i < 5; ++i)
+    pthread_join (threads[i], NULL);
+  return 0;
+}
+```
+
+
+La funzione principale in questo programma di esempio crea una chiave per memorizzare il puntatore del file specifico del thread e quindi lo memorizza in **thread_log_key**. Poiché si tratta di una variabile globale, è condivisa da tutti i thread. Quando ogni thread inizia a eseguire la sua funzione thread, apre un file di registro e memorizza il puntatore del file sotto quella chiave. In seguito, uno qualsiasi di questi thread può chiamare **write_to_thread_log()** per scrivere un messaggio nel file di registro specifico del thread. Tale funzione recupera il puntatore del file per il file di registro del thread dai dati specifici del thread e scrive il messaggio.
+
+Si noti che **thread_function()** non ha bisogno di chiudere il file di registro. Questo perché quando è stata creata la chiave del file di registro, **close_thread_log()** è stato specificato come funzione di pulizia per quella chiave. Ogni volta che un thread esce, GNU/Linux chiama quella funzione, passando il valore specifico del thread per la chiave del registro del thread. Questa funzione si occupa di chiudere il file di registro.
+
+### Cleanup Handler
+
 
 
 
