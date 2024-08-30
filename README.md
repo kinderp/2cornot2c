@@ -6350,27 +6350,326 @@ Una chiamata a **pthread_mutex_unlock()** sblocca un mutex. Questa funzione dovr
 L'esempio seguente mostra un'altra versione dell'esempio di coda di lavoro. Ora la coda è protetta da un mutex. Prima di accedere alla coda (sia per lettura che per scrittura), ogni thread blocca prima un mutex. Solo quando l'intera sequenza di controllo della coda e
 rimozione di un lavoro è completa, il mutex viene sbloccato. Ciò impedisce la race condition descritta in precedenza.
 
+```c
+/***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+
+#include <malloc.h>
+#include <pthread.h>
+
+struct job {
+  /* Link field for linked list.  */
+  struct job* next;
+  char *message;
+  /* Other fields describing work to be done... */
+};
+
+/* A linked list of pending jobs.  */
+struct job* job_queue;
+
+void process_job (struct job* tmp){
+  char print_me[20];
+  printf("Thread %ld completed job %s \n", pthread_self(), tmp->message);
+}
+
+/* A mutex protecting job_queue.  */
+pthread_mutex_t job_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+/* Process queued jobs until the queue is empty.  */
+
+void* thread_function (void* arg)
+{
+  while (1) {
+    struct job* next_job;
+
+    /* Lock the mutex on the job queue.  */
+    pthread_mutex_lock (&job_queue_mutex);
+    /* Now it's safe to check if the queue is empty.  */
+    if (job_queue == NULL)
+      next_job = NULL;
+    else {
+      /* Get the next available job.  */
+      next_job = job_queue;
+      /* Remove this job from the list.  */
+      job_queue = job_queue->next;
+    }
+    /* Unlock the mutex on the job queue, since we're done with the
+       queue for now.  */
+    pthread_mutex_unlock (&job_queue_mutex);
+
+    /* Was the queue empty?  If so, end the thread.  */
+    if (next_job == NULL)
+      break;
+
+    /* Carry out the work.  */
+    process_job (next_job);
+    /* Clean up.  */
+    free (next_job);
+  }
+  return NULL;
+}
 
 
+int main(void){
+  struct job *one   = (struct job *) malloc(sizeof(struct job));
+  struct job *two   = (struct job *) malloc(sizeof(struct job));
+  struct job *three = (struct job *) malloc(sizeof(struct job));
+
+  one->message   = "1";
+  two->message   = "2";
+  three->message = "3";
+
+  job_queue = (struct job *) malloc(sizeof(struct job));
+  job_queue->message = "4";
+  job_queue->next = three;
+
+  three->next = two;
+  two->next = one;
+  one->next = NULL;
 
 
+  pthread_t first;
+  pthread_t second;
+
+  pthread_create(&first, NULL, thread_function, NULL);
+  pthread_create(&second, NULL, thread_function, NULL);
+
+  pthread_join(first, NULL);
+  pthread_join(second, NULL);
+
+  return 0;
+}
+```
+
+Tutti gli accessi a job_queue (il puntatore dati condiviso) avvengono tra la chiamata a pthread_mutex_lock e la chiamata a pthread_mutex_unlock. Un oggetto job, memorizzato in next_job, è accessibile al di fuori di questa regione solo dopo che l'oggetto è stato rimosso dalla coda ed è quindi inaccessibile ad altri thread. Nota che se la coda è vuota (ovvero, job_queue è null), non usciamo immediatamente dal ciclo perché ciò lascerebbe il mutex bloccato in modo permanente e impedirebbe a qualsiasi altro thread di accedere di nuovo alla coda job. Invece, ricordiamo questo fatto impostando next_job su null ed usciamo solo dopo aver sbloccato il mutex. L'uso del mutex per bloccare job_queue non è automatico; spetta a te aggiungere codice per bloccare il mutex prima di accedere a quella variabile e quindi sbloccarlo in seguito. Ad esempio, una funzione per aggiungere un job alla coda job potrebbe apparire così:
 
 
+```c
+ void enqueue_job (struct job* new_job)
+ {
+   pthread_mutex_lock (&job_queue_mutex);
+   new_job->next = job_queue;
+   job_queue = new_job;
+   pthread_mutex_unlock (&job_queue_mutex);
+}
+```
+
+### Mutex Deadlocks
+
+I mutex forniscono un meccanismo per consentire a un thread di bloccare l'esecuzione di un altro. Ciò apre la possibilità di **una nuova classe di bug**, chiamati **deadlock**. **Un deadlock si verifica quando uno o più thread sono bloccati in attesa di qualcosa che non si verificherà mai. Un semplice tipo di deadlock può verificarsi quando lo stesso thread tenta di bloccare un mutex due volte di seguito. Il comportamento in questo caso dipende dal tipo di mutex utilizzato. Esistono tre tipi di mutex:
+
+* Il blocco di un mutex veloce (il tipo predefinito) causerà il verificarsi di un deadlock. Un tentativo di bloccare il mutex si blocca finché il mutex non viene sbloccato. Ma poiché il thread che ha bloccato il mutex è bloccato sullo stesso mutex, il blocco non può
+mai essere rilasciato.
+* Il blocco di un mutex ricorsivo non causa un deadlock. Un mutex ricorsivo può essere bloccato in modo sicuro più volte dallo stesso thread. Il mutex ricorda quante volte pthread_mutex_lock è stato chiamato su di esso dal thread che detiene il blocco; quel thread deve effettuare lo stesso numero di chiamate a pthread_mutex_unlock prima che il mutex venga effettivamente sbloccato e un altro thread possa bloccarlo.
+* GNU/Linux rileverà e contrassegnerà un doppio blocco su un mutex di controllo degli errori che altrimenti causerebbe un deadlock. La seconda chiamata consecutiva a pthread_mutex_lock restituisce il codice di errore `EDEADLK`.
+
+Per impostazione predefinita, un mutex GNU/Linux è del tipo veloce. Per creare un mutex di uno degli altri due tipi, crea prima un oggetto attributo mutex dichiarando una variabile **pthread_mutexattr_t** e chiamando **pthread_mutexattr_init()**.
+Poi setta il tipo di mutex chiamando  **pthread_mutexattr_setkind_np()**.
+
+```c
+int pthread_mutexattr_setkind_np(pthread_mutexattr_t *attr, int kind);
+```
+
+Il primo argomento è un puntatore all'oggetto attributo mutex, e il secondo è `PTHREAD_MUTEX_RECURSIVE_NP` per un mutex ricorsivo, o `PTHREAD_MUTEX_ERRORCHECK_NP` per un mutex di controllo degli errori. Passa un puntatore a questo oggetto attributo a
+**pthread_mutex_init()** per creare un mutex di questo tipo, quindi distruggi l'oggetto attributo con **pthread_mutexattr_destroy()**. Questa sequenza di codice illustra la creazione di un mutex di controllo degli errori, ad esempio:
+
+```c
+ pthread_mutexattr_t attr;
+ pthread_mutex_t mutex;
+ pthread_mutexattr_init (&attr);
+ pthread_mutexattr_setkind_np (&attr, PTHREAD_MUTEX_ERRORCHECK_NP);
+ pthread_mutex_init (&mutex, &attr);
+ pthread_mutexattr_destroy (&attr);
+```
+
+Come suggerito dal suffisso "np", i tipi di mutex ricorsivi e di controllo degli errori sono specifici di GNU/Linux e non sono portabili. Pertanto, in genere non è consigliabile utilizzarli nei programmi. (Tuttavia, i mutex di controllo degli errori possono essere utili durante il debug.)
+
+### Test Mutex non bloccanti
+
+A volte, è utile verificare se un mutex è bloccato senza effettivamente bloccarlo. Ad esempio, un thread potrebbe dover bloccare un mutex ma potrebbe avere altro lavoro da fare invece di bloccare se il mutex è già bloccato. Poiché **pthread_mutex_lock()** non
+tornerà finché il mutex non sarà sbloccato, è necessaria un'altra funzione. GNU/Linux fornisce **pthread_mutex_trylock()** per questo scopo. Se chiami pthread_mutex_trylock su un mutex sbloccato, bloccherai il mutex come se avessi chiamato pthread_mutex_lock e pthread_mutex_trylock restituirà zero. Tuttavia, se il mutex è già bloccato da un altro thread, pthread_mutex_trylock non bloccherà. Invece, tornerà immediatamente con il codice di errore `EBUSY`. Il blocco del mutex mantenuto dall'altro thread non è interessato. Puoi provare di nuovo più tardi a bloccare il mutex.
+
+### Semafori
+
+Nell'esempio precedente, in cui diversi thread elaborano i lavori da una coda, la funzione thread principale dei thread esegue il lavoro successivo finché non ci sono più lavori e quindi esce dal thread. Questo schema funziona se tutti i lavori vengono messi in coda in anticipo o se i nuovi lavori vengono messi in coda almeno con la stessa rapidità con cui i thread li elaborano. Tuttavia, se i thread lavorano troppo velocemente, la coda dei lavori si svuoterà e i thread usciranno. Se in seguito vengono messi in coda nuovi lavori, non ci saranno più thread che li elaborino. Ciò che potremmo invece desiderare è un meccanismo per bloccare i thread quando la coda si svuota finché non diventano disponibili nuovi lavori. Un semaforo fornisce un metodo conveniente per farlo. **Un semaforo è un contatore** che può essere **utilizzato per sincronizzare più thread**. Come con un mutex, GNU/Linux garantisce che il controllo o la modifica del valore di un semaforo può essere eseguito in modo sicuro, senza creare una condizione di competizione. **Ogni semaforo ha un valore contatore**, che è **un intero non negativo**. Un semaforo supporta due operazioni di base:
+
+* Un'operazione di attesa decrementa il valore del semaforo di 1. Se il valore è già zero, l'operazione si blocca finché il valore del semaforo non diventa positivo (a causa dell'azione di un altro thread). Quando il valore del semaforo diventa positivo, viene decrementato di 1 e l'operazione di attesa ritorna.
+* Un'operazione di post incrementa il valore del semaforo di 1. Se il semaforo era precedentemente zero e altri thread sono bloccati in un'operazione di attesa su quel semaforo, uno di quei thread viene sbloccato e la sua operazione di attesa viene completata (il che riporta il valore del semaforo a zero)
+
+Nota che GNU/Linux fornisce due implementazioni di semafori leggermente diverse. Quella che descriviamo qui è l'implementazione standard del semaforo POSIX. Usa questi semafori quando comunichi tra thread.
+L'altra implementazione, usata per la comunicazione tra processi,  Se usi i semafori, includi **<semaphore.h>**.
+Un semaforo è rappresentato da una variabile **sem_t**. Prima di usarla, devi inizializzarla usando la funzione **sem_init()**, passando un puntatore alla variabile sem_t. Il secondo parametro dovrebbe essere zero (Un valore diverso da zero indicherebbe un semaforo che può essere condiviso tra i processi, il che non è supportato da GNU/Linux per questo tipo di semaforo) e il terzo parametro è il valore iniziale del semaforo. 
+
+```c
+int sem_init(sem_t *sem, int pshared, unsigned int value);
+```
+
+Se non hai più bisogno di un semaforo, è bene deallocarlo con **sem_destroy()**.
 
 
+Per attendere un semaforo, usa **sem_wait()**. 
+
+```c
+int sem_wait(sem_t *sem);
+```
+
+Per inviare a un semaforo, usa **sem_post()**.
+
+```c
+int sem_post(sem_t *sem);
+```
+
+Viene fornita anche una funzione di attesa non bloccante, **sem_trywait()**. È simile a pthread_mutex_trylock: se l'attesa si fosse bloccata perché il valore del semaforo era zero, la funzione restituisce immediatamente, con il valore di errore `EAGAIN`, invece di
+bloccare.
+
+```c
+int sem_trywait(sem_t *sem);
+```
+
+GNU/Linux fornisce anche una funzione per recuperare il valore corrente di un semaforo, **sem_getvalue()**, che inserisce il valore nella variabile int puntata dal suo secondo argomento. 
+
+```c
+int sem_getvalue(sem_t *sem, int *sval);
+```
+
+Tuttavia, non dovresti usare il valore del semaforo che ottieni da questa funzione per prendere una decisione se inviare o attendere il semaforo. Ciò potrebbe portare
+a una race condition: un altro thread potrebbe modificare il valore del semaforo tra la chiamata a sem_getvalue e la chiamata a un'altra funzione del semaforo. Utilizza invece le funzioni atomiche di post e attesa.
+Tornando al nostro esempio di coda di lavoro, possiamo usare un semaforo per contare il numero di lavori in attesa nella coda. L'esempio seguente controlla la coda con un semaforo. La funzione enqueue_job aggiunge un nuovo job alla coda.
+
+```c
+/***********************************************************************
+* Code listing from "Advanced Linux Programming," by CodeSourcery LLC  *
+* Copyright (C) 2001 by New Riders Publishing                          *
+* See COPYRIGHT for license information.                               *
+***********************************************************************/
+
+#include <malloc.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <unistd.h> // sleep
+
+struct job {
+  /* Link field for linked list.  */
+  struct job* next;
+  char *message;
+  /* Other fields describing work to be done... */
+};
+
+/* A linked list of pending jobs.  */
+struct job* job_queue;
+
+void process_job (struct job* tmp){
+  char print_me[20];
+  printf("Thread %ld completed job %s \n", pthread_self(), tmp->message);
+}
+
+/* A mutex protecting job_queue.  */
+pthread_mutex_t job_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+/* A semaphore counting the number of jobs in the queue.  */
+sem_t job_queue_count;
+
+/* Perform one-time initialization of the job queue.  */
+
+void initialize_job_queue ()
+{
+  /* The queue is initially empty.  */
+  job_queue = NULL;
+  /* Initialize the semaphore which counts jobs in the queue.  Its
+     initial value should be zero.  */
+  sem_init (&job_queue_count, 0, 0);
+}
+
+/* Process queued jobs until the queue is empty.  */
+
+void* thread_function (void* arg)
+{
+  while (1) {
+    struct job* next_job;
+
+    /* Wait on the job queue semaphore.  If its value is positive,
+       indicating that the queue is not empty, decrement the count by
+       one.  If the queue is empty, block until a new job is enqueued.  */
+    sem_wait (&job_queue_count);
+
+    /* Lock the mutex on the job queue.  */
+    pthread_mutex_lock (&job_queue_mutex);
+    /* Because of the semaphore, we know the queue is not empty.  Get
+       the next available job.  */
+    next_job = job_queue;
+    /* Remove this job from the list.  */
+    job_queue = job_queue->next;
+    /* Unlock the mutex on the job queue, since we're done with the
+       queue for now.  */
+    pthread_mutex_unlock (&job_queue_mutex);
+
+    /* Carry out the work.  */
+    process_job (next_job);
+    /* Clean up.  */
+    free (next_job);
+  }
+  return NULL;
+}
+
+/* Add a new job to the front of the job queue.  */
+
+void enqueue_job (char *message)
+{
+  struct job* new_job;
+
+  /* Allocate a new job object.  */
+  new_job = (struct job*) malloc (sizeof (struct job));
+  /* Set the other fields of the job struct here...  */
+  new_job->message = message;
+
+  /* Lock the mutex on the job queue before accessing it.  */
+  pthread_mutex_lock (&job_queue_mutex);
+  /* Place the new job at the head of the queue.  */
+  new_job->next = job_queue;
+  job_queue = new_job;
+
+  /* Post to the semaphore to indicate another job is available.  If
+     threads are blocked, waiting on the semaphore, one will become
+     unblocked so it can process the job.  */
+  sem_post (&job_queue_count);
+
+  /* Unlock the job queue mutex.  */
+  pthread_mutex_unlock (&job_queue_mutex);
+}
 
 
+int main(void){
+
+  enqueue_job("1");
+  enqueue_job("2");
+  enqueue_job("3");
+  enqueue_job("4");
+
+  pthread_t first;
+  pthread_t second;
+
+  pthread_create(&first, NULL, thread_function, NULL);
+  pthread_create(&second, NULL, thread_function, NULL);
+
+  sleep(60);
 
 
+  enqueue_job("5");
+  enqueue_job("6");
+  enqueue_job("7");
+  enqueue_job("8");
 
+  pthread_join(first, NULL);
+  pthread_join(second, NULL);
 
+  return 0;
+}
+```
 
-
-
-
-
-
-
+Prima di prendere un lavoro dalla parte anteriore della coda, ogni thread attenderà prima sul semaforo. Se il valore del semaforo è zero, indicando che la coda è vuota, il thread si bloccherà semplicemente finché il valore del semaforo non diventerà positivo, indicando che un lavoro è stato aggiunto alla coda. La funzione enqueue_job aggiunge un lavoro alla coda. Proprio come thread_function, deve bloccare il mutex della coda prima di modificare la coda. Dopo aver aggiunto un lavoro alla coda, invia un post al semaforo, indicando che un nuovo lavoro è disponibile. In questa implementazione i thread che elaborano i lavori non escono mai; se nessun lavoro è disponibile per un po', tutti i thread si bloccano semplicemente in sem_wait.
 
 
 
