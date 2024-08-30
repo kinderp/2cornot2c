@@ -1,4 +1,3 @@
-![image](https://github.com/user-attachments/assets/75725c66-70e0-4e64-bc7a-b73ec1e23d60)
 # 2cornot2c
 It's a 101 C course for my students.
 Sorry, only italian version so far.
