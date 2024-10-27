@@ -89,11 +89,23 @@ Nella figura di sopra è mostato l'intero processo di compilazione che è compos
 Volendo è possibile richiedere al compilatore di fermarsi ad uno specifico step senza produrre l'output finale. Le quattro fasi del processo di compilazione sono rispettivamente:
 </p>
 
-* **Preprocessamento** (_Preprocessing_): il preprocessore (`cpp`) esegue sostituzioni di testo, disabilita/abilita condizionalmente parti di codice in fase di compilazione. Il risultato della sua elaborazione è un file con estensione `.i`: nel nostro caso quindi `hello.i`. Per bloccare il processo di compilazione alla fase di preprocessamento puoi eseguire questo comando: `gcc -E hello.c > hello.i`. Il file `hello.i` conterrà tutte le sostituzioni effettuate dal preprocessore e come puoi vedere quindi ha molto più contenuto del file di partenza `hello.c`, spiegheremo le chiamate al preprocessore nei prossimi paragrafi.
-* **Compilazione** (_Compilation_): il compilatore (`cc`) trasforma il contenuto testuale del file `hello.i` (che è scritto in codice c) nel corrispettivo codice assembly (`hello.s`) specifico per l'architettura del processore target. Puoi bloccare il processo alla fase di compilazione producendo il corrispettivo codice assembly in questo modo: `gcc -S -masm=intel hello.c`
-* **Assemblaggio** (_Assembly_): l'assemblatore (`as`) trasforma il codice assembly contenuto in `hello.s` nelle istruzioni macchina dell'architettura della cpu, il risultato è il file oggetto rilocabile `hello.o`. Puoi bloccare il processo in questa fase con il comando: `gcc -c hello.c`
-* **Linkaggio** (_Linking_): il linker (`ld`) ha il compito di aggreggare in un unico file oggetto (il file eseguibile) eventuali altri file oggetto di librerie esterne o del linguaggio. Nel nostro esempio il programmatore ha fatto uso di una funzione del linguaggio (`printf()`) quindi il linker aggregerà nel file eseguibile (`hello`) il file oggetto `hello.o` ed il file oggetto relativo al codice della funzione printf: `printf.o`. Puoi generare il file eseguibile in questo modo: `gcc -o hello hello.c`
-  
+1. **Preprocessamento** (_Preprocessing_):
+<p align="justify">il preprocessore (<code>cpp</code>) esegue sostituzioni di testo, disabilita/abilita condizionalmente parti di codice in fase di compilazione. Il risultato della sua elaborazione è un file con estensione <code>.i</code>: nel nostro caso quindi <code>hello.i</code>. Per bloccare il processo di compilazione alla fase di preprocessamento puoi eseguire questo comando: <code>gcc -E hello.c > hello.i</code>. Il file <code>hello.i</code> conterrà tutte le sostituzioni effettuate dal preprocessore e come puoi vedere quindi ha molto più contenuto del file di partenza <code>hello.c</code>, spiegheremo le chiamate al preprocessore nei prossimi paragrafi.</p>
+
+2. **Compilazione** (_Compilation_):
+<p align="justify">il compilatore (<code>cc</code>) trasforma il contenuto testuale del file <code>hello.i</code> (che è scritto in codice c) nel corrispettivo codice assembly (<code>hello.s</code>) specifico per l'architettura del processore target. Puoi bloccare il processo alla fase di compilazione producendo il corrispettivo codice assembly in questo modo: <code>gcc -S -masm=intel hello.c</code>
+</p>
+
+3. **Assemblaggio** (_Assembly_):
+<p align="justify">
+l'assemblatore <code>as</code> trasforma il codice assembly contenuto in <code>hello.s</code> nelle istruzioni macchina dell'architettura della cpu, il risultato è il file oggetto rilocabile <code>hello.o</code>. Puoi bloccare il processo in questa fase con il comando: <code>gcc -c hello.c</code>
+</p>
+
+4. **Linkaggio** (_Linking_):
+<p align="justify">
+il linker (<code>ld</code>) ha il compito di aggreggare in un unico file oggetto (il file eseguibile) eventuali altri file oggetto di librerie esterne o del linguaggio. Nel nostro esempio il programmatore ha fatto uso di una funzione del linguaggio (<code>printf()</code>) quindi il linker aggregerà nel file eseguibile (<code>hello</code>) il file oggetto <code>hello.o</code> ed il file oggetto relativo al codice della funzione printf: <code>printf.o</code>. Puoi generare il file eseguibile in questo modo: <code>gcc -o hello hello.c</code>
+</p>
+
 ### Introduzione
 
 Un programma C è di fatto una collezione di:
@@ -105,11 +117,18 @@ Un programma C è di fatto una collezione di:
 
 Di seguito provvederemo a dare una definizione sommaria per ogni componente sopra citato, rimandiamo ai singoli paragrafi per una trattazione completa.
 
+
+<hr>
+
 > [!IMPORTANT]
-> Una **variabile** è una locazione di memoria a cui è stato associato un **identificatore** cioè un nome per referenziare nel codice quella cella di memoria
-> Una variabile ha un **tipo**; il tipo associato ad una variabile definisce appunto che tipo di dato essa può contenere (un numero intero, un numero reale, un carattere etc.) in altre parole il tipo della variabile definisce il numero di byte occupati dalla locazione di memoria referenziata dall'identificatore
-> Una variabile può cambiare il valore in essa contenuto durante il ciclo di vita del programma. L'operazione mediante la quale si assegna un valore iniziale ad una variabile è detto **inizializzazione**, l'operazione attraverso cui si associa un nuovo valore ad una variabile già inizializzata è detto **assegnamento**
-> Prima di usare una variabile è necessario prima dichiararla cioè assegnarle un tipo ed un identificatore.
+>  Una **variabile** è una locazione di memoria a cui è stato associato un **identificatore** cioè un nome per referenziare nel codice quella cella di memoria
+
+<p align="justify">
+Una variabile ha un <b>tipo</b>; il tipo associato ad una variabile definisce appunto che tipo di dato essa può contenere (un numero intero, un numero reale, un carattere etc.) in altre parole il tipo della variabile definisce il numero di byte occupati dalla locazione di memoria referenziata dall'identificatore
+Una variabile può cambiare il valore in essa contenuto durante il ciclo di vita del programma. L'operazione mediante la quale si assegna un valore iniziale ad una variabile è detto <b>inizializzazione</b>, l'operazione attraverso cui si associa un nuovo valore ad una variabile già inizializzata è detto <b>assegnamento</b>
+Prima di usare una variabile è necessario prima dichiararla cioè assegnarle un tipo ed un identificatore.
+</p>
+<hr>
 
 ```c
 int var_intera; // dichiarazione di variabile senza inizializzazione
@@ -117,6 +136,7 @@ var_intera = 5; // assegnamento di varabile precedentemente inizalizzata
 int var_intera_inizializzata = 3; // dichirazione di variabile con inizializzazione
 var_intera_inizializzata = 9; // assegnamento
 ```
+
 > [!WARNING]  
 > Le variabili possono essere sia dichiarate che definite e spesso due termini sono usati per esprimere la stessa cosa. E' prematuro spiegarne la lieve differenza ma tieni a mente per adesso i due termini non sono la stessa cosa.
 
@@ -127,8 +147,15 @@ var_intera_inizializzata = 9; // assegnamento
 const double pi = 3.14; // costante pi greco
 ```
 
+<hr>
+
 > [!IMPORTANT]
-> **Una funzione** è una collezione di istruzioni che svolgono uno specifico compito; una funzione ha un nome (`differenza` nel nostro esempio), un valore di ritorno, dei parametri di input (`minuendo` e `sottraendo` nel codice d'esempio) ed un corpo che è delimitato da una parenti graffa aperta `{` ed una chiusa `}`. I parametri d'ingresso detti anche parametri formali sono racchiusi tra una coppia di parentesi tonde: `(`, `)`.
+> **Una funzione** è una collezione di istruzioni che svolgono uno specifico compito
+
+<p align="justify">
+una funzione ha un nome (<code>differenza</code> nel nostro esempio), un valore di ritorno, dei parametri di input (<code>minuendo</code> e <code>sottraendo</code> nel codice d'esempio) ed un corpo che è delimitato da una parenti graffa aperta <code>{</code> ed una chiusa <code>}</code>.
+I parametri d'ingresso detti anche parametri formali sono racchiusi tra una coppia di parentesi tonde: <code>(</code>, <code>)</code>.
+</p>
 
 ```c
 int differenza(int minuendo, int sottraendo){
@@ -136,10 +163,12 @@ int differenza(int minuendo, int sottraendo){
 }
 ```
 
-> [!IMPORTANT]
-> Il preprocessore viene richiamato dal compilatore come primo step nel processo di generazione del file eseguibile. Il preprocessore ha il compito di effettuare delle semplici sostituzioni di testo; esistono diverse sostituzioni che il preprocessore può effettuare per contro nostro. L'insieme di queste operazioni sono dette **chiamate al preprocessore**. Le studieremo più avanti.
+<hr>
 
-#### 0_hello.c
+> [!IMPORTANT]
+> Il preprocessore viene richiamato dal compilatore come primo step nel processo di generazione del file eseguibile. Il preprocessore ha il compito di effettuare delle semplici sostituzioni di testo; esistono diverse sostituzioni che il preprocessore può effettuare per conto nostro. L'insieme di queste operazioni sono dette **chiamate al preprocessore**.
+
+#### Intrudzione al linguaggio C
 
 Come da tradizione, il primo esempio di codice è il classico `Hello World`.
 Il programma di sotto stampa a schermo una semplice frase: `Ciao Mondo` in inglese.
