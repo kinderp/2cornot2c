@@ -327,19 +327,24 @@ Siccome la definzione della funzione <code>sottrazione</code> è stata fornita s
 Come spiegato ampiamente in precedenza, facciamo uso anche della funzione <code>printf()</code> ed in questo caso per fornire il prototipo sfruttiamo la direttiva al preprocessore <code>#inclde <stdio.h></code>
 </p>
 
-##### Variabili
+## Variabili
 
+<p align="justify">
 Abbiamo precedentemente detto che una variabile è semplicemente una locazione di memoria a cui è associato un identificatore ed un tipo.
 L'identificatore è un nome mnemonico che ci permette, all'interno del codice, di accedere al valore contenuto nella locazione di memoria corrispondente. Il tipo definisce lo spazio (in terminit di byte) che la locazione di memoria può contenere.
-**Una variabile prima di essere usata deve esssere sempre dichiarata**. Come anticipato, l'operazione di dichiarazione consiste nell'allocare spazio di memoria per la variabile ed associargli l'identificatore; lo spazio riservato viene dedotto dal tipo della variabile.
-I diversi tipi privisti del C hanno un numero di byte prefissati dipendenti dall'architettura; per esempio `int` di solito occupa 32 o 64 bit, `char` 8 bit etc.
+<b>Una variabile prima di essere usata deve esssere sempre dichiarata</b>. Come anticipato, l'operazione di dichiarazione consiste nell'allocare spazio di memoria per la variabile ed associargli l'identificatore; lo spazio riservato viene dedotto dal tipo della variabile.
+I diversi tipi privisti del C hanno un numero di byte prefissati dipendenti dall'architettura; per esempio <code>int</code> di solito occupa 32 o 64 bit, <code>char</code> 8 bit etc.
 Se ti può aiutare puoi pensare ad una variabile come ad una scatola, vedi immagine di sotto.
+</p>
 
 ```c
 int answer;
 ```
 
-![dichiarazione_variabile](https://github.com/kinderp/2cornot2c/blob/main/images/dichiarazione_variabile.png)
+
+<p align="center">
+<img src="https://github.com/kinderp/2cornot2c/blob/main/images/dichiarazione_variabile.png">
+</p>
 
 Una volta dichiarata la variabile è pronta ad ospitare un valore del tipo corrispondente a quello scelto nella dichiarazione; questa operazione è detta **assegnamento**
 
@@ -348,7 +353,9 @@ int answer;   // dichiarazione di variabile, tipo intero
 answer = 12;  // assegnamento del valore 12 alla variabile sopra dichiarata
 ```
 
-![](https://github.com/kinderp/2cornot2c/blob/main/images/assegnamento_variabile.png)
+<p align="center">
+<img src="https://github.com/kinderp/2cornot2c/blob/main/images/assegnamento_variabile.png">
+</p>
 
 E' possible associare un valore ad una variabile direttamente nella dichiarazione, questa operazione è detta **inizializzazione**
 
@@ -372,14 +379,23 @@ Oltre al tipo ed all'identificatore una variabile è caratterizzata dalla **visi
 
 Sulla base del tempo di vita e della visibilità possiamo classificare le variabile in due grandi categorie: **variabili globali** e **variabili locali**.
 
-**Le variabili locali** sono definite all'interno delle funzioni e hanno una visibilità limitata: dal punto in cui sono dichiarate fino al termine del corpo della funzione (ti ricordo che il corpo è compreso tra `{` e `}`); il loro tempo di vita è anche limitato: la locazione di memoria ad esse associata è allocata quando la funzione viene invocata ed è liberata quando l'esecuzione dell'intero corpo della funzione termina.
 
-**Le variabili globali** sono definite fuori dalle funzioni, di solito dopo le direttive `#include` nelle righe iniziali. 
+<p align="justify">
+<b>Le variabili locali</b> sono definite all'interno delle funzioni e hanno una visibilità limitata: dal punto in cui sono dichiarate fino al termine del corpo della funzione (ti ricordo che il corpo è compreso tra <code>{</code> e <code>}</code>); il loro tempo di vita è anche limitato: la locazione di memoria ad esse associata è allocata quando la funzione viene invocata ed è liberata quando l'esecuzione dell'intero corpo della funzione termina.
+</p>
+
+<p align="justify">
+<b>Le variabili globali</b> sono definite fuori dalle funzioni, di solito dopo le direttive <code>#include</code> nelle righe iniziali. 
 Hanno visibilità globale appunto, cioè sono visibili a tutte le funzioni nel file in cui sono dichiarate (e potenzialmente anche alle funzioni in altri file ma questo lo vedremo in seguito); il loro tempo di vita coincide con quello globale di esecuzione del programma.
+</p>
 
-**Le variabili globali** se non inizializzate vengono poste a zero automaticamente, al contrario **le variabili locali** se non inizializzate contengono semplicemente un valore sporco ed assolutamente non prevedibile (il valore che era precedentemente contenuto nella locazione di memoria che è stata associata alla variabile).
+<p align="justify">
+<b>Le variabili globali</b> se non inizializzate vengono poste a zero automaticamente, al contrario <b>le variabili locali</b> se non inizializzate contengono semplicemente un valore sporco ed assolutamente non prevedibile (il valore che era precedentemente contenuto nella locazione di memoria che è stata associata alla variabile).
+</p>
 
-Il programma di sotto fa uso di variabili globali e locali; semplicemente sono definite tre funzioni: _somma()_, _differenza()_ e _moltiplicazione()_. I due operandi su cui le funzioni devono lavorare (`primo` e `secondo`) vengono definite coeme variabili globali; essendo globali queste variabili sono visibili da tutte le funzioni nel file. 
+<p align="justify">
+Il programma di sotto fa uso di variabili globali e locali; semplicemente sono definite tre funzioni: <code>somma()</code>, <code>differenza()</code> e <code>moltiplicazione()</code>. I due operandi su cui le funzioni devono lavorare (<code>primo</code> e <code>secondo</code>) vengono definite coeme variabili globali; essendo globali queste variabili sono visibili da tutte le funzioni nel file. 
+</p>
 
 ```c
 int primo, secondo; /* variabili globali */
@@ -394,27 +410,79 @@ char operazione; // variabile locale
 
 Queste due variabili sono visibili solo all'interno della funzione `main()` dove sono dichiarate e non dalle altre funzioni.
 
-Inoltre, siccome facciamo uso della funzione `printf()` e `scanf()` dobbiamo includere con la direttiva al preprocessore (`#include<stdio.h`) i prototipi contenuti nel file header: `stdio.h`.
-Mentre `printf()` serve per stampare a schermo il contenuto di una variabile, `scanf()` viene usata per leggere un valore da tastiera e memorizzarlo in una variabile.
+<p align="justify">
+Inoltre, siccome facciamo uso della funzione <code>printf()</code> e <code>scanf()</code> dobbiamo includere con la direttiva al preprocessore (<code>#include<stdio.h></code>) i prototipi contenuti nel file header: <code>stdio.h</code>.
+Mentre <code>printf()</code> serve per stampare a schermo il contenuto di una variabile, <code>scanf()</code> viene usata per leggere un valore da tastiera e memorizzarlo in una variabile.
+</p>
 
 Le definizioni della funzioni `somma()`, `differenza()` e `moltiplicazione()` sono fornite dopo la loro effettiva chiamata nel `main()` e quindi per permettere al compilatore di controllare l'uso corretto di queste funzioni è stato necessario, prima del `main()`, fornire i prototipoi.
 
-https://github.com/kinderp/2cornot2c/blob/8fcadf5f8a958f9b6194c4dac724d5a21ecef717/lab/0_intro/2_variabili.c#L1-L41
+[/lab/0_intro/2_variabili.c](https://github.com/kinderp/2cornot2c/blob/8fcadf5f8a958f9b6194c4dac724d5a21ecef717/lab/0_intro/2_variabili.c)
 
-Inoltre nel codice incontriamo il primo costrutto per il controllo del flusso e precisamente `if-else`.
+```c
+#include <stdio.h>
+
+int primo, secondo; /* variabili globali */
+
+int somma();
+int differenza();
+int moltiplicazione();
+
+int main(void){
+        int risultato;   // variabile locale
+        char operazione; // variabile locale
+        printf("Inserisci il primo operando\n");
+        scanf("%d", &primo);
+        printf("Inserisci il secondo operando\n");
+        scanf("%d", &secondo);
+        printf("s)Somma d)Differenza m)Moltiplicazine\n");
+        scanf(" %c", &operazione);
+        if (operazione == 's'){
+                risultato = somma();
+        } else if(operazione == 'd') {
+                risultato = differenza();
+        } else if(operazione == 'm') {
+                risultato = moltiplicazione();
+        } else {
+                printf("Operazione non riconosciuta");
+        }
+        printf("Il risultato e': %d\n", risultato);
+        return 0;
+}
+
+int somma(){
+        return primo + secondo;
+}
+
+int differenza(){
+        return primo - secondo;
+}
+
+int moltiplicazione(){
+        return primo * secondo;
+}
+```
+
+<p align="justify">
+Inoltre nel codice incontriamo il primo costrutto per il controllo del flusso e precisamente <code>if-else</code>.
 Vedremo in dettaglio la loro sintassi più avanti, ora forniamo solo una breve spiegazione.
-Il costrutto `if` serve per realizzare l'istruzione di salto condizionale ed assume questa forma:
+Il costrutto <code>if</code> serve per realizzare l'istruzione di salto condizionale ed assume questa forma:
+</p>
 
 `if (espr) istr`
 
-Se la condizione specificata dall'espressione `espr` è vera (cioè diversa da zero) viene eseguito il blocco di istruzioni `istr` alrimenti si prosegue con l'elaborazione
+<p align="justify">
+Se la condizione specificata dall'espressione <code>espr</code> è vera (cioè diversa da zero) viene eseguito il blocco di istruzioni <code>istr</code> alrimenti si prosegue con l'elaborazione
+</p>
 
 Il costrutto `if` ammette l'enunciato opzionale `else`. Il costrutto `if-else` assume questa forma:
 
 `if (espr) istr1 else istr2`
 
-I blocchi di istrzioni `istr1` e `istr2` vengono eseguiti a seconda se l'espressione `espr` sia vera o falsa. Se è vera si esegue `espr1` se è falsa `espr2`
+<p align="justify">
+I blocchi di istrzioni <code>istr1</code> e <code>istr2</code> vengono eseguiti a seconda se l'espressione <code>espr</code> sia vera o falsa. Se è vera si esegue <code>espr1</code> se è falsa <code>espr2</code>
 Nel nostro codice abbiamo qualcosa di un po' più complesso, analizziamolo assieme:
+</p>
 
 ```c
  scanf(" %c", &operazione);
@@ -429,8 +497,10 @@ Nel nostro codice abbiamo qualcosa di un po' più complesso, analizziamolo assie
 	}
 ```
 
-La funzione `scanf()` legge un carattere da tastiera ed inserisce il valore all'interno della variabile `operazione`, il costrutto `if-else` ci serve per eseguire la funzione corrispondente all'operazione richiesta dall'utente attraverso un carattere della tastiera.
-Se `operazione` contiene il carattere `s` allora si eseguirà la funzione `somma()` (solo quella e nessun'altra) altrimenti se il carattere è `d` si esegue la funzione `differenza()` e così via. Se il carattere contenuto in `operazione` non è tra i tre attesi `s` `d` `m` allora (ultimo `else`) si stampa un messaggio che informa l'utente che l'operazione non è stata riconosciuta.
+<p align="justify">
+La funzione <code>scanf()</code> legge un carattere da tastiera ed inserisce il valore all'interno della variabile <code>operazione</code>, il costrutto <code>if-else</code> ci serve per eseguire la funzione corrispondente all'operazione richiesta dall'utente attraverso un carattere della tastiera.
+Se <code>operazione</code> contiene il carattere <code>s</code> allora si eseguirà la funzione <code>somma()</code> (solo quella e nessun'altra) altrimenti se il carattere è <code>d</code> si esegue la funzione <code>differenza()</code> e così via. Se il carattere contenuto in <code>operazione</code> non è tra i tre attesi <code>s</code> <code>d</code> <code>m</code> allora (ultimo <code>else</code>) si stampa un messaggio che informa l'utente che l'operazione non è stata riconosciuta.
+</p>
 
 Tornando alle variabili possiamo riassumere quanto segue:
 
@@ -444,13 +514,67 @@ Tornando alle variabili possiamo riassumere quanto segue:
 * se non inizializzate settate ad un valore assolutamente casuale
 * il loro ciclo di vita è limitato all'esecuzione del blocco dove sono dichiarate
 
+<p align="justify">
 L'uso di variabili globali per comunicare con le funzioni è scorretto ed è stato mostrato solo come esempio per introdurre le variabili globali. Meno uso facciamo delle variabili globali e meglio è.
 Per comunicare con le funzioni e scambiare valori col chiamante è sempre preferibile usare i parametri in ingresso ed i valori di ritorno, quindi le variabili locali.
 Di sotto è riportato il codice corretto che elimina l'uso improprio delle variabili globali:
+</p>
 
-https://github.com/kinderp/2cornot2c/blob/9c77cc456006b9edb0dddea96eaf5860037e7b8c/lab/0_intro/3_variabili.c#L1-L47
+[/lab/0_intro/3_variabili.c](https://github.com/kinderp/2cornot2c/blob/9c77cc456006b9edb0dddea96eaf5860037e7b8c/lab/0_intro/3_variabili.c)
 
-come puoi vedere le variabili `primo` e `secondo` sono state dichiarate dentro la funzione `main()` e quindi sono locali (sono visibili solo all'interno di questa funzione), esattamente come `risultato` ed `operazione`. Solo `risultato` è inizializzato a zero, le altre variabili conterranno all'inizio un valore casuale (le variabili locali non sono inizializzate automaticamente)
+```c
+#include<stdio.h>
+
+int somma(int, int);
+int differenza(int, int);
+int moltiplicazione(int, int);
+
+int main(void){
+        int risultato = 0;
+        int primo, secondo;
+        char operazione;
+
+        printf("Inserisci il primo operando\n");
+        scanf("%d", &primo);
+        printf("Insesci il secondo operando\n");
+        scanf("%d", &secondo);
+        printf("s)Somma d)Differenza m)Moltiplicazione\n");
+        getchar();
+        operazione = getchar();
+        switch(operazione){
+                case 's':
+                        risultato = somma(primo, secondo);
+                        break;
+                case 'd':
+                        risultato = differenza(primo, secondo);
+                        break;
+                case 'm':
+                        risultato = moltiplicazione(primo, secondo);
+                        break;
+                default:
+                        printf("Operazione non riconosciuta\n");
+
+        }
+        printf("Il risultato e': %d\n", risultato);
+        return 0;
+}
+
+int somma(int primo_addendo, int secondo_addendo){
+        return primo_addendo + secondo_addendo;
+}
+
+int differenza(int minuendo, int sottraendo){
+        return minuendo - sottraendo;
+}
+
+int moltiplicazione(int primo_fattore, int secondo_fattore){
+        return primo_fattore * secondo_fattore;
+}
+```
+
+<p align="justify">
+come puoi vedere le variabili <code>primo</code> e <code>secondo</code> sono state dichiarate dentro la funzione <code>main()</code> e quindi sono locali (sono visibili solo all'interno di questa funzione), esattamente come <code>risultato</code> ed <code>operazione</code>. Solo <code>risultato</code> è inizializzato a zero, le altre variabili conterranno all'inizio un valore casuale (le variabili locali non sono inizializzate automaticamente)
+</p>
 
 ```c
 int risultato = 0;
