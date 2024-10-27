@@ -168,16 +168,28 @@ int differenza(int minuendo, int sottraendo){
 > [!IMPORTANT]
 > Il preprocessore viene richiamato dal compilatore come primo step nel processo di generazione del file eseguibile. Il preprocessore ha il compito di effettuare delle semplici sostituzioni di testo; esistono diverse sostituzioni che il preprocessore può effettuare per conto nostro. L'insieme di queste operazioni sono dette **chiamate al preprocessore**.
 
-#### Intrudzione al linguaggio C
+#### Introduzione al linguaggio C
 
 Come da tradizione, il primo esempio di codice è il classico `Hello World`.
 Il programma di sotto stampa a schermo una semplice frase: `Ciao Mondo` in inglese.
 
-https://github.com/kinderp/2cornot2c/blob/18b60e866c1e0e22c59835fe953cbe3c534e7422/lab/0_intro/0_hello.c#L14-L19
 
-Compila il sorgente con: `gcc -o 0_hello bin/0_hello` e poi esegui il programma con: `bin/0_hello`.
-Riconosciamo subito una funzione: `main()`. Questa è una funzione speciale, tutti i programmi C devono averne una in quanto rappresenta il punto di partenza per l'esecuzione di ogni programma. Sei libero di chiamare tutte le altre funzioni a tuo piacimento ma la funzione da cui parte l'esecuzione si deve chiamare `main()`. Come qualsiasi funzione, `main()` ha un tipo di ritorno `int` e dei parametri in ingresso opzionali, in questo caso la funzione `main()` non si aspetta nessun parametro in ingresso dal chiamante (il sistema operativo) e per esprimere che questa non accetta alcun valore in ingresso si usa la parola riservata `void`.
-Ti potrebbe capitare di vedere la funzione `main()` in queste versioni:
+[/lab/0_intro/0_hello.c](https://github.com/kinderp/2cornot2c/blob/18b60e866c1e0e22c59835fe953cbe3c534e7422/lab/0_intro/0_hello.c)
+
+```c
+#include <stdio.h>
+
+int main(void){
+        printf("Hello World\n");
+        return 0;
+}
+```
+
+<p align="justify">
+Compila il sorgente con: <code>gcc -o 0_hello bin/0_hello</code> e poi esegui il programma con: <code>bin/0_hello</code>.
+Riconosciamo subito una funzione: <code>main()</code>. Questa è una funzione speciale, tutti i programmi C devono averne una in quanto rappresenta il punto di partenza per l'esecuzione di ogni programma. Sei libero di chiamare tutte le altre funzioni a tuo piacimento ma la funzione da cui parte l'esecuzione si deve chiamare <code>main()</code>. Come qualsiasi funzione, <code>main()</code> ha un tipo di ritorno <code>int</code> e dei parametri in ingresso opzionali, in questo caso la funzione <code>main()</code> non si aspetta nessun parametro in ingresso dal chiamante (il sistema operativo) e per esprimere che questa non accetta alcun valore in ingresso si usa la parola riservata <code>void</code>.
+Ti potrebbe capitare di vedere la funzione <code>main()</code> in queste versioni:
+</p>
 
 ```c
 main()
@@ -187,7 +199,9 @@ main()
 void main()
 ```
 
+<p align="justify">
 La prima forma è tollerata da vecchia versioni del C (C90) o pre ANSI C ma non è accettata da quelle successive (C99, C11); la seconda potrebbe essere tollerata da alcuni compilatori ma se il tuo codice deve funzionare anche su altre macchine è meglio usare qualcosa che funziona sempre: dunque evitala.
+</p>
 
 > [!IMPORTANT]
 > **Dichiarazione di funzione** (o **prototipo**): il tipo di ritorno, i tipi dei parametri in ingresso ed il nome della funzione rappresentano il prototipo della funzione. Quando si fornisce il prototipo di una funzione si usa dire che si effettua la dichiarazione della funzione
@@ -219,8 +233,10 @@ int differenza(int minuendo, int sottraendo);  // prototipo della funzione diffe
 > [!IMPORTANT]
 > Il compilatore quando incontra una chiamata a funzione deve conoscerne almeno il prototipo per verificare che questa stia venendo usata correttamente (il corretto numero e tipo per i parametri di ingresso e che il valore di ritorno sia assegnato ad una variabile compatibile, dello stesso tipo).
 
-La funzione `main()` fa usa di un'altra funzione: `printf()` che viene usata per stampare su schermo. Questa funzione è fornita (la sua implementazione) dal linguaggio C stesso, quindi non viene definita (non si fornisce l'implementazione nel nostro file). L'implementazione della `printf()` sarà fornita sotto forma di file oggetto `.o` che verrà assemblato dal linker con il nostro: `hello.o` all'interno del file eseguibile finale. Il compilatore ha però bisogno di conoscere almeno il prototipo della funzione `printf()` per verificarne l'uso corretto. Il prototipo della funzione `printf()` è fornito all'interno del file `stdio.h`; risulta necessario copiare il contenuto di questo file nel nostro esempio nelle righe precedenti a quella dove la funzione `printf()` è usata. Non c'è bisogno di copiare ed incollare il file `stdio.h` ma è possibile usare una direttiva del preprocessore `#include <stdio.h>` che sostuisce il contenuto del file `stdio.h` a partire dalla riga di codice dove è inserita.
-Per verificare l'effettiva aggiunta del prototipo di `printf()` da parte del preprocessore puoi lanciare:
+<p align="justify">
+La funzione <code>main()</code> fa uso di un'altra funzione: <code>printf()</code> che viene usata per stampare su schermo. Questa funzione è fornita (la sua implementazione) dal linguaggio C stesso, quindi non viene definita (non si fornisce l'implementazione nel nostro file). L'implementazione della <code>printf()</code> sarà fornita sotto forma di file oggetto <code>.o</code> che verrà assemblato dal linker con il nostro: <code>hello.o</code> all'interno del file eseguibile finale. Il compilatore ha però bisogno di conoscere almeno il prototipo della funzione <code>printf()</code> per verificarne l'uso corretto. Il prototipo della funzione <code>printf()</code> è fornito all'interno del file <code>stdio.h</code>; risulta necessario copiare il contenuto di questo file nel nostro esempio nelle righe precedenti a quella dove la funzione <code>printf()</code> è usata. Non c'è bisogno di copiare ed incollare il file <code>stdio.h</code> ma è possibile usare una direttiva del preprocessore <code>#include<stdio.h></code> che sostuisce il contenuto del file <code>stdio.h</code> a partire dalla riga di codice dove è inserita.
+Per verificare l'effettiva aggiunta del prototipo di <code>printf()</code> da parte del preprocessore puoi lanciare:
+</p>
 
 ```bash
  gcc -E 0_hello.c |grep 'printf'
