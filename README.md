@@ -57,7 +57,7 @@ Ogni lab ha un numero ed un nome ad esso associato, ad esempio al primo laborato
 Ogni lab al suo interno contiene una cartella <code>bin</code> destinata ad ospitare i file eseguibili ottenuti al termine del processo di compilazione.
 </div>
 
-### Il processo di compilazione
+## Il processo di compilazione
 
 <p align="justify">
 I programmi sono scriti in un qualche linguaggio di programmazione, il programmatore scrive il codice sorgente; nel caso del linguaggio C i file sorgente hanno estensione <code>.c</code> o <code>.h</code>. Il codice sorgente contiene tutte le istruzioni che il programma dovrà eseguire. Le istruzioni all'interno del codice sorgente scritte in un qualsiasi linguaggio di programmazione devono essere tradotte in una sequenza di bit (in altri termini nel linguaggio macchina) perchè la cpu è in grado di comprendere solo il linguaggio macchina, esclusivamente sequenze di bit e nient'altro. In sintesi si dice che il programma sorgente deve essere trasformato in in file eseguibile (file binario) che contiene le istruzioni (sequenze di bit) per la pecifica architettura del nostro processore.
@@ -106,7 +106,7 @@ l'assemblatore <code>as</code> trasforma il codice assembly contenuto in <code>h
 il linker (<code>ld</code>) ha il compito di aggreggare in un unico file oggetto (il file eseguibile) eventuali altri file oggetto di librerie esterne o del linguaggio. Nel nostro esempio il programmatore ha fatto uso di una funzione del linguaggio (<code>printf()</code>) quindi il linker aggregerà nel file eseguibile (<code>hello</code>) il file oggetto <code>hello.o</code> ed il file oggetto relativo al codice della funzione printf: <code>printf.o</code>. Puoi generare il file eseguibile in questo modo: <code>gcc -o hello hello.c</code>
 </p>
 
-### Introduzione
+## Introduzione
 
 Un programma C è di fatto una collezione di:
 
@@ -168,7 +168,7 @@ int differenza(int minuendo, int sottraendo){
 > [!IMPORTANT]
 > Il preprocessore viene richiamato dal compilatore come primo step nel processo di generazione del file eseguibile. Il preprocessore ha il compito di effettuare delle semplici sostituzioni di testo; esistono diverse sostituzioni che il preprocessore può effettuare per conto nostro. L'insieme di queste operazioni sono dette **chiamate al preprocessore**.
 
-#### Introduzione al linguaggio C
+## Il primo programma in C
 
 Come da tradizione, il primo esempio di codice è il classico `Hello World`.
 Il programma di sotto stampa a schermo una semplice frase: `Ciao Mondo` in inglese.
@@ -269,10 +269,12 @@ Riassumendo:
 * riga 14: inclusione del file d'intestazione `stdio.h` contente il prototipo della funzione `printf()`. Il prototipo serve al compilatore per verificare che il programmatore utilizzi correttamente la funzione, in questo caso la `printf()`
 * riga 16-19: definizione della funzione `main()`
  
-#### 1_funzioni.c
+## Funzioni
 
+<p align="justify">
 Le funzioni sono un blocco di codice, un insieme di istruzioni che vengono raggruppate e possono essere richiamate in qualsiasi momento all'interno di un programma. Per intenderci, se nel nostro programma calcoliamo più volte la media pesata dei nostri voti è consigliabile racchiudere tutte le istruzioni all'interno di una funzione e richiamarla ogni volta che ne abbiamo bisogno piuttosto che riscrivere più volte lo stesso identico codice in punti diversi. Le funzioni possono ritornare un valore come risultato della loro elaborazione (possono anche non ritornare nulla al chiamante) e possono ricevere in ingresso un certo numero di parameti.
-Una funzione ha un'intestazione ed un corpo, usando sempre la solita funzione `differenza` vista in precedenza avremo:
+Una funzione ha un'intestazione ed un corpo, usando sempre la solita funzione <code>differenza</code> vista in precedenza avremo:
+</p>
 
 ```c
 int differenza(int minuendo, int sottraendo){
@@ -280,9 +282,11 @@ int differenza(int minuendo, int sottraendo){
 }
 ```
 
-la prima riga rappresenta l'intestazione della funzione (escluso la parentesi graffa), tutto il codice compreso da `{` e `}` è il corpo.
-Come anticipato, quando viene fornita sia l'intestazione che il corpo (l'implementazione) si parla di **definizione di funzione**, se viene fornita solo l'intestazione (anche detta **prototipo**) si parla di **dichiarazione di funzione**.
-Il prototipo della funzione `sottrazione` è dunque il seguente:
+<p align="justify">
+la prima riga rappresenta l'intestazione della funzione (escluso la parentesi graffa), tutto il codice compreso da <code>{</code> e <code>}</code> è il corpo.
+Come anticipato, quando viene fornita sia l'intestazione che il corpo (l'implementazione) si parla di <b>definizione di funzione</b>, se viene fornita solo l'intestazione (anche detta <b>prototipo</b>) si parla di <b>dichiarazione di funzione</b>.
+Il prototipo della funzione <code>sottrazione</code> è dunque il seguente:
+</p>
 
 ```c
 int differenza(int minuendo, int sottraendo);
@@ -294,13 +298,34 @@ Volendo è possibile omettere il nome dei parametri in ingresso lasciando solo i
 int differenza(int, int);
 ```
 
+<p align="justify">
 Per il compilatore non cambia nulla ma può aiutare un altro programmatore a comprendere il significato e l'uso dei parametri in ingresso.
-Di sotto è riportato un esempio completo che fa uso della funzione `sottrazione`, come è possibile vedere questa è richiamta all'interno del `main()` alla riga 8 fornendo in ingresso i due parametri previsti durante le definzione. Se avessimo fornio un numero diverso (sia inferiore che superiore) di parametri o di tipo diverso rispetto al tipo intero il compilatore ci avrebbe dato errore (o forse nel secondo caso no...?!?)
+Di sotto è riportato un esempio completo che fa uso della funzione <code>sottrazione</code>, come è possibile vedere questa è richiamta all'interno del <code>main()</code> alla riga 8 fornendo in ingresso i due parametri previsti durante le definzione. Se avessimo fornio un numero diverso (sia inferiore che superiore) di parametri o di tipo diverso rispetto al tipo intero il compilatore ci avrebbe dato errore (o forse nel secondo caso no...?!?)
+</p>
 
-https://github.com/kinderp/2cornot2c/blob/849c8731e84196bab6b5a17aed9e983d045cb025/lab/0_intro/1_funzioni.c#L1-L14
+[/lab/0_intro/1_funzioni.c](https://github.com/kinderp/2cornot2c/blob/849c8731e84196bab6b5a17aed9e983d045cb025/lab/0_intro/1_funzioni.c)
 
-Siccome la definzione della funzione `sottrazione` è stata fornita successivamente (riga 12-14) al punto in cui questa è richiamata (riga 8) per permettere al compilatore di controllare il corretto uso da parte del programmatore è stato necessario fornire prima della riga 8 il prototipo della funzione (riga 3). Commentando la riga 3 il compilatore darebbe errore o almeno rileverebbe un warning circa una dichiarazione implicita che non è in grado di verificare.
-Come spiegato ampiamente in precedenza, facciamo uso anche della funzione `printf()` ed in questo caso per fornire il prototipo sfruttiamo la direttiva al preprocessore `#inclde <stdio.h>`
+```c
+#include<stdio.h>
+
+int sottrazione(int, int);
+
+int main(void){
+        int minuendo = 10;
+        int sottraendo = 3;
+        int risultato = sottrazione(minuendo, sottraendo);
+        printf("%d - %d = %d", minuendo, sottraendo, risultato);
+}
+
+int sottrazione(int minuendo, int sottraendo){
+        return minuendo - sottraendo;
+}
+```
+
+<p align="justify">
+Siccome la definzione della funzione <code>sottrazione</code> è stata fornita successivamente (riga 12-14) al punto in cui questa è richiamata (riga 8) per permettere al compilatore di controllare il corretto uso da parte del programmatore è stato necessario fornire prima della riga 8 il prototipo della funzione (riga 3). Commentando la riga 3 il compilatore darebbe errore o almeno rileverebbe un warning circa una dichiarazione implicita che non è in grado di verificare.
+Come spiegato ampiamente in precedenza, facciamo uso anche della funzione <code>printf()</code> ed in questo caso per fornire il prototipo sfruttiamo la direttiva al preprocessore <code>#inclde <stdio.h></code>
+</p>
 
 ##### Variabili
 
