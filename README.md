@@ -887,9 +887,9 @@ void example_static_var(void){
 			*/
         static int b;  /* variabile locale statica: viene  allocata  una  sola volta all'
 			* esecuzione del programma e deallocata alla terminazione, mantie
-			* -ne il valore  in essa contenuto  anche se si esce dal blocco .
-			* Non abbiamo  inizializzato la variabile  esplicitamente a zero
-			* in quanto è statica: le variabili statiche  non  inizializzate
+			* -ne il valore  in essa contenuto  anche  se  si esce dal blocco
+			* Non abbiamo  inizializzato la  variabile  esplicitamente a zero
+			* in quanto è statica: le variabili  statiche  non  inizializzate
 			* esplicitamente sono poste a zero dal compilatore.
  			*/
 
@@ -944,12 +944,12 @@ extern int global_var_somewhere_in_other_file; /* questa è una DICHIARAZIONE di
 						*/
 
 int main(void){
-	extern int extern_global_var;  /* questa è una DICHIARAZIONE opzionale (NON OBBLIGATORIA), basta
-					* usare la keyword  extern. Serve esclusivamente per documentare
-					* che in questa funzione verrà usata una variabile globale e non
-					* locale (automatica) e di stare attenti a come questa viene val
-					* -orizzata e manipolata in quanto ha visibilità in tutto il fil
-					* -e e potenzialmente  in tutti i file
+	extern int extern_global_var;  /* questa è una DICHIARAZIONE opzionale (NON OBBLIGATORIA),basta
+					* usare la keyword  extern.Serve esclusivamente per documentare
+					* che nella  funzione  verrà  usata una variabile globale e non
+					* locale (automatica) e di stare attenti a come questa viene va
+					* lorizzata e manipolata in quanto ha visibilità in tutto il fi
+					* -le e potenzialmente  in tutti i file
 					*/
 }
 ```
