@@ -770,7 +770,7 @@ int uno(void){
 ```
 
 
-### Classi di memorizzazione
+## Classi di memorizzazione
 
 Scope, linkage e storage duration sono combinati assieme per definire le **classi di memorizzazione**
 | Class                 | Storage Duration | Scope | Linkage   | Come dichiarare |
@@ -782,7 +782,7 @@ Scope, linkage e storage duration sono combinati assieme per definire le **class
 |static no linkagge     |Static            |Block  | No linkage| Dentro un blocco con _keyword_ **static**|
 
 
-### Variabili automatiche (automatic class)
+## Variabili automatiche (automatic class)
 
 Una variabile appartenente alla **classe di memorizzazione automatica** (`auto`) ha:
 
@@ -826,7 +826,7 @@ int main(void){
 
 Ricordati quindi che all'uscita del blocco il valore contenuto nella variabile viene perso perchè viene deallocata e non puoi accederci perchè fuori dal blocco l'identificatore non è visibile.
 
-### Variabili register (regiter class)
+## Variabili register (regiter class)
 
 Le variabili `register` sono della variabili di tipo `auto` (block scope, no linkage, automatic storage duration) solamente che dichiarandole in questo modo il programmatore richiede al compilatore di memorizzarle nella memoria più veloce a disposizione che appunto dovrebbero essere i registri della cpu e non la ram.
 Questa è una richiesta che può anche non essere esaudita del compilatore se i registri sono occupati o la dimensione del dato è troppo grando rispetto alla capacità dei registri della cpu. Si dichiarano `register` le variabili che devono essere accedute spesso e con grande velocità: ad esempio gli indici dei cicli. L'uso di variabili `register` ha perso la sua importanza in quanto i moderni compilatori sono in grado di effettuare queste considerazioni per l'ottimizzazione del codice da soli anche se usare variabili `register` potrebbe aiutare a capire quali variabili ricihedono velocità di accesso.
@@ -873,18 +873,26 @@ int main(void){
 }
 
 void example_static_var(void){
-        int a = 0;     /* variabile automatica: viene allocata all' entrata del  blocco e deallocata  all'uscita perdendo il valore in  esso contenuto */
-        static int b;  /* variabile locale statica: viene allocata una sola volta all'esecuzione del programma e deallocata alla terminazione,mantiene 
-                        * il valore  in essa contenuto  anche se si esce dal blocco. Non abbiamo  inizializzato la variabile  esplicitamente a zero in
-                        * quanto è statica: le variabili statiche non inizializzate esplicitamente sono poste a zero dal compilatore.
+        int a = 0;     /* variabile automatica: viene allocata all' entrata del  blocco e
+			* deallocata  all' uscita perdendo il  valore  in  esso contenuto
+			*/
+        static int b;  /* variabile locale statica: viene  allocata  una  sola volta all'
+			* esecuzione del programma e deallocata alla terminazione, mantie
+			* -ne il valore  in essa contenuto  anche se si esce dal blocco .
+			* Non abbiamo  inizializzato la variabile  esplicitamente a zero
+			* in quanto è statica: le variabili statiche  non  inizializzate
+			* esplicitamente sono poste a zero dal compilatore.
  			*/
+
         a = a + 1;     // a ora vale 1
-        b = b + 1;     // b ora vale b + 1, il valore di b dipende da quanta volte la funzione è stata richiamata nel programma fino a questo momento
+        b = b + 1;     // b ora  vale b + 1, il valore di b  dipende  da quante volte  la
+		       // funzione è stata richiamata nel programma fino a questo momento
         printf("a=%d, b=%d\n", a, b);
 }
 ```
 
 Come puoi vedere dall'output del programma compilato
+
 ```bash
 vagrant@ubuntu2204:~$ ./static_variable
 a=1, b=1
@@ -899,6 +907,7 @@ Infine, i parametri formali di una funzione non posso essere dichiarati static, 
 ```c
 int no_possible_static_parameter(static int a); /* ERRORE */
 ```
+
 ### Differenza tra definzione e dichiarazione di variabile
 
 Fino a questo punto abbiamo usato i termini dichiarazione e definizione in modo intercambiabile come se fossero la stessa cosa. In realtà esiste una differenza ed è arrivato il momento di affrontarla.
