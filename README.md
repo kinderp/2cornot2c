@@ -800,8 +800,9 @@ int main(void){
                 * si esce dal blocco;  quindi quando si esce dal blocco il valore in essa contenuto viene
                 * perso,quando si rientrerà nel blocco la volta successiva verrà allocato nuovo spazio in
                 * memoria completamente diverso rispetto a quello precedente.
-                * Lo scope è limitato al blocco: cioè il suo identificatore è visibile solo all'interno del blocco e in aultimo non ha linkage in quanto ovviamente non è visi-
-                * bile alle funzioni nel file corrente e nei restanti file del programma.
+                * Lo scope è limitato al blocco: cioè il suo identificatore è visibile solo all'interno
+		* del blocco e in aultimo non ha linkage in quanto ovviamente non è visibile alle funzioni
+		* nel file corrente e nei restanti file del programma.
                 * Inoltre la variabile non è inizializzata ad alcuno valore, non possiamo prevedere quale
                 * sia il valore iniziale che troveremo al suo interno.
                 * /
