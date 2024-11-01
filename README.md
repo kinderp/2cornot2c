@@ -487,16 +487,16 @@ Nel nostro codice abbiamo qualcosa di un po' più complesso, analizziamolo assie
 </p>
 
 ```c
- scanf(" %c", &operazione);
-	if (operazione == 's'){
-	 	risultato = somma();
-	} else if(operazione == 'd') {
-		 risultato = differenza();
-	} else if(operazione == 'm') {
-		 risultato = moltiplicazione();
-	} else {
-		 printf("Operazione non riconosciuta");
-	}
+scanf(" %c", &operazione);
+if (operazione == 's'){
+	risultato = somma();
+} else if(operazione == 'd') {
+	 risultato = differenza();
+} else if(operazione == 'm') {
+	 risultato = moltiplicazione();
+} else {
+	 printf("Operazione non riconosciuta");
+}
 ```
 
 <p align="justify">
@@ -584,7 +584,7 @@ int primo, secondo;
 char operazione;
 ```
 
-#### Classi di memorizzazione
+## Classi di memorizzazione
 
 Conoscere la differenza tra variabili globali e locali è un buon punto di partenza, le cose sono però più complesse.
 Agli identificatori è associato uno **scope** (**visibilità**), alle variabili invece uno **storage duration** (**tempo di vita**) ed il **linkage** (**collegamento**).
@@ -615,7 +615,7 @@ Il **linkage** può essere di tre tipi:
 
 Il **linkage** definisce se una variabile può essere condivisa dal codice dello stesso file o di file diversi. 
 
-##### Block scope
+## Block scope
 
 Un blocco è un insieme di istruzioni comprese tra `{` e `}`.
 Esempi di blocchi (alcuni li abbbimao già incontrati) sono:
@@ -653,10 +653,12 @@ Esempi di blocchi (alcuni li abbbimao già incontrati) sono:
 > I parametri formali di una funzione, anche se dichiarati fuori del corpo della funzione (dal blocco) appartengono al corpo e quindi hanno anch'essi un **block scope**
 
 > [!NOTE]  
-> Storicamente le variabili con **block scope** dovevano essere dichiarate all'inizio del blocco. Dal C99 è possibile dichiarare le variabili all'interno del blocco in qualsiasi posizione al suo interno.
-> Questo è utile soprattutto per le variabili indici di un loop o per documentare meglio il proprio codice dichiarando le variabili il più vicino possibile alla riga che effettivamente fa uso della stessa.
+> Storicamente le variabili con **block scope** dovevano essere dichiarate all'inizio del blocco.
+> 
+> Dal C99 è possibile dichiarare le variabili all'interno del blocco in qualsiasi posizione al suo interno.
+> Questo è utile soprattutto per le variabili indici di un loop o per documentare meglio il proprio codice dichiarando le variabili il più vicino possibile alla riga che fa   uso effettivamente della stessa.
  
-##### File scope
+## File scope
 
 Una variabile definita al di fuori di qualsiasi funzione in un file `.c` o `.h` ha un **file scope** ed è visibile dal punto in cui è definita fino alla fine del file che la contiene.
 Questo è il caso delle variabili globali che abbiamo trattato, esse infatti hanno un **file scope**.
