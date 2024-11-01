@@ -763,7 +763,7 @@ int uno(void){
                                            *  La memoria per la variabile è allocata all' inizio  del
 					   * programma e deallocata al termine del programma.Se fosse
 					   * rimasta auto la memoria sarebbe stata allocata solo all'
-					   * entrata del flusso nella funzione e deallocata all'uscita
+					   * entrata  del flusso nella  funzione e rimossa all'uscita
                                            */
 }
 ```
