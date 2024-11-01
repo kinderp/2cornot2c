@@ -757,12 +757,13 @@ int main(void){
 }
 
 int uno(void){
-	static int variabile_statica = 0; /*  variabile statica anche se dichiarata all'interno di un blocco
-                                           *  (dovrebbe essere di tipo auto senza la parola chiave static).
-                                           *  La memoria per la variabile è allocata all'inizio del programma
-                                           *  e deallocata al termine del programma. Se fosse rimasta auto la
-                                           *  memoria sarebbe stata allocata solo all'entrata del flusso nella
-                                           *  funzione e deallocata all'uscita.
+	static int variabile_statica = 0; /*  variabile statica anche se dichiarata all'interno di un
+					   * blocco (dovrebbe essere di tipo auto senza la parola chi
+					   * -ave static).
+                                           *  La memoria per la variabile è allocata all' inizio  del
+					   * programma e deallocata al termine del programma.Se fosse
+					   * rimasta auto la memoria sarebbe stata allocata solo all'
+					   * entrata del flusso nella funzione e deallocata all'uscita
                                            */
 }
 ```
