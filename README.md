@@ -685,7 +685,9 @@ Il **linkage** definisce se una variabile è visibile in più file diversi o sol
 
 Esistono tre tipi di **linkage**: `no linkage` `external` ed `internal`.
 
-Le variabili con un **block scope** (quelle locali) sono **no linkage**: cioè non sono visibili nell'intero file in cui sono definite ma la loro visibilità è limitata al blocco che le ospita.
+<p align=justify>
+Le variabili con un <b>block scope</b> (quelle locali) sono <b>no linkage</b>: cioè non sono visibili nell'intero file in cui sono definite ma la loro visibilità è limitata al blocco che le ospita.
+</p>
 
 <p align="justify">
 Le variabili con un <b>file scope</b>  (quelle globali) sono o <b>external linkage</b> o <b>interanl</b>: se <code>external</code> la variabile può essere vista anche in altri file del programma.
