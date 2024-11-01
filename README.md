@@ -666,7 +666,9 @@ Questo è il caso delle variabili globali che abbiamo trattato, esse infatti han
 ```c
 #include<stdio.h>
 	     
-int N = 100 /* N è globale: ha un file scope, è definita fuori da qualsiasi funzione, è visibile al main() ed alla funzione uno() */
+int N = 100 /* N è globale: ha un file scope, è definita fuori da qualsiasi funzione, è visibile al main()
+	     * ed alla funzione uno()
+             */
 
 int main(){
 
@@ -677,7 +679,7 @@ int uno(){
 }
 ```
 
-### Linkage
+## Linkage
 
 Il **linkage** definisce se una variabile è visibile in più file diversi o solo nel file in cui è definita.
 
