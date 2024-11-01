@@ -930,26 +930,28 @@ Ricordiamo che una variabile esterna (globale) è DEFINITA fuori dalle funzioni 
 ```c
 #include<stdio.h>
 
-int extern_global_var; /* variabile globale,  è esterna ( external linkage, visibile agli altri  file )
-                        * inizializzata a zero dal compilatore perchè statica (static storage duration) 
-			* questa è una DEFINIONE, questa istruzione determina l' allocazione di spazio   
-			* in memoria per la variabile. La variabile può essere vista anche dagli altri
-			* file del programma.
+int extern_global_var; /* variabile globale,  è esterna ( external linkage, visibile agli altri
+			*  file ) inizializzata a zero dal compilatore perchè statica  ( static
+			* storage duration) questa è una DEFINIONE, questa istruzione determina
+			* l'allocazione di spazio in memoria per la variabile. La variabile può
+			* essere vista anche dagli altri file del programma.
 			*/
 
-extern int global_var_somewhere_in_other_file; /* questa è una DICHIARAZIONE di variabile esterna che è
-                                                * stata DEFINITA in qualche altro file, per renderla vi-
-						* sibile anche in questo file è OBBLIGATORIA  la dichia-
-						* zione attraverso la keyword extern
+extern int global_var_somewhere_in_other_file; /* questa è una DICHIARAZIONE di variabile ester
+						* na che è stata DEFINITA in qualche altro file
+						* per renderla visibile anche in questo  file è
+						* OBBLIGATORIA  la dichiazione attraverso la key
+						* -word extern
 						*/
 
 int main(void){
-	extern int extern_global_var;  /* questa è una DICHIARAZIONE opzionale (NON OBBLIGATORIA),basta
-					* usare la keyword  extern.Serve esclusivamente per documentare
-					* che nella  funzione  verrà  usata una variabile globale e non
-					* locale (automatica) e di stare attenti a come questa viene va
-					* lorizzata e manipolata in quanto ha visibilità in tutto il fi
-					* -le e potenzialmente  in tutti i file
+	extern int extern_global_var;  /* questa è una DICHIARAZIONE opzionale, NON OBBLIGATORIA
+ 					* basta usare la keyword extern.Serve esclusivamente per
+					* documentare che nella funzione verrà usata una variabi
+					* le globale (non locale automatica)e di stare attenti a
+					* come questa viene va lorizzata e manipolata in  quanto
+					* ha visibilità in tutto il file e potenzialmente in tut
+					* -ti i file
 					*/
 }
 ```
