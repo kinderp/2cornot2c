@@ -919,7 +919,7 @@ int no_possible_static_parameter(static int a); /* ERRORE */
 
 ### Differenza tra definzione e dichiarazione di variabile
 
-<p>
+<p align=justify>
 Fino a questo punto abbiamo usato i termini dichiarazione e definizione in modo intercambiabile come se fossero la stessa cosa. In realtà esiste una differenza ed è arrivato il momento di affrontarla.
 La definizione di una variabile coincide con l'istruzione per cui avviene l'allocazione di spazio in memoria per la variabile. La dichiarazione invece consiste nel dichiarare al compilatore che si farà uso di una variabile già allocata nel file corrente o in un altro file.
 Per le variabili locali (<code>auto</code>) la definizione coincide con la dichiarazione, per le variabili globali ha senso conoscere questa leggera differenza.
@@ -944,10 +944,12 @@ extern int global_var_somewhere_in_other_file; /* questa è una DICHIARAZIONE di
 						*/
 
 int main(void){
-	extern int extern_global_var;  /* questa è una DICHIARAZIONE opzionale (NON OBBLIGATORIA), basta usare la keyword extern
-					* serve esclusivamente per documentare che in questa funzione  verrà usata una variabile
-					* globale e non locale (automatica) e di stare attenti a come questa viene valorizzata e
-					* manipolata in quanto ha  visibilità in tutto il file e potenzialmente  in tutti i file
+	extern int extern_global_var;  /* questa è una DICHIARAZIONE opzionale (NON OBBLIGATORIA), basta
+					* usare la keyword  extern. Serve esclusivamente per documentare
+					* che in questa funzione verrà usata una variabile globale e non
+					* locale (automatica) e di stare attenti a come questa viene val
+					* -orizzata e manipolata in quanto ha visibilità in tutto il fil
+					* -e e potenzialmente  in tutti i file
 					*/
 }
 ```
