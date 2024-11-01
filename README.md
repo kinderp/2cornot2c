@@ -854,10 +854,15 @@ La funzione `example_static_var` dichiara due variabili: `a` di tipo automatica 
 void example_static_var(void);
 
 int main(void){
-        /* Richiamiamo cinque volte la funzione example_static_var: la variabile a ad ogni nouva chiamata verrà prima allocata poi inizializzata a zero, incrementata di 1 e poi deallocata
-         * una successiva chiamata alla funzione example_static_var riallocherà spazio in memoria per la variabile a la inizializzerà a zero e così via. Al massimo la variabile a potrà va-
-         * lere 1. Al contrario la variabile di nome b viene allocata una sola volta all'esecuzione e deallocata  alla  terminazione, quindi il suo valore sarà conservato tra due chiamate
-         * successive alla funzione example_static_var, il valore di b infatti sarà incrementato cinque volta pari al numero di chiamate della funzione example_static_var   
+        /* Richiamiamo cinque volte la funzione example_static_var: la variabile a ad ogni
+	 * nouva chiamata verrà prima allocata poi inizializzata a zero, incrementata di 1
+	 * e poi deallocata. una successiva chiamata alla funzione example_static_var rial
+	 * -locherà spazio in memoria per la variabile e la inizializzerà a 0 e  così via.
+	 * Al  massimo  la variabile a potrà valere 1. Al contrario la variabile di nome b
+	 * viene allocata una sola volta all' esecuzione e deallocata  alla  terminazione,
+	 * quindi il suo valore sarà conservato  tra due chiamate successive alla funzione
+	 * example_static_var, il valore di b infatti  sarà incrementato cinque volta pari
+	 * al numero di chiamate della funzione example_static_var   
          
         example_static_var();
         example_static_var();
