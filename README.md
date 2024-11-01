@@ -971,13 +971,17 @@ Infine per rendere visibile in un file una variabile esterna (globale) che è st
 
 int extern_global_var;  /* DEFINZIONE di variabile esterna (globale)
 
-int global_var_somewhere_in_other_file; /* togliendo la keyword extern questa non è più una DICHIARAZIONE di variabile esterna definita in un altro file
-					 * ma una DEFINIZIONE di nuova variabile esterna, una variabile esterna con lo stessso nome già esiste ed il com-
+int global_var_somewhere_in_other_file; /* togliendo la keyword extern questa non è più una DICHIA
+					 * RAZIONE di variabile esterna  definita in un altro file
+					 * ma una DEFINIZIONE di nuova variabile esterna,una varia
+					 * -bile esterna con lo stessso nome già esiste ed il com-
 					 * pilatore tornerà errore.
 					 */
 
 int main(void){
-	extern int extern_global_var;  /* DICHIARAZIONE opzione della variabile esterna DEFINITA sopra */
+	extern int extern_global_var;   /* DICHIARAZIONE opzionale della variabile esterna DEFINITA
+					 * sopra
+					 */
 }
 ```
 
