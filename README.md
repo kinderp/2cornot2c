@@ -687,10 +687,14 @@ Esistono tre tipi di **linkage**: `no linkage` `external` ed `internal`.
 
 Le variabili con un **block scope** (quelle locali) sono **no linkage**: cioè non sono visibili nell'intero file in cui sono definite ma la loro visibilità è limitata al blocco che le ospita.
 
-Le variabili con un **file scope**  (quelle globali) sono o **external linkage** o **interanl**: se `external` la variabile può essere vista anche in altri file del programma.
-Se `internal` la variabile è visibile in tutto il file (quindi a tutte le funzione in esso definite) in cui è stata definita ma non in altri file del programma.
+<p align="justify">
+Le variabili con un <b>file scope</b>  (quelle globali) sono o <b>external linkage</b> o <b>interanl</b>: se <code>external</code> la variabile può essere vista anche in altri file del programma.
+Se <code>internal</code> la variabile è visibile in tutto il file (quindi a tutte le funzione in esso definite) in cui è stata definita ma non in altri file del programma.
+</p>
 
-Le variabili globali hanno automaticamente un **external linkage** quindi potenzialmente possono essere visti in altri file sorgente del programma. Per restringere il linkage da **external** ad **internal** si usa la _keyword_ **static** al momento della definizione della variabile, vediamo un esempio
+<p align="justify">
+Le variabili globali hanno automaticamente un <b>external linkage</b> quindi potenzialmente possono essere visti in altri file sorgente del programma. Per restringere il linkage da <b>external</b> ad <b>internal</b> si usa la <i>keyword</i> <b>static</b> al momento della definizione della variabile, vediamo un esempio
+</p>
 
 ```c
 int globale_esterna = 10; /* variabile globale, file scope, external linkage.
@@ -707,8 +711,9 @@ int main(void) {
 
 }
 ```
-
-E' buona norma, soprattutto se il tuo programma ha grosse dimensioni in termini di file, dichiarare **static** le tue variabili globali se queste servono solo all'interno del file corrente. Questo previene il problema di uno spazio di nomi globale pieno di identificatori già utilizzati.
+<p align="justify">
+E' buona norma, soprattutto se il tuo programma ha grosse dimensioni in termini di file, dichiarare <b>static</b> le tue variabili globali se queste servono solo all'interno del file corrente. Questo previene il problema di uno spazio di nomi globale pieno di identificatori già utilizzati.
+</p>
 
 > [!CAUTION]
 > La parola chiave **static** non ha nulla a che vedere con lo **storage duration** di tipo static. Tutte le variabili globali (sia di tipo **external** che **internal** linkage) hanno uno **storage durantion** di tipo _static_ cioè esistono in memoria per tutto il tempo di esecuzione del programma.
